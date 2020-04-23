@@ -15,10 +15,6 @@
         </button>
       </div>
       <div class="toolkit-settings" id="help-info">
-        <header class="toolbar-top">CALE</header>
-        <button type="button" class="btn" @click="caleAIStatus">
-          {{ statusCALE.text }}
-        </button>
         <button type="button" class="btn" @click="showModal">
           {{ $t('help') }}
         </button>
@@ -34,10 +30,10 @@
               Custom content for page help button clicked
             </div>
             <div class="help-section">
-              What is CALE?  An AI that helps manage the toolkit.
+              Preservation index calculated?
             </div>
             <div class="help-section">
-              Where is the data store?  Data is secured on the SAFEnetwork.
+              Where is the data stored?
             </div>
           </template>
         </help-modal>
@@ -62,7 +58,8 @@ export default {
       helpContext: 'home',
       languages: [
         { flag: 'en', language: 'en', title: 'English' },
-        { flag: 'zh', language: 'zh', title: '普通话' } // 普通话
+        { flag: 'zh', language: 'zh', title: '普通话' }, // 普通话
+        { flag: 'jp', language: 'jp', title: '日本語' }
       ],
       statusCALE:
       {
