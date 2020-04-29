@@ -1,11 +1,11 @@
 {
-  "message": "",
-  "hello": "",
-  "home": "",
-  "about": "",
-  "dashboard": "",
-  "data": "",
-  "toolkit": "",
-  "welcome": "",
-  "help": ""
+  "message": "メッセージ",
+  "hello": "こんにちは",
+  "home": "家",
+  "about": "約",
+  "dashboard": "ダッシュボード",
+  "data": "データ",
+  "toolkit": "ツールキット",
+  "welcome": "ようこそ",
+  "help": "ヘルプ"
 }
