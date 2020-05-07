@@ -2,9 +2,6 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">{{ $t('home') }}</router-link> |
-      <!-- <router-link class="menu-space" to="/dashboard">{{ $t('dashboard') }}</router-link> |
-      <router-link class="menu-space" to="/datadevicesensor">{{ $t('data') }}</router-link> |
-      <router-link class="menu-space" to="/toolkit">{{ $t('toolkit') }}</router-link> | -->
       <router-link to="/about">{{ $t('about') }}</router-link>
       <div class="toolkit-settings">
         <img alt="Vue logo" src="./assets/logo.png">
@@ -40,7 +37,6 @@
       </div>
     </div>
     <router-view/>
-
   </div>
 </template>
 
