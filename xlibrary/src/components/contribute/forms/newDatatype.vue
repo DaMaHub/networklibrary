@@ -1,0 +1,56 @@
+<template>
+  <div id="newapi-view">
+    <ul>
+      <li class="api-form-item">
+        <span class="required_notification">All fields required</span>
+      </li>
+      <li class="api-form-item">
+        <label for="api-add-name">Name:</label>
+        <input id="api-mapping-name" placeholder="api mapping name" required="" type="text">
+      </li>
+      <li class="api-form-item">
+        <label for="api-add-description">Description:</label>
+        <textarea name="message" cols="40" rows="6" required="" id="api-mapping-description"></textarea>
+      </li>
+      <li class="api-form-item">
+        <label for="api-add-source">Datatype Primary?</label>
+        <select class="select-api-source" id="">Please select
+          <option value="yes">YES</option>
+          <option value="no">NO</option>
+        </select>
+      </li>
+      <li class="api-form-item">
+        <label for="api-add-scripting">Endpoint datatypes:</label>
+        <select class="select-api-id" id="api-mapping-build">
+          <option value="none" selected="">Please select</option>
+          <option value="temperature">Temperature</option>
+          <option value="bpm">BPM</option>
+          <option value="steps">Steps</option>
+          <option value="timestamp">Timestamp</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'package-form',
+  components: {
+  },
+  data: () => ({
+  }),
+  created () {
+  },
+  mounted () {
+  },
+  computed: {
+  },
+  methods: {
+  }
+}
+</script>
+
+<style>
+
+</style>

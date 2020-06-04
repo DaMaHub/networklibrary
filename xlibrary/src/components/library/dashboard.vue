@@ -1,24 +1,25 @@
 <template>
   <div id="dashboard-holder">
-    <div id="dash-modules">
-      <div id="module-toolbar">
-        <header>Dashboard</header>
-        <!-- <button @click='decreaseWidth'>Decrease Width</button>
-        <button @click='increaseWidth'>Increase Width</button> -->
-        <button @click='addItem'>Add an item</button>
-        <input type='checkbox' v-model='draggable'/> Draggable
-        <input type='checkbox' v-model='resizable'/> Resizable
-        <br/> <!-- @changes="updateLayout"  -->
-        <grid-layout v-if="moduleContent"
-                     :layout='moduleContent'
+    <div id="module-toolbar">
+      <header>Dashboard</header>
+      <!-- <button @click='decreaseWidth'>Decrease Width</button>
+      <button @click='increaseWidth'>Increase Width</button> -->
+      <button @click='addItem'>Add an item</button>
+      <input type='checkbox' v-model='draggable'/> Draggable
+      <input type='checkbox' v-model='resizable'/> Resizable
+      <br/> <!-- @changes="updateLayout"  -->
+    </div>
+    <div class="grid-section">
+        <grid-layout v-if="localGrid"
+                     :layout='localGrid'
                      :col-num='12'
                      :row-height='30'
                      :is-draggable='draggable'
                      :is-resizable='resizable'
-                     :vertical-compact='true'
-                     :use-css-transforms='true'
+                     :vertical-compact='false'
+                     :use-css-transforms='false'
         >
-          <grid-item v-for='item in moduleContent' :key='item.id'
+          <grid-item v-for='item in localGrid' :key='item.id'
                      :static='item.static'
                      :x='item.x'
                      :y='item.y'
@@ -31,12 +32,13 @@
               <component v-bind:is="moduleData[item.i].type" :mData="item.i"></component>
           </grid-item>
         </grid-layout>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+import { mapState, mapActions } from 'vuex'
 import VueGridLayout from 'vue-grid-layout'
 import ReferenceBuilder from '@/components/references/referenceBuilder.vue'
 
@@ -50,23 +52,25 @@ export default {
   props: {
   },
   computed: {
-    moduleContent: function () {
-      const contentModule = this.$store.state.dashboardGrid
-      if (contentModule === undefined) {
-        return false
-      } else {
-        return contentModule
-      }
-    },
     moduleData: function () {
       return this.$store.state.referenceData
+    },
+    ...mapState(['dashboardGrid']),
+    storeGrid () {
+      return _.cloneDeep(this.$store.state.dashboardGrid)
+    }
+  },
+  watch: {
+    storeGrid (newValue) {
+      this.localGrid = newValue
     }
   },
   data () {
     return {
       moduleType: 'library-dashboard',
-      draggable: true,
-      resizable: true,
+      localGrid: _.cloneDeep(this.$store.state.dashboardGrid),
+      draggable: false,
+      resizable: false,
       index: 0
     }
   },
@@ -78,6 +82,7 @@ export default {
     closeModule () {
       console.log('close module')
     },
+    ...mapActions(['actionLocalGrid']),
     itemTitle (item) {
       var result = item.i
       if (item.static) {
@@ -112,32 +117,40 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
+#dashboard-holder {
+  border: 0px solid red;
+  min-height: 900px;
+}
+
+#module-toolbar {
+  border: 0px solid blue;
+}
+header {
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.grid-section {
+  border: 1px solid orange;
+  height: auto;
+}
+
 .vue-grid-layout {
     border: 0px solid black;
     background: #eee;
-}
-
-.layoutJSON {
-    background: #ddd;
-    border: 1px solid black;
-    margin-top: 10px;
-    padding: 10px;
-}
-
-.eventsJSON {
-    background: #ddd;
-    border: 1px solid black;
-    margin-top: 10px;
-    padding: 10px;
-    height: 100px;
-    overflow-y: scroll;
 }
 
 .columns {
     -moz-columns: 120px;
     -webkit-columns: 120px;
     columns: 120px;
+}
+
+.vue-grid-item {
+  height: fit-content;
+  transform: none;
+  margin-bottom:10px;
 }
 
 /*.vue-resizable-handle {
@@ -158,15 +171,15 @@ export default {
 
 .vue-grid-item:not(.vue-grid-placeholder) {
     background: #ccc;
-    border: 3px solid red;
+    border: 0px solid red;
 }
 
 .vue-grid-item.resizing {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .vue-grid-item.static {
-    background: #cce;
+    background: #E9EDF0;
 }
 
 .vue-grid-item .text {
@@ -208,5 +221,11 @@ export default {
     background-origin: content-box;
     box-sizing: border-box;
     cursor: pointer;
+}
+
+#dash-modules ul {
+  border: 1px solid grey;
+  margin: 1em;
+  list-style: none;
 }
 </style>

@@ -9,11 +9,11 @@ Vue.use(Vuex)
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source' }
 dataTitle[1] = { title: 'Curation', type: 'reference-builder' }
-dataTitle[2] = { title: 'Index', type: 'indexes' }
-dataTitle[3] = { title: 'Imageviewer', type: 'imageview' }
+// dataTitle[2] = { title: 'Index', type: 'indexes' }
+// dataTitle[3] = { title: 'Imageviewer', type: 'imageview' }
 
 const refContract = {}
-refContract.Experiments = [{ title: 'Fitness', type: 'experiment' }, { title: 'pollution', type: 'experiment' }]
+// refContract.Experiments = [{ title: 'Fitness', type: 'experiment' }, { title: 'pollution', type: 'experiment' }]
 refContract.Devices = [{ title: 'Fitbit', type: 'device' }, { title: 'iWatch', type: 'Devices' }]
 refContract.Datatypes = [{ title: 'Heart', type: 'datatype' }, { title: 'Steps', type: 'datatype' }]
 refContract.Compute = [{ title: 'None', type: 'compute' }, { title: 'average', type: 'Compute' }]
@@ -25,7 +25,7 @@ refContract.Visualise = [{ title: '2DImageviewer', type: 'visualise' }, { title:
 export default new Vuex.Store({
   state: {
     dashboardGrid: [
-      { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 4, h: 10, i: '1' }, { x: 4, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
+      { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
     referenceData: dataTitle,
     referenceContract: refContract
@@ -43,6 +43,9 @@ export default new Vuex.Store({
       console.log('annon connect')
       const annonlive = await refFlow.connectNSnetwork(update.network, update.settings)
       console.log(annonlive)
+    },
+    actionLocalGrid (context, update) {
+      console.log('action test watch called')
     }
   },
   modules: {

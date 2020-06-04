@@ -1,26 +1,29 @@
 <template>
-  <div id="reference-tools">
+  <div id="reference-tools">trgsvrn dstte
     <div id="add-new-network">
       <header>References by type</header>
       <ul>
         <li>
-          <button class="new-describe-cnrl" @click.prevent="newDesAPI($event)">New</button>
+          <button class="new-describe-cnrl" @click.prevent="newRefContract($event)">New reference contract</button>
         </li>
-        <li>
-          <button class="view-cnrl" id="experimentCNRL" @click.prevent="viewCNRL(CNRLexperimentseen.text)">{{ CNRLexperimentseen.text }}</button>
+        <!-- <li class="view-cnrl">
+          <button  id="experimentCNRL" @click.prevent="viewRefcontracts(CNRLexperimentseen.text)">{{ CNRLexperimentseen.text }}</button>
+        </li> -->
+        <li class="view-cnrl">
+          <button id="datatypesCNRL" @click.prevent="viewRefContracts(CNRLdatatypesseen.text)">{{ CNRLdatatypesseen.text }}</button>
         </li>
-        <li>
-          <button class="view-cnrl" id="datatypesCNRL" @click.prevent="viewCNRL(CNRLdatatypesseen.text)">{{ CNRLdatatypesseen.text }}</button>
+        <li class="view-cnrl">
+          <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLcomputeseen.text)"> {{ CNRLcomputeseen.text }}</button>
         </li>
-        <li>
-          <button class="view-cnrl"  id="computeCNRL" @click.prevent="viewCNRL(CNRLcomputeseen.text)"> {{ CNRLcomputeseen.text }}</button>
+        <li class="view-cnrl">
+          <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLunitseen.text)"> {{ CNRLunitseen.text }}</button>
         </li>
-        <li>
-          <button class="view-cnrl"  id="computeCNRL" @click.prevent="viewCNRL(CNRLunitseen.text)"> {{ CNRLunitseen.text }}</button>
+        <li class="view-cnrl">
+          <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLpackagingseen.text)"> {{ CNRLpackagingseen.text }}</button>
         </li>
       </ul>
-      <!-- <new-API v-if="newAPIseen.active"></new-API> -->
       <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
+      <new-refcontract v-if="newAPIseen.active"></new-refcontract>
     </div>
     <ul>
       <li>
@@ -31,10 +34,13 @@
 
 <script>
 import ViewCNRL from './viewCNRL.vue'
+import NewRefcontract from '@/components/contribute/newRefcontract.vue'
+
 export default {
   name: 'reference-builder',
   components: {
-    ViewCNRL
+    ViewCNRL,
+    NewRefcontract
   },
   props: {
     mData: String
@@ -72,6 +78,11 @@ export default {
     {
       active: false,
       text: 'Unit'
+    },
+    CNRLpackagingseen:
+    {
+      active: false,
+      text: 'Packaging'
     }
   }),
   created () {
@@ -81,7 +92,9 @@ export default {
   visualised: {
   },
   methods: {
-    newDesAPI (ap) {
+    newRefContract (ap) {
+      console.log('new reference contract')
+      this.statusCNRL.active = false
       if (this.newAPIseen.active === false) {
         this.newAPIseen.active = true
         this.newAPIseen.text = 'close'
@@ -90,7 +103,7 @@ export default {
         this.newAPIseen.text = 'Add new'
       }
     },
-    viewCNRL (type) {
+    viewRefContracts (type) {
       console.log('reference type')
       console.log(type)
       this.statusCNRL.active = true
@@ -100,5 +113,16 @@ export default {
 }
 </script>
 
-<style>
+<style >
+#reference-tools {
+  border: 2px solid green;
+}
+
+#add-new-network {
+}
+
+.view-cnrl {
+  display: inline-block;
+  border: 1px solid red;
+}
 </style>
