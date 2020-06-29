@@ -3,8 +3,17 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './i18n'
+import VueNativeSock from 'vue-native-websocket'
 
 Vue.config.productionTip = false
+
+Vue.use(VueNativeSock, 'ws://localhost:9888', {
+  store: store,
+  // format: 'json',
+  reconnection: true,
+  reconnectionAttempts: 5000,
+  reconnectionDelay: 300
+})
 
 new Vue({
   router,

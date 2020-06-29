@@ -34,7 +34,7 @@ util.inherits(CNRLUtility, events.EventEmitter)
 */
 CNRLUtility.prototype.defautNetworkContracts = async function (refIN) {
   const dataCNRLbundle = {}
-  let defaultCNRLsetup = await this.liveCNRLStore.defautCNRL(refIN)
+  const defaultCNRLsetup = await this.liveCNRLStore.defautCNRL(refIN)
   dataCNRLbundle = defaultCNRLsetup[0]
   return dataCNRLbundle
 }
@@ -46,13 +46,13 @@ CNRLUtility.prototype.defautNetworkContracts = async function (refIN) {
 */
 CNRLUtility.prototype.connectPeerNSnetwork = async function (authNetwork, authBundle) {
   console.log('ask connect to HS NETWORK')
-  let startNXP = {}
+  const startNXP = {}
   // connect self verified
   if (authNetwork === 'safenetwork') {
     // implement in network release see DIY repo on github.
   } else if (authNetwork === 'cloud') {
-    let defaultAPI = '33221100'
-    let authStatus = this.checkAuthorisation(defaultAPI, authBundle)
+    const defaultAPI = '33221100'
+    const authStatus = this.checkAuthorisation(defaultAPI, authBundle)
     const defaultRefs = await this.startPeerLibrary()
   }
   return startNXP
@@ -65,13 +65,13 @@ CNRLUtility.prototype.connectPeerNSnetwork = async function (authNetwork, authBu
 */
 CNRLUtility.prototype.connectNSnetwork = async function (authNetwork, authBundle) {
   console.log('ask connect to HS NETWORK')
-  let network = 'cloud'
+  const network = 'cloud'
   let starthsNXP = {}
   // connected annon
   if (network === 'safenetwork') {
     // implement in network release see DIY repo on github.
   } else if (network === 'cloud') {
-    let readOnly = { 'publickey': authNetwork, 'token': authBundle, 'cnrl': 'cnrl-33221101' }
+    const readOnly = { publickey: authNetwork, token: authBundle, cnrl: 'cnrl-33221101' }
     starthsNXP = await this.startannonCycle(readOnly)
   }
 }
@@ -83,7 +83,7 @@ CNRLUtility.prototype.connectNSnetwork = async function (authNetwork, authBundle
 */
 CNRLUtility.prototype.checkAuthorisation = function (defaultAPI, authBundle) {
   const auth = false
-  //auth = this.liveXlibrary.networkAuthorisation(defaultAPI, authBundle)
+  // auth = this.liveXlibrary.networkAuthorisation(defaultAPI, authBundle)
   return auth
 }
 
@@ -96,7 +96,7 @@ CNRLUtility.prototype.startPeerLibrary = async function () {
   // loop of defaults ref contracts
   // const refTypes = ['datatypes', 'compute', 'units', 'experiment']
   // for (let rf of refTypes) {
-    // let refLive = this.liveXlibrary.lookup(rf)
+  // let refLive = this.liveXlibrary.lookup(rf)
   // }
   return true
 }
@@ -108,21 +108,21 @@ CNRLUtility.prototype.startPeerLibrary = async function () {
 */
 CNRLUtility.prototype.startKBL = async function () {
   // latest nxp and ledger entries, CNRL contract look ups
-  let kbIndex = []
-  let NXPlist = []
-  let startLedger = await this.liveXlibrary.getNXPindex('genesis', 10)
+  const kbIndex = []
+  const NXPlist = []
+  const startLedger = await this.liveXlibrary.getNXPindex('genesis', 10)
   console.log('startledgerannon')
   console.log(startLedger)
   // loop over and filter out CNRL contract  (TODO expand based on signed and KBID address ie. crytop verification)
-  for (let kb of startLedger) {
-    let cnrlType = this.liveCNRL.lookupContract(kb.cnrl)
-    let kBundle = {}
+  for (const kb of startLedger) {
+    const cnrlType = this.liveCNRL.lookupContract(kb.cnrl)
+    const kBundle = {}
     kBundle.kbid = kb
     kBundle.cnrl = cnrlType
     kbIndex.push(kBundle)
   }
   // filter for NXP and Kbid entry
-  for (let ki of kbIndex) {
+  for (const ki of kbIndex) {
     if (ki.cnrl.type === 'experiment') {
       NXPlist.push(ki.cnrl)
     }
@@ -137,21 +137,21 @@ CNRLUtility.prototype.startKBL = async function () {
 */
 CNRLUtility.prototype.startPeerKBL = async function () {
   // latest nxp and ledger entries, CNRL contract look ups
-  let nxpIndex = []
-  let NXPlist = []
-  let startLedger = await this.liveXlibrary.getNXPindex('contract', 10)
+  const nxpIndex = []
+  const NXPlist = []
+  const startLedger = await this.liveXlibrary.getNXPindex('contract', 10)
   console.log('startledger')
   console.log(startLedger)
   // exclude genesis
-  for (let ki of startLedger) {
+  for (const ki of startLedger) {
     if (ki.merkle !== 'genesis') {
       NXPlist.push(ki)
     }
   }
   // loop over and filter out CNRL contract  (TODO expand based on signed and KBID address ie. crytop verification)
-  for (let nxc of NXPlist) {
-    let cnrlType = this.liveCNRL.lookupContract(nxc.cnrl)
-    let kBundle = {}
+  for (const nxc of NXPlist) {
+    const cnrlType = this.liveCNRL.lookupContract(nxc.cnrl)
+    const kBundle = {}
     kBundle.index = nxc
     kBundle.contract = cnrlType
     nxpIndex.push(kBundle)
@@ -165,7 +165,7 @@ CNRLUtility.prototype.startPeerKBL = async function () {
 *
 */
 CNRLUtility.prototype.contractCNRL = function (cnrl) {
-  let cnrlContract = this.liveCNRL.lookupContract(cnrl)
+  const cnrlContract = this.liveCNRL.lookupContract(cnrl)
   return cnrlContract
 }
 
@@ -176,10 +176,10 @@ CNRLUtility.prototype.contractCNRL = function (cnrl) {
 */
 CNRLUtility.prototype.modulesCNRL = async function (mList) {
   // modules for NXP cnrl contract
-  let moduleList = []
+  const moduleList = []
   // look up module cnrls
-  for (let km of mList) {
-    let cnrlModule = await this.liveXlibrary.peerModules(km)
+  for (const km of mList) {
+    const cnrlModule = await this.liveXlibrary.peerModules(km)
     // let cnrlModule = this.liveCNRL.lookupContract(km)
     moduleList.push(cnrlModule)
   }
@@ -192,7 +192,7 @@ CNRLUtility.prototype.modulesCNRL = async function (mList) {
 *
 */
 CNRLUtility.prototype.saveModule = async function (newVersion) {
-  let cnrlSaveModule = await this.liveXlibrary.newVerionContract(newVersion)
+  const cnrlSaveModule = await this.liveXlibrary.newVerionContract(newVersion)
   console.log(cnrlSaveModule)
   return true
 }
@@ -205,15 +205,15 @@ CNRLUtility.prototype.saveModule = async function (newVersion) {
 CNRLUtility.prototype.traceSource = function (dataSource) {
   console.log('datasource')
   console.log(dataSource)
-  let soureInfoDTs = {}
+  const soureInfoDTs = {}
   // are the DataTypes primary or derived?
-  let sourceDTextract = this.mapSourceDTs(dataSource.datatypein)
+  const sourceDTextract = this.mapSourceDTs(dataSource.datatypein)
   soureInfoDTs.datatypes = sourceDTextract
   // is the API derived?
-  let sourceInfo = this.checkForSourceAPI(dataSource, sourceDTextract)
+  const sourceInfo = this.checkForSourceAPI(dataSource, sourceDTextract)
   soureInfoDTs.tidy = sourceInfo.tidy
   // do the same for categories dts
-  let categoryMapDTs = this.mapCategoryDataTypes(dataSource, sourceInfo)
+  const categoryMapDTs = this.mapCategoryDataTypes(dataSource, sourceInfo)
   soureInfoDTs.category = categoryMapDTs
   return soureInfoDTs
 }
@@ -225,25 +225,25 @@ CNRLUtility.prototype.traceSource = function (dataSource) {
 */
 CNRLUtility.prototype.mapSourceDTs = function (lDTs) {
   let sourceDTextract = []
-  for (let iDT of lDTs) {
+  for (const iDT of lDTs) {
     // look up datatype contract to see if derived?
     if (iDT.source === 'cnrl-derived') {
       // loop over source DT's
-      for (let sDT of iDT.dtsource) {
+      for (const sDT of iDT.dtsource) {
         // look up datatype contract
-        let dtprime = this.liveCNRL.lookupContract(sDT)
-        dtprime.prime['primary'] = 'derived'
+        const dtprime = this.liveCNRL.lookupContract(sDT)
+        dtprime.prime.primary = 'derived'
         sourceDTextract.push(dtprime.prime)
       }
     } else {
-      iDT['primary'] = 'primary'
+      iDT.primary = 'primary'
       sourceDTextract.push(iDT)
     }
   }
   // need to remove duplicate elements
   sourceDTextract = sourceDTextract.filter((dtSource, index, self) =>
     index === self.findIndex((t) => (
-        t.cnrl === dtSource.cnrl
+      t.cnrl === dtSource.cnrl
     ))
   )
   return sourceDTextract
@@ -256,7 +256,7 @@ CNRLUtility.prototype.mapSourceDTs = function (lDTs) {
 */
 CNRLUtility.prototype.checkForSourceAPI = function (dataSource, sourceDTextract) {
   console.log('check for source API')
-  let sourceAPI = {}
+  const sourceAPI = {}
   if (dataSource.source !== 'cnrl-primary') {
     // look up source data packaging
     sourceAPI.source = this.liveCNRL.lookupContract(dataSource.source)
@@ -279,8 +279,8 @@ CNRLUtility.prototype.tidyDataReported = function (dataSource, sourceDTextract) 
   if (dataSource.tidy === true) {
     // investiage the source contract
     // does the live DT require any tidying?
-    for (let tldt of SpackagingDTs.tidyList) {
-      for (let dtl of sourceDTextract) {
+    for (const tldt of SpackagingDTs.tidyList) {
+      for (const dtl of sourceDTextract) {
         if (dtl.cnrl === tldt.cnrl) {
           TidyDataLogic = SpackagingDTs.tidyList
         } else {
@@ -307,7 +307,7 @@ CNRLUtility.prototype.mapCategoryDataTypes = function (source, SpackagingDTs) {
     // now check the API query for this dataType
     // todo extract data type ie loop over category matches, same or all different?
     // lookup the dataType
-    let catDT = []
+    const catDT = []
     extractCatDT = this.liveCNRL.lookupContract(source.category.column)
     catDT.push(extractCatDT.prime)
     // catDTmapAPI = this.datatypeCheckAPI(packagingDTs, catDT)
@@ -323,15 +323,15 @@ CNRLUtility.prototype.mapCategoryDataTypes = function (source, SpackagingDTs) {
 *
 */
 CNRLUtility.prototype.categoryCheck = function (cdt, catSource) {
-  let catMatch = []
-  for (let catS of catSource.categorycodes) {
-    for (let sc of catS.categories) {
-      let scat = sc.cnrl
-      let uicat = cdt.cnrl
+  const catMatch = []
+  for (const catS of catSource.categorycodes) {
+    for (const sc of catS.categories) {
+      const scat = sc.cnrl
+      const uicat = cdt.cnrl
       // any matches to data type in
       if (scat === uicat) {
-        let codeLogic = sc.code
-        let catHolderLogic = {}
+        const codeLogic = sc.code
+        const catHolderLogic = {}
         catHolderLogic.column = catS.column
         catHolderLogic.code = codeLogic
         catMatch.push(catHolderLogic)

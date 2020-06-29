@@ -5,28 +5,38 @@
         <span class="required_notification">All fields required</span>
       </li>
       <li class="api-form-item">
-        <label for="api-add-name">Name:</label>
-        <input id="api-mapping-name" placeholder="api mapping name" required="" type="text">
-      </li>
-      <li class="api-form-item">
-        <label for="api-add-description">Description:</label>
-        <textarea name="message" cols="40" rows="6" required="" id="api-mapping-description"></textarea>
-      </li>
-      <li class="api-form-item">
-        <label for="api-add-source">Datatype Primary?</label>
-        <select class="select-api-source" id="">Please select
-          <option value="yes">YES</option>
-          <option value="no">NO</option>
+        <label for="api-datatype-source">Datatype Primary?</label>
+        <select class="select-datatype-source" id="source-value" @change="primarySelect" v-model="newDataType.primary">Please select
+          <option value=true>YES</option>
+          <option value=false>NO</option>
         </select>
       </li>
-      <li class="api-form-item">
-        <label for="api-add-scripting">Endpoint datatypes:</label>
-        <select class="select-api-id" id="api-mapping-build">
-          <option value="none" selected="">Please select</option>
-          <option value="temperature">Temperature</option>
-          <option value="bpm">BPM</option>
-          <option value="steps">Steps</option>
-          <option value="timestamp">Timestamp</option>
+      <div v-if="datatypePrimary === true" id="new-primary-datatype">
+        <li class="api-form-item">
+          <label for="api-add-name">Name:</label>
+          <input id="ref-datatype-name" @keyup="nameSave" v-model="newDataType.name" placeholder="datatype name" required="" type="text">
+        </li>
+        <li class="api-form-item">
+          <label for="datatype-add-description">Description:</label>
+          <textarea name="message" cols="40" rows="6" @keyup="descriptionSave" v-model="newDataType.description" required="" id="api-datatype-description"></textarea>
+        </li>
+        <li class="rdf-form-item">
+          <label for="rdf-add-description">RDF linked data:</label>
+          <input id="rdf-datatype-name" @keyup="rdfSave" v-model="newDataType.rdf" placeholder="rdf link" required="" type="text">
+        </li>
+      </div>
+      <div v-if="datatypePrimary === false" id="build-existing-datatypes">
+        List or drag and drop from existing DT's  e.g. average BPM  is average DT +  BMP DT
+      </div>
+      <li class="type-form-item">
+        <label for="type-structure">Type</label>
+        <select class="select-type-structure" id="type-value" v-model="datatypeType" @change="typeSelect">Please select
+          <option value="integer">Integer</option>
+          <option value="float">float</option>
+          <option value="boolean">True/False</option>
+          <option value="string">String</option>
+          <option value="array">Array</option>
+          <option value="object">Object</option>
         </select>
       </li>
     </ul>
@@ -39,6 +49,14 @@ export default {
   components: {
   },
   data: () => ({
+    datatypeType: null,
+    newDataType:
+    {
+      primary: null,
+      name: '',
+      description: ''
+    },
+    datatypePrimary: ''
   }),
   created () {
   },
@@ -47,6 +65,21 @@ export default {
   computed: {
   },
   methods: {
+    primarySelect () {
+      this.$store.dispatch('buildRefcontractPrimary', this.newDataType.primary)
+    },
+    typeSelect () {
+      this.$store.dispatch('buildRefcontractType', this.datatypeType)
+    },
+    nameSave (k) {
+      this.$store.dispatch('buildRefContractName', this.newDataType.name)
+    },
+    descriptionSave (dk) {
+      this.$store.dispatch('buildRefContractDescription', this.newDataType.description)
+    },
+    rdfSave (k) {
+      this.$store.dispatch('buildRefContractRDF', this.newDataType.rdf)
+    }
   }
 }
 </script>

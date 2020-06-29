@@ -9,15 +9,15 @@
           <option value="new-datatype">Datatype</option>
           <option value="new-units">Units</option>
           <option value="new-compute">Compute</option>
-          <option value="new-package">DT Packaging</option>
+          <option value="new-packaging">Packaging</option>
           <!-- <option value="new-experiment">Experiment</option> -->
         </select>
       </li>
       <component v-bind:is="formType"></component>
       <li class="api-form-item">
-        <button class="submit" type="submit"  id="api-save-new-mapping" >Save</button>
-        <button class="submit" type="submit" id="api-test-new-mapping" >Check Contract</button>
-        <button class="submit" type="submit" id="api-roll-new-mapping" >Submit to network</button>
+        <button class="submit" type="submit"  id="save-new-refcontract" @click.prevent="saveRefContract()">Save</button>
+        <button class="submit" type="submit" id="check-new-refcontract" @click.prevent="checkRefContract()">Check Contract</button>
+        <button class="submit" type="submit" id="network-library-submit" @click.prevent="networkLibraryRefContract()" >Submit to network library</button>
       </li>
       <li class="api-form-item">
         <section id="api-feedback">
@@ -32,7 +32,7 @@
 import NewDatatype from '@/components/contribute/forms/newDatatype.vue'
 import NewCompute from '@/components/contribute/forms/newCompute.vue'
 import NewUnits from '@/components/contribute/forms/newUnits.vue'
-import NewPackage from '@/components/contribute/forms/newPackage.vue'
+import NewPackaging from '@/components/contribute/forms/newPackage.vue'
 
 export default {
   name: 'newapi-page',
@@ -40,23 +40,38 @@ export default {
     NewDatatype,
     NewCompute,
     NewUnits,
-    NewPackage
+    NewPackaging
   },
   data: () => ({
-    formType: ''
+    formType: null
   }),
   created () {
   },
   mounted () {
   },
   computed: {
+    newRefContractLive: function () {
+      console.log('new contract in making???')
+      console.log(this.$store.state.newRefcontractForm)
+      return this.$store.state.newRefcontractForm
+    }
   },
   methods: {
     importForm (ef) {
       console.log('what form?')
-      console.log(ef)
       console.log(this.formType)
-      // this.formType = ef
+    },
+    saveRefContract () {
+      console.log('save new Ref Contract')
+      // pull together other parts of refcontract
+      const refContract = {}
+      refContract.reftype = this.formType
+      refContract.action = 'PUT'
+      const newDatatypeComplete = { ...refContract, ...this.newRefContractLive }
+      console.log(newDatatypeComplete)
+      const refCJSON = JSON.stringify(newDatatypeComplete)
+      // ask network library for contracts for this peer
+      this.$store.dispatch('sendMessage', refCJSON)
     }
   }
 }

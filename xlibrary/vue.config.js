@@ -1,6 +1,8 @@
+const path = require('path')
+
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/xlibrary/'
+    ? '/testlibrary/'
     : '/',
   pluginOptions: {
     i18n: {
@@ -11,3 +13,4 @@ module.exports = {
     }
   }
 }
+// './vue.js': './node_modules/vue/dist/vue.esm.browser.min.js'

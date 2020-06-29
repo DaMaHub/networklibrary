@@ -33,7 +33,7 @@ util.inherits(xlibraryUtility, events.EventEmitter)
 */
 xlibraryUtility.prototype.getNXPindex = async function (status, n) {
   //  nosql query
-  let jsondata = await axios.get(this.baseAPI + '/nxpindex/' + this.tempPubkey + '/' + this.tempToken + '/' + status + '/' + n)
+  const jsondata = await axios.get(this.baseAPI + '/nxpindex/' + this.tempPubkey + '/' + this.tempToken + '/' + status + '/' + n)
   return jsondata.data
 }
 
@@ -43,7 +43,7 @@ xlibraryUtility.prototype.getNXPindex = async function (status, n) {
 *
 */
 xlibraryUtility.prototype.peerModules = async function (contractID) {
-  let startSettings = await axios.get(this.baseAPI + '/modules/' + this.tempPubkey + '/' + this.tempToken + '/' + contractID)
+  const startSettings = await axios.get(this.baseAPI + '/modules/' + this.tempPubkey + '/' + this.tempToken + '/' + contractID)
   return startSettings.data[0]
 }
 

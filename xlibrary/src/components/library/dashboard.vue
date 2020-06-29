@@ -1,7 +1,9 @@
 <template>
   <div id="dashboard-holder">
     <div id="module-toolbar">
-      <header>Dashboard</header>
+      <button v-on:click="sendMessage({'type':'hello'})">Send Message</button>
+      <button v-on:click="clickButton()">Click WS</button>
+      <header>Dashboard</header>  Plive {{ peerLinklive }} --after -- {{ socketLive }}
       <!-- <button @click='decreaseWidth'>Decrease Width</button>
       <button @click='increaseWidth'>Increase Width</button> -->
       <button @click='addItem'>Add an item</button>
@@ -58,6 +60,9 @@ export default {
     ...mapState(['dashboardGrid']),
     storeGrid () {
       return _.cloneDeep(this.$store.state.dashboardGrid)
+    },
+    socketLive: function () {
+      return this.$store.state.peersocket.socket.message
     }
   },
   watch: {
@@ -71,10 +76,17 @@ export default {
       localGrid: _.cloneDeep(this.$store.state.dashboardGrid),
       draggable: false,
       resizable: false,
-      index: 0
+      index: 0,
+      peerLinklive: ''
+    }
+  },
+  beforeMount () {
+    this.$options.sockets.onmessage = (msg) => {
+      // this.$store.dispatch('actionSocketMessage', msg.data)
     }
   },
   created () {
+    // this.sendMessage('peer Netwokr LIbrary')
   },
   mounted () {
   },
@@ -89,6 +101,17 @@ export default {
         result += ' - Static'
       }
       return result
+    },
+    sendMessage (message) {
+      console.log('Hello')
+      const jsonM = JSON.stringify(message)
+      // this.$socket.send(jsonM)
+      this.$store.dispatch('sendMessage', jsonM)
+    },
+    clickButton () {
+      // this.$socket.sendObj({ type: 'someone clicked a button' })
+      const jsonM = JSON.stringify({ type: 'someone clicked a button' })
+      this.$store.dispatch('sendMessage', jsonM)
     },
     /*
     increaseWidth: function (item) {

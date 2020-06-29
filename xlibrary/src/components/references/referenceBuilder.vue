@@ -1,11 +1,13 @@
 <template>
-  <div id="reference-tools">trgsvrn dstte
+  <div id="reference-tools">
     <div id="add-new-network">
+      <li class="view-cnrl">
+        <button id="build-new-referencecontract" @click.prevent="newRefContract()">New Reference Contract</button>
+      </li>
+    </div>
+    <div id="view-network-library">
       <header>References by type</header>
       <ul>
-        <li>
-          <button class="new-describe-cnrl" @click.prevent="newRefContract($event)">New reference contract</button>
-        </li>
         <!-- <li class="view-cnrl">
           <button  id="experimentCNRL" @click.prevent="viewRefcontracts(CNRLexperimentseen.text)">{{ CNRLexperimentseen.text }}</button>
         </li> -->
@@ -46,6 +48,9 @@ export default {
     mData: String
   },
   computed: {
+    socketLive: function () {
+      return this.$store.state.peersocket.socket.message
+    }
   },
   data: () => ({
     referenceLive: '',
@@ -108,12 +113,22 @@ export default {
       console.log(type)
       this.statusCNRL.active = true
       this.referenceLive = type
+      const refContract = {}
+      refContract.type = type
+      refContract.action = 'GET'
+      const refCJSON = JSON.stringify(refContract)
+      // ask network library for contracts for this peer
+      this.$store.dispatch('sendMessage', refCJSON)
     }
   }
 }
 </script>
 
 <style >
+#add-new-network {
+  text-align: right;
+}
+
 #reference-tools {
   border: 2px solid green;
 }
