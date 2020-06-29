@@ -5,7 +5,7 @@
         <button id="build-new-referencecontract" @click.prevent="newRefContract()">New Reference Contract</button>
       </li>
     </div>
-    <div id="view-network-library">
+    <div v-if="newAPIseen.active !== true" id="view-network-library">
       <header>References by type</header>
       <ul>
         <!-- <li class="view-cnrl">
@@ -25,12 +25,8 @@
         </li>
       </ul>
       <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
-      <new-refcontract v-if="newAPIseen.active"></new-refcontract>
     </div>
-    <ul>
-      <li>
-      </li>
-    </ul>
+    <new-refcontract v-if="newAPIseen.active"></new-refcontract>
   </div>
 </template>
 

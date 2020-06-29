@@ -44,9 +44,9 @@
         <input type="text"  id="mapping-endpoint-address" placeholder="" required @keyup="apipathSave" v-model="packaging.aippath"/>
       </li>
       <li class="package-column-item">
-        <label for="add-code-name">Table builder</label>
-        <input type="text"  id="package-base-address" placeholder="column" required />
-        <a href='#' id="add-column">Add another column</a>
+        <label for="add-code-name">Column builder</label>
+        <input type="text"  id="package-base-address" placeholder="column" required  v-model="packaging.columns" />
+        <a href='#' id="add-column" @click.prevent="columnsSave"  >Add another column</a>
       </li>
       <describe-data></describe-data>
       <li class="package-form-item">
@@ -102,6 +102,8 @@ export default {
       this.$store.dispatch('buildRefPackageAPIpath', this.packaging.apipath)
     },
     columnsSave (ak) {
+      console.log(ak)
+      console.log(this.packaging.columns)
       this.$store.dispatch('buildRefPackageColumns', this.packaging.columns)
     }
   }

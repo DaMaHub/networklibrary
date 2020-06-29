@@ -30,7 +30,24 @@ export default new Vuex.Store({
     ],
     referenceData: dataTitle,
     referenceContract: refContract,
-    newRefcontractForm: {}
+    newRefcontractForm: {},
+    newPackingForm:
+    {
+      apicolumns: [],
+      apicolHolder: []
+    },
+    DTslive: [
+      { name: 'heart rate', id: 1 },
+      { name: 'steps', id: 2 },
+      { name: 'temperature', id: 3 },
+      { name: 'humidity', id: 4 },
+      { name: 'rainfall', id: 5 },
+      { name: 'error mgt', id: 6 },
+      { name: 'average', id: 7 },
+      { name: 'air pressure', id: 8 },
+      { name: 'p10', id: 9 },
+      { name: 'p2.5', id: 10 }
+    ]
   },
   mutations: {
     ADD_REFCONTRACT_PRIMARY (state, inVerified) {
@@ -44,6 +61,39 @@ export default new Vuex.Store({
     },
     ADD_REFCONTRACT_DESCRIP (state, inVerified) {
       Vue.set(state.newRefcontractForm, 'description', inVerified)
+    },
+    ADD_REFCONTPACK_PRIMARY (state, inVerified) {
+      Vue.set(state.newPackingForm, 'primary', inVerified)
+    },
+    ADD_REFCONTPACK_NAME (state, inVerified) {
+      Vue.set(state.newPackingForm, 'name', inVerified)
+    },
+    ADD_REFCONTPACK_DESCRIP (state, inVerified) {
+      Vue.set(state.newPackingForm, 'description', inVerified)
+    },
+    ADD_REFCONTPACK_API (state, inVerified) {
+      Vue.set(state.newPackingForm, 'api', inVerified)
+    },
+    ADD_REFCONTPACK_APIBASE (state, inVerified) {
+      Vue.set(state.newPackingForm, 'apibase', inVerified)
+    },
+    ADD_REFCONTPACK_APIPATH (state, inVerified) {
+      Vue.set(state.newPackingForm, 'apipath', inVerified)
+    },
+    ADD_REFCONTPACK_APICOL (state, inVerified) {
+      console.log('api COLUM')
+      console.log(inVerified)
+      let colCount
+      if (state.newPackingForm.apicolumns.length === 0) {
+        colCount = 0
+      } else {
+        colCount = state.newPackingForm.apicolumns.length + 1
+      }
+      const newColumn = {}
+      newColumn.count = colCount
+      newColumn.name = inVerified
+      state.newPackingForm.apicolumns.push(newColumn)
+      state.newPackingForm.apicolHolder.push([])
     }
   },
   actions: {
@@ -89,6 +139,15 @@ export default new Vuex.Store({
     },
     buildRefPackageAPI (context, update) {
       context.commit('ADD_REFCONTPACK_API', update)
+    },
+    buildRefPackageAPIbase (context, update) {
+      context.commit('ADD_REFCONTPACK_APIBASE', update)
+    },
+    buildRefPackageAPIpath (context, update) {
+      context.commit('ADD_REFCONTPACK_APIPATH', update)
+    },
+    buildRefPackageColumns (context, update) {
+      context.commit('ADD_REFCONTPACK_APICOL', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

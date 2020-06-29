@@ -14,30 +14,20 @@
         </draggable>
       </div>
       <div id="data-columns">
-        <div class="col-4">
-          <h3>Data column</h3>
-          <draggable class="list-group" :list="list2" group="people" @change="log">
-            <div
-              class="list-group-item"
-              v-for="(element) in list2"
-              :key="element.name"
-            >
-              {{ element.name }} {{ index }}
-            </div>
-          </draggable>
-        </div>
-        <div class="col-5">
-          <h3>Data column</h3>
-          <draggable class="list-group" :list="list3" group="people" @change="log">
-            <div
-              class="list-group-item"
-              v-for="(element) in list3"
-              :key="element.name"
-            >
-              {{ element.name }} {{ index }}
-            </div>
-          </draggable>
-         </div>
+        <ul v-for='col in dtcolumns' :key='col.id'>
+          <div class="col-name">
+            <h3>{{ col.name }}</h3> {{ newLists[col.count] }}
+            <draggable class="list-group" :list="newLists[col.count]" group="people" @change="log">
+              <div
+                class="list-group-item"
+                v-for="(element) in newLists[col.count]"
+                :key="element.name"
+              >
+                {{ element.name }} {{ index }}
+              </div>
+            </draggable>
+          </div>
+        </ul>
       </div>
     </div>
   </div>
@@ -54,41 +44,24 @@ export default {
   props: {
   },
   computed: {
+    list1: function () {
+      console.log('active DTs in library')
+      return this.$store.state.DTslive
+    },
+    dtcolumns: function () {
+      console.log('colums active')
+      console.log(this.$store.state.newPackingForm.apicolumns)
+      return this.$store.state.newPackingForm.apicolumns
+    },
+    newLists: function () {
+      console.log('colums active')
+      console.log(this.$store.state.newPackingForm.apicolHolder)
+      return this.$store.state.newPackingForm.apicolHolder // [[], [], []]
+    }
   },
   data () {
     return {
-      moduleNXP:
-      {
-        0: { prime: { type: 'nxp-question' } },
-        1: { prime: { type: 'nxp-device' } },
-        2: { prime: { type: 'nxp-dapp' } },
-        3: { prime: { type: 'nxp-compute' } },
-        4: { prime: { type: 'nxp-visualise' } },
-        5: { prime: { type: 'nxp-education' } },
-        6: { prime: { type: 'nxp-errormgt' } },
-        7: { prime: { type: 'nxp-control' } },
-        8: { prime: { type: 'nxp-lifestylemedicine' } },
-        9: { prime: { type: 'nxp-prescription' } },
-        10: { prime: { type: 'nxp-communication' } },
-        11: { prime: { type: 'nxp-clone' } }
-      },
-      moduleList: ['Question', 'Device/source', 'Dapps', 'Compute', 'Visulisation'],
-      list1: [
-        { name: 'heart rate', id: 1 },
-        { name: 'steps', id: 2 },
-        { name: 'temperature', id: 3 },
-        { name: 'humidity', id: 4 },
-        { name: 'rainfall', id: 5 },
-        { name: 'error mgt', id: 6 },
-        { name: 'average', id: 7 },
-        { name: 'air pressure', id: 8 },
-        { name: 'p10', id: 9 },
-        { name: 'p2.5', id: 10 }
-      ],
-      list2: [
-      ],
-      list3: [
-      ]
+      index: 0
     }
   },
   methods: {
@@ -132,17 +105,10 @@ export default {
   border: 2px solid red;
   display: inline-block;
   width: 60%;
+  min-height: 4em;
 }
 
-.col-4 {
-  display: inline-block;
-  vertical-align: text-top;
-  min-height: inherit;
-  width: 20%;
-  border: 2px solid grey;
-}
-
-.col-5 {
+.col-name {
   display: inline-block;
   vertical-align: text-top;
   min-height: inherit;
@@ -152,7 +118,7 @@ export default {
 
 .list-group {
   border: 1px solid red;
-  min-height: inherit;
+  min-height: 4em;
 }
 
 .list-group-item {
