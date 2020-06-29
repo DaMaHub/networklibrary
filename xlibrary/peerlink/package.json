@@ -11,7 +11,7 @@
     "express": "^4.17.1",
     "vue-native-websocket": "^2.0.14",
     "websocket": "^1.0.31",
-    "ws": "^2.0.5",
+    "ws": "^3.3.1",
     "chalk": "^2.4.1",
     "hypercore": "^8.3.0",
     "hypertrie": "^5.0.2",
