@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import RCcomposer from '../../mixin/rcComposer.js'
+const refcontComposerLive = new RCcomposer()
+
 export default {
   state: {
     socket: {
@@ -29,20 +32,32 @@ export default {
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
-      console.log('massage bacik wss')
+      console.log('peerLink response')
       console.log(message.data)
-      state.socket.message = message.data
+      const backJSON = JSON.parse(message.data)
+      // pass to sort data into ref contract types
+      const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
+      console.log('segmentated contracts')
+      console.log(segmentedRefContracts)
+      this.state.referenceContract = segmentedRefContracts
     }
   },
   actions: {
     sendMessage (context, message) {
-      console.log('action send for ws')
-      Vue.prototype.$socket.send(message)
-      // this.commit('SOCKET_ONMESSAGE')
+      console.log('Ref Contract preapre peerLink')
+      let prepareRefContract = {}
+      if (message.reftype === 'new-datatype') {
+        const localData = this.state.newRefcontractForm
+        prepareRefContract = refcontComposerLive.dataTypePrepare(localData)
+      } else if (message.reftype === 'new-packaging') {
+        prepareRefContract = refcontComposerLive.packagingPrepare(this.state.newPackingForm)
+      }
+      const referenceContractReady = JSON.stringify(prepareRefContract)
+      Vue.prototype.$socket.send(referenceContractReady)
     },
-    actionSocketMessage (context, message) {
+    actionGetRefContract (context, message) {
       console.log('action for ws')
-      this.commit('SOCKET_ONMESSAGE', message)
+      Vue.prototype.$socket.send(message)
     }
   }
 }

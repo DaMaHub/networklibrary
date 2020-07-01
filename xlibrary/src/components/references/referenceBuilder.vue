@@ -2,6 +2,9 @@
   <div id="reference-tools">
     <div id="add-new-network">
       <li class="view-cnrl">
+        <button id="get-referencecontract" @click.prevent="getRefContracts()">Get Ref. Contract</button>
+      </li>
+      <li class="view-cnrl">
         <button id="build-new-referencecontract" @click.prevent="newRefContract()">New Reference Contract</button>
       </li>
     </div>
@@ -57,33 +60,33 @@ export default {
     },
     statusCNRL:
     {
-      active: false,
+      active: true,
       type: ''
     },
     CNRLexperimentseen:
     {
       active: false,
-      text: 'Experiments'
+      text: 'experiments'
     },
     CNRLdatatypesseen:
     {
       active: false,
-      text: 'Datatypes'
+      text: 'datatype'
     },
     CNRLcomputeseen:
     {
       active: false,
-      text: 'Compute'
+      text: 'compute'
     },
     CNRLunitseen:
     {
       active: false,
-      text: 'Unit'
+      text: 'units'
     },
     CNRLpackagingseen:
     {
       active: false,
-      text: 'Packaging'
+      text: 'packaging'
     }
   }),
   created () {
@@ -104,17 +107,22 @@ export default {
         this.newAPIseen.text = 'Add new'
       }
     },
-    viewRefContracts (type) {
-      console.log('reference type')
-      console.log(type)
+    getRefContracts () {
+      console.log('get all reference types')
       this.statusCNRL.active = true
-      this.referenceLive = type
+      this.referenceLive = 'datatype'
       const refContract = {}
-      refContract.type = type
+      refContract.reftype = 'datatype'
       refContract.action = 'GET'
       const refCJSON = JSON.stringify(refContract)
       // ask network library for contracts for this peer
-      this.$store.dispatch('sendMessage', refCJSON)
+      this.$store.dispatch('actionGetRefContract', refCJSON)
+    },
+    viewRefContracts (type) {
+      console.log('reference type')
+      console.log(type)
+      // ask network library for contracts for this peer
+      this.referenceLive = type
     }
   }
 }
@@ -136,4 +144,9 @@ export default {
   display: inline-block;
   border: 1px solid red;
 }
+
+#build-new-referencecontract {
+  background-color: #e6ffee;
+}
+
 </style>

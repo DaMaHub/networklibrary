@@ -18,7 +18,7 @@ const server = http.createServer((request, response) => {
 });
 server.listen(9888, () => {
   console.log('listening on *:9888');
-  feed = hypercore('./single-chat-feed', {
+  feed = hypercore('./peerlog', {
     valueEncoding: 'json'
   })
   datastore = hypertrie('./datapeer1.db', {valueEncoding: 'json'})
@@ -37,50 +37,53 @@ wsServer.on('request', request => {
   let connection = request.accept(null, request.origin);
   console.log('someone connected');
 
-  connection.on('message', msg => {
+  connection.on('message', async msg => {
+
+    function callback (err, data) {
+      console.log('data from hyperieiee')
+      console.log(err)
+      console.log(data)
+      connection.sendUTF(JSON.stringify(data))
+    }
     if (msg.type === 'utf8') {
       const o = JSON.parse(msg.utf8Data)
       console.log('incoming message')
-      console.log(o)
-      console.log(o.reftype)
       if (o.reftype.trim() === 'hello') {
         console.log('conversaton')
         connection.sendUTF(JSON.stringify('talk to CALE'));
-      } else if (o.reftype.trim() === 'Datatypes') {
+      } else if (o.reftype.trim() === 'datatype') {
         // query peer hypertrie for datatypes
         if (o.action === 'GET') {
-          peerStoreLive.peerDatatypes('Datatypes')
+          const datatypeList = await peerStoreLive.peerGETRefContracts('datatype', callback)
         } else {
           // save a new refContract
           const newRefContract = o.refContract
-          peerStoreLive.peerStoreRefContract(newRefContract)
+          const savedFeedback = peerStoreLive.peerStoreRefContract(o)
+          connection.sendUTF(JSON.stringify(savedFeedback))
         }
-      } else if (o.reftype.trim() === 'Compute') {
+      } else if (o.reftype.trim() === 'compute') {
         // query peer hypertrie for datatypes
         if (o.action === 'GET') {
-          peerStoreLive.peerDatatypes('Datatypes')
+          peerStoreLive.peerGETRefContracts('compute', callback)
         } else {
           // save a new refContract
-          const newRefContract = o.refContract
-          peerStoreLive.peerStoreRefContract(newRefContract)
+          peerStoreLive.peerStoreRefContract(o)
         }
-      } else if (o.reftype.trim() === 'Units') {
+      } else if (o.reftype.trim() === 'units') {
         // query peer hypertrie for Units
         if (o.action === 'GET') {
-          peerStoreLive.peerDatatypes('Units')
+          peerStoreLive.peerGETRefContracts('units', callback)
         } else {
           // save a new refContract
-          const newRefContract = o.refContract
-          peerStoreLive.peerStoreRefContract(newRefContract)
+          peerStoreLive.peerStoreRefContract(o)
         }
-      } else if (o.reftype.trim() === 'Packaging') {
+      } else if (o.reftype.trim() === 'packaging') {
         // query peer hypertrie for packaging
         if (o.action === 'GET') {
-          peerStoreLive.peerDatatypes('Packaging')
+          peerStoreLive.peerGETRefContracts('packaging', callback)
         } else {
           // save a new refContract
-          const newRefContract = o.refContract
-          peerStoreLive.peerStoreRefContract(newRefContract)
+          peerStoreLive.peerStoreRefContract(o)
         }
       } else {
         clicks += 1

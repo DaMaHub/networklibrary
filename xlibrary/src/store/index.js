@@ -9,18 +9,6 @@ Vue.use(Vuex)
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source' }
 dataTitle[1] = { title: 'Curation', type: 'reference-builder' }
-// dataTitle[2] = { title: 'Index', type: 'indexes' }
-// dataTitle[3] = { title: 'Imageviewer', type: 'imageview' }
-
-const refContract = {}
-// refContract.Experiments = [{ title: 'Fitness', type: 'experiment' }, { title: 'pollution', type: 'experiment' }]
-refContract.Devices = [{ title: 'Fitbit', type: 'device' }, { title: 'iWatch', type: 'Devices' }]
-refContract.Datatypes = [{ title: 'Heart', type: 'datatype' }, { title: 'Steps', type: 'datatype' }]
-refContract.Compute = [{ title: 'None', type: 'compute' }, { title: 'average', type: 'Compute' }]
-refContract.Unit = [{ title: 'time', type: 'unit' }, { title: 'distance', type: 'unit' }]
-refContract.Visualise = [{ title: '2DImageviewer', type: 'visualise' }, { title: '3DImageviewer', type: 'Visualise' }]
-
-// dataTitle['compute'] = [{ title: 'Preservation', type: 'indexes' }, { title: 'Environment', type: 'indexes' }
 
 export default new Vuex.Store({
   modules,
@@ -29,25 +17,13 @@ export default new Vuex.Store({
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
     referenceData: dataTitle,
-    referenceContract: refContract,
+    referenceContract: [],
     newRefcontractForm: {},
     newPackingForm:
     {
       apicolumns: [],
-      apicolHolder: []
-    },
-    DTslive: [
-      { name: 'heart rate', id: 1 },
-      { name: 'steps', id: 2 },
-      { name: 'temperature', id: 3 },
-      { name: 'humidity', id: 4 },
-      { name: 'rainfall', id: 5 },
-      { name: 'error mgt', id: 6 },
-      { name: 'average', id: 7 },
-      { name: 'air pressure', id: 8 },
-      { name: 'p10', id: 9 },
-      { name: 'p2.5', id: 10 }
-    ]
+      apicolHolder: [[]]
+    }
   },
   mutations: {
     ADD_REFCONTRACT_PRIMARY (state, inVerified) {
@@ -61,6 +37,15 @@ export default new Vuex.Store({
     },
     ADD_REFCONTRACT_DESCRIP (state, inVerified) {
       Vue.set(state.newRefcontractForm, 'description', inVerified)
+    },
+    ADD_REFCONTRACT_WIKI (state, inVerified) {
+      Vue.set(state.newRefcontractForm, 'wikipedia', inVerified)
+    },
+    ADD_REFCONTRACT_RDF (state, inVerified) {
+      Vue.set(state.newRefcontractForm, 'rdf', inVerified)
+    },
+    ADD_REFCONTRACT_MEASUREMENT (state, inVerified) {
+      Vue.set(state.newRefcontractForm, 'measurement', inVerified)
     },
     ADD_REFCONTPACK_PRIMARY (state, inVerified) {
       Vue.set(state.newPackingForm, 'primary', inVerified)
@@ -85,7 +70,7 @@ export default new Vuex.Store({
       console.log(inVerified)
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
-        colCount = 0
+        colCount = 1
       } else {
         colCount = state.newPackingForm.apicolumns.length + 1
       }
@@ -111,11 +96,6 @@ export default new Vuex.Store({
     actionLocalGrid (context, update) {
       console.log('action test watch called')
     },
-    sendMessage2 (context, message) {
-      console.log('action for ws')
-      // forward for type and forward to peerLink
-      Vue.prototype.$socket.send(message)
-    },
     buildRefcontractPrimary (context, update) {
       context.commit('ADD_REFCONTRACT_PRIMARY', update)
     },
@@ -127,6 +107,15 @@ export default new Vuex.Store({
     },
     buildRefContractDescription (context, update) {
       context.commit('ADD_REFCONTRACT_DESCRIP', update)
+    },
+    buildRefContractWiki (context, update) {
+      context.commit('ADD_REFCONTRACT_WIKI', update)
+    },
+    buildRefContractRDF (context, update) {
+      context.commit('ADD_REFCONTRACT_RDF', update)
+    },
+    buildRefcontractMeasurement (context, update) {
+      context.commit('ADD_REFCONTRACT_MEASUREMENT', update)
     },
     buildRefPackagePrimary (context, update) {
       context.commit('ADD_REFCONTPACK_PRIMARY', update)

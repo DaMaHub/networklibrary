@@ -7,23 +7,23 @@
           <div
             class="list-group-item"
             v-for="(element) in list1"
-            :key="element.name"
+            :key="element.key"
           >
-          {{ element.name }}
+          {{ element.value.concept.name }}
           </div>
         </draggable>
       </div>
       <div id="data-columns">
         <ul v-for='col in dtcolumns' :key='col.id'>
           <div class="col-name">
-            <h3>{{ col.name }}</h3> {{ newLists[col.count] }}
+            <h3>{{ col.name }}</h3>
             <draggable class="list-group" :list="newLists[col.count]" group="people" @change="log">
               <div
                 class="list-group-item"
                 v-for="(element) in newLists[col.count]"
-                :key="element.name"
+                :key="element.key"
               >
-                {{ element.name }} {{ index }}
+                {{ element.value.concept.name }}
               </div>
             </draggable>
           </div>
@@ -46,7 +46,8 @@ export default {
   computed: {
     list1: function () {
       console.log('active DTs in library')
-      return this.$store.state.DTslive
+      console.log(this.$store.state.referenceContract)
+      return this.$store.state.referenceContract // this.$store.state.DTslive
     },
     dtcolumns: function () {
       console.log('colums active')
@@ -89,31 +90,29 @@ export default {
 
 .row {
   border: 3px solid green;
-  min-height: 20em;
+  min-height: 2em;
 }
 
 .col-3 {
   display: inline-block;
   vertical-align: text-top;
-  min-height: inherit;
   width: 15%;
   border: 2px solid grey;
   margin-right: 4em;
 }
 
-#data-columns {
-  border: 2px solid red;
-  display: inline-block;
-  width: 60%;
-  min-height: 4em;
-}
-
 .col-name {
   display: inline-block;
   vertical-align: text-top;
-  min-height: inherit;
   width: 20%;
   border: 2px solid grey;
+}
+
+#data-columns {
+  border: 4px solid red;
+  vertical-align: text-top;
+  display: inline-block;
+  width: 40%;
 }
 
 .list-group {

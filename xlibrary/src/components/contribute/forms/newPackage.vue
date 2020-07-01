@@ -46,11 +46,11 @@
       <li class="package-column-item">
         <label for="add-code-name">Column builder</label>
         <input type="text"  id="package-base-address" placeholder="column" required  v-model="packaging.columns" />
-        <a href='#' id="add-column" @click.prevent="columnsSave"  >Add another column</a>
+        <a href='#' id="add-column" @click.prevent="columnsSave"  >Add column</a>
       </li>
       <describe-data></describe-data>
       <li class="package-form-item">
-        <a href='#' id="add-newendpoint">Add another endpoint</a>
+        <a href='#' id="add-newendpoint">Add another path</a>
       </li>
     </ul>
   </div>

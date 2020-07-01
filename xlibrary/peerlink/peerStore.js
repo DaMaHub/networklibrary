@@ -15,6 +15,7 @@ const events = require('events')
 var PeerStoreWorker = function (store) {
   events.EventEmitter.call(this)
   this.datastore = store
+  this.listdata = []
 }
 
 /**
@@ -28,15 +29,10 @@ util.inherits(PeerStoreWorker, events.EventEmitter)
 * @method peerKBLstart
 *
 */
-PeerStoreWorker.prototype.peerDatatypes = function () {
+PeerStoreWorker.prototype.peerGETRefContracts = function (getType, callback) {
   // read
   console.log('peer data datype query')
-  // get a log entry and return
-  this.datastore.list( { ifAvailable: true }, (err, content) => {
-    console.log('contentlists')
-    console.log(content)
-  })
-
+  let databack = this.datastore.list( { ifAvailable: true }, callback)
   return true
 }
 
@@ -48,7 +44,12 @@ PeerStoreWorker.prototype.peerDatatypes = function () {
 PeerStoreWorker.prototype.peerStoreRefContract = function (refContract) {
   // save
   console.log('save new Ref Contract')
-  this.datastore
+  console.log(refContract)
+  const localthis = this
+  this.datastore.put(refContract.hash, refContract.contract, function () {
+    console.log('saved hypertrie OK')
+    localthis.datastore.get(refContract.hash, console.log)
+  })
   return true
 }
 

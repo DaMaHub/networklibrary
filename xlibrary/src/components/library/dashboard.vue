@@ -3,7 +3,7 @@
     <div id="module-toolbar">
       <button v-on:click="sendMessage({'type':'hello'})">Send Message</button>
       <button v-on:click="clickButton()">Click WS</button>
-      <header>Dashboard</header>  Plive {{ peerLinklive }} --after -- {{ socketLive }}
+      <header>Dashboard</header>
       <!-- <button @click='decreaseWidth'>Decrease Width</button>
       <button @click='increaseWidth'>Increase Width</button> -->
       <button @click='addItem'>Add an item</button>

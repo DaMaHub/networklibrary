@@ -1,9 +1,10 @@
 <template>
-  <div id="cnrl-view"> REFERENCE VIEWER
-    <ul v-for="cd in referenceData" :key="cd">
+  <div id="cnrl-view"> REFERENCE VIEWER -- {{ refTypeLive }}
+    <ul v-for="cd in referenceData" :key="cd.title">
       <li>
-        <div class="cnrl-element"> <b> {{ cd.type }}--- </b></div>
-        <div class="cnrl-element">{{ cd.title }} </div>
+        <div class="cnrl-element"> <b> {{ cd.concept }}--- </b></div>
+        <div class="cnrl-element">{{ cd.space }} </div>
+        <div class="cnrl-element">{{ cd.computational }} </div>
         <!-- <div class="cnrl-element"> {{ cd.history }}</div>
         <div class="cnrl-element"> {{ cd.wasmfile }}</div>
         <div class="cnrl-element">{{ cd.livingpaper }}</div> -->
@@ -32,7 +33,7 @@ export default {
   computed: {
     referenceData: function () {
       console.log('ref')
-      console.log(this.$store.state.referenceContract)
+      console.log(this.$store.state.referenceContract[this.refTypeLive])
       return this.$store.state.referenceContract[this.refTypeLive]
     }
   },

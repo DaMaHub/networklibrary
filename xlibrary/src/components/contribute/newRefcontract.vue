@@ -67,11 +67,7 @@ export default {
       const refContract = {}
       refContract.reftype = this.formType
       refContract.action = 'PUT'
-      const newDatatypeComplete = { ...refContract, ...this.newRefContractLive }
-      console.log(newDatatypeComplete)
-      const refCJSON = JSON.stringify(newDatatypeComplete)
-      // ask network library for contracts for this peer
-      this.$store.dispatch('sendMessage', refCJSON)
+      this.$store.dispatch('sendMessage', refContract)
     }
   }
 }
