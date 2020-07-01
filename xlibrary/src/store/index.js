@@ -7,7 +7,7 @@ const refFlow = new NetworkConnect()
 Vue.use(Vuex)
 
 const dataTitle = {}
-dataTitle[0] = { title: 'Data', type: 'source' }
+dataTitle[0] = { title: 'Data', type: 'source-builder' }
 dataTitle[1] = { title: 'Curation', type: 'reference-builder' }
 
 export default new Vuex.Store({

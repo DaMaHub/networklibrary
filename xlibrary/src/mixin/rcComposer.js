@@ -82,17 +82,15 @@ ReferenceContractComposer.prototype.packagingPrepare = function (inputRC) {
 */
 ReferenceContractComposer.prototype.refcontractSperate = function (refContractsList) {
   console.log('seperate out the reference contracts')
-  console.log(refContractsList)
+  // console.log(refContractsList)
   const refContractHolder = {}
   const datatypeList = []
   const unitsList = []
   const computeList = []
   const packagingList = []
   for (const rc of refContractsList) {
-    console.log(rc.value.refcontract)
     if (rc.value.refcontract === 'datatype') {
       datatypeList.push(rc.value)
-      console.log(datatypeList)
     } else if (rc.value.refcontract === 'units') {
       unitsList.push(rc.value)
     } else if (rc.value.refcontract === 'compute') {

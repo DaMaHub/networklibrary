@@ -1,8 +1,6 @@
 <template>
   <div id="dashboard-holder">
     <div id="module-toolbar">
-      <button v-on:click="sendMessage({'type':'hello'})">Send Message</button>
-      <button v-on:click="clickButton()">Click WS</button>
       <header>Dashboard</header>
       <!-- <button @click='decreaseWidth'>Decrease Width</button>
       <button @click='increaseWidth'>Increase Width</button> -->
@@ -42,6 +40,7 @@
 import _ from 'lodash'
 import { mapState, mapActions } from 'vuex'
 import VueGridLayout from 'vue-grid-layout'
+import SourceBuilder from '@/components/references/sourceBuilder.vue'
 import ReferenceBuilder from '@/components/references/referenceBuilder.vue'
 
 export default {
@@ -49,6 +48,7 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
+    SourceBuilder,
     ReferenceBuilder
   },
   props: {
@@ -101,17 +101,6 @@ export default {
         result += ' - Static'
       }
       return result
-    },
-    sendMessage (message) {
-      console.log('Hello')
-      const jsonM = JSON.stringify(message)
-      // this.$socket.send(jsonM)
-      this.$store.dispatch('sendMessage', jsonM)
-    },
-    clickButton () {
-      // this.$socket.sendObj({ type: 'someone clicked a button' })
-      const jsonM = JSON.stringify({ type: 'someone clicked a button' })
-      this.$store.dispatch('sendMessage', jsonM)
     },
     /*
     increaseWidth: function (item) {
