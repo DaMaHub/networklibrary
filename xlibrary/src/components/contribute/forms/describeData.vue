@@ -9,7 +9,7 @@
             v-for="(element) in list1"
             :key="element.key"
           >
-          {{ element.value.concept.name }}
+          {{ element.concept.name }}
           </div>
         </draggable>
       </div>
@@ -23,7 +23,7 @@
                 v-for="(element) in newLists[col.count]"
                 :key="element.key"
               >
-                {{ element.value.concept.name }}
+                {{ element.concept.name }}
               </div>
             </draggable>
           </div>
@@ -47,7 +47,7 @@ export default {
     list1: function () {
       console.log('active DTs in library')
       console.log(this.$store.state.referenceContract)
-      return this.$store.state.referenceContract // this.$store.state.DTslive
+      return this.$store.state.referenceContract.datatype
     },
     dtcolumns: function () {
       console.log('colums active')
