@@ -9,7 +9,8 @@
             v-for="(element) in list1"
             :key="element.key"
           >
-          {{ element.concept.name }}
+            {{ element.key }}
+            {{ element.value.concept.name }}
           </div>
         </draggable>
       </div>
@@ -23,7 +24,8 @@
                 v-for="(element) in newLists[col.count]"
                 :key="element.key"
               >
-                {{ element.concept.name }}
+                {{ element.value.concept.name }}
+                {{ element.key }} --
               </div>
             </draggable>
           </div>

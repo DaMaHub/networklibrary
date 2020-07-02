@@ -35,16 +35,25 @@ export default {
       console.log('peerLink response')
       console.log(message.data)
       const backJSON = JSON.parse(message.data)
-      // pass to sort data into ref contract types
-      const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
-      console.log('segmentated contracts')
-      console.log(segmentedRefContracts)
-      this.state.referenceContract = segmentedRefContracts
+      console.log('back message')
+      console.log(backJSON)
+      if (backJSON.stored === true) {
+        // success in saving reference contract
+        console.log('save successful')
+      } else {
+        // query back from peer data store
+        // pass to sort data into ref contract types
+        const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
+        console.log('segmentated contracts')
+        console.log(segmentedRefContracts)
+        this.state.referenceContract = segmentedRefContracts
+      }
     }
   },
   actions: {
     sendMessage (context, message) {
       console.log('Ref Contract preapre peerLink')
+      console.log(message)
       let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm

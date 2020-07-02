@@ -50,7 +50,7 @@ PeerStoreWorker.prototype.peerStoreRefContract = function (refContract) {
     console.log('saved hypertrie OK')
     localthis.datastore.get(refContract.hash, console.log)
   })
-  return true
+  return { stored: true }
 }
 
 module.exports = PeerStoreWorker;

@@ -48,6 +48,7 @@ wsServer.on('request', request => {
     if (msg.type === 'utf8') {
       const o = JSON.parse(msg.utf8Data)
       console.log('incoming message')
+      console.log(o.reftype.trim())
       if (o.reftype.trim() === 'hello') {
         console.log('conversaton')
         connection.sendUTF(JSON.stringify('talk to CALE'));
@@ -83,7 +84,8 @@ wsServer.on('request', request => {
           peerStoreLive.peerGETRefContracts('packaging', callback)
         } else {
           // save a new refContract
-          peerStoreLive.peerStoreRefContract(o)
+          const savedFeedback = peerStoreLive.peerStoreRefContract(o)
+          connection.sendUTF(JSON.stringify(savedFeedback))
         }
       } else {
         clicks += 1

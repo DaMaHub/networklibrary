@@ -1,6 +1,6 @@
 <template>
   <div id="cnrl-view"> REFERENCE VIEWER
-    <ul v-for="cd in referenceData" :key="cd.title">
+    <ul v-for="cd in referenceData" :key="cd.value.title">
       <li>
         <!-- <div class="cnrl-element"> <b> {{ cd.concept }} </b></div>
         <div class="cnrl-element">{{ cd.space }} </div>
@@ -11,29 +11,32 @@
         <component v-bind:is="viewMapper()" :mData="refTypeLive">
           <template v-slot:header>
             <!-- The code below goes into the header slot -->
-            {{ cd.concept.name }}
+            {{ cd.value.concept.name }}
+            {{ cd.key }}
           </template>
           <template v-slot:body>
             <!-- The code below goes into the header slot -->
-            <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
-              {{ cd.concept.apicolumns }}
-              <li v-for='(match, index) in cd.concept.apicolHolder' :key='match.id'>
-                index---{{ index }} ===============
-                {{ match }}
+            <div id="datatype-slot" v-if="viewerType === 'datatype-view'">
+              <li>
+                {{ cd.value.concept.description }}
+              </li>
+              <li>
+                {{ cd.value.concept.wikipedia }}
+              </li>
+              <li>
+                {{ cd.value.concept.rdf }}
+              </li>
+              <li>
+                {{ cd.value.concept.measurement }}
               </li>
             </div>
-            <li>
-              {{ cd.concept.description }}
-            </li>
-            <li>
-              {{ cd.concept.wikipedia }}
-            </li>
-            <li>
-            {{ cd.concept.rdf }}
-            </li>
-            <li>
-              {{ cd.concept.measurement }}
-            </li>
+            <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
+              <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
           </template>
         </component>
       </li>
