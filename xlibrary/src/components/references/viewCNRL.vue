@@ -1,5 +1,5 @@
 <template>
-  <div id="cnrl-view"> REFERENCE VIEWER -- {{ refTypeLive }} -- {{ viewerType }}
+  <div id="cnrl-view"> REFERENCE VIEWER
     <ul v-for="cd in referenceData" :key="cd.title">
       <li>
         <!-- <div class="cnrl-element"> <b> {{ cd.concept }} </b></div>
@@ -17,8 +17,8 @@
             <!-- The code below goes into the header slot -->
             <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
               {{ cd.concept.apicolumns }}
-              <li v-for='(index, match) in cd.concept.apicolHolder' :key='match.id'>
-                {{ index }} ==
+              <li v-for='(match, index) in cd.concept.apicolHolder' :key='match.id'>
+                index---{{ index }} ===============
                 {{ match }}
               </li>
             </div>

@@ -45,7 +45,7 @@ export default {
 <style>
 #datatype-referencecontract {
   text-align: center;
-  background-color: grey;
+  background-color: #e6ffff;
 }
 
 .viewer-header {

@@ -32,12 +32,12 @@ util.inherits(KBLcryptoUtility, events.EventEmitter)
 */
 KBLcryptoUtility.prototype.hashKBID = function (newContract, resulthash) {
   // prepare Contract evidence
-  let contractEvidence = {}
+  const contractEvidence = {}
   // contractEvidence.previous = null
   contractEvidence.contract = newContract
   contractEvidence.results = resulthash
   // let hashKBID = '39493493943949394'
-  let hashKBID = this.evidenceProof(contractEvidence)
+  const hashKBID = this.evidenceProof(contractEvidence)
   return hashKBID
 }
 
@@ -64,9 +64,9 @@ KBLcryptoUtility.prototype.entityID = function (addressIN) {
   let tempTokenG = ''
   let kbundleHash = ''
   kbundleHash = hashObject(addressIN)
-  let salt = crypto.randomBytes(16).toString('base64')
+  const salt = crypto.randomBytes(16).toString('base64')
   // let hashs = crypto.createHmac('sha256',salt).update(password).digest('base64')
-  let hash = crypto.createHmac('sha256', salt).update(kbundleHash).digest()
+  const hash = crypto.createHmac('sha256', salt).update(kbundleHash).digest()
   // const bytes = Buffer.from('003c176e659bea0f29a3e9bf7880c112b1b31b4dc826268187', 'hex')
   tempTokenG = bs58.encode(hash)
   // decode
@@ -82,7 +82,7 @@ KBLcryptoUtility.prototype.entityID = function (addressIN) {
 *
 */
 KBLcryptoUtility.prototype.evidenceProof = function (dataEvidence) {
-  let kbundleHashPart = hashObject(dataEvidence)
+  const kbundleHashPart = hashObject(dataEvidence)
   // need some sort of holder back in ECS to build up evidence trail
   return kbundleHashPart
 }
