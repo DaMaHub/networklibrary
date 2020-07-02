@@ -60,6 +60,8 @@ export default {
         prepareRefContract = refcontComposerLive.dataTypePrepare(localData)
       } else if (message.reftype === 'new-packaging') {
         prepareRefContract = refcontComposerLive.packagingPrepare(this.state.newPackingForm)
+      } else if (message.reftype === 'new-compute') {
+        prepareRefContract = refcontComposerLive.computePrepare(this.state.newComputeForm)
       }
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)

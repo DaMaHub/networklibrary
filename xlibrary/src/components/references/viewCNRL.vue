@@ -46,12 +46,14 @@
 
 <script>
 import DatatypeView from './datatypeViewer.vue'
+import ComputeView from './computeViewer.vue'
 import PackagingView from './packagingViewer.vue'
 
 export default {
   name: 'cnrlview-page',
   components: {
     DatatypeView,
+    ComputeView,
     PackagingView
   },
   props: {

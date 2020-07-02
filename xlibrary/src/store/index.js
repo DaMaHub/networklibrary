@@ -19,6 +19,7 @@ export default new Vuex.Store({
     referenceData: dataTitle,
     referenceContract: [],
     newRefcontractForm: {},
+    newComputeForm: {},
     newPackingForm:
     {
       apicolumns: [],
@@ -79,6 +80,18 @@ export default new Vuex.Store({
       newColumn.name = inVerified
       state.newPackingForm.apicolumns.push(newColumn)
       state.newPackingForm.apicolHolder.push([])
+    },
+    ADD_REFCOMPUTE_PRIMARY (state, inVerified) {
+      Vue.set(state.newComputeForm, 'primary', inVerified)
+    },
+    ADD_REFCOMPUTE_NAME (state, inVerified) {
+      Vue.set(state.newComputeForm, 'name', inVerified)
+    },
+    ADD_REFCOMPUTE_DESCRIP (state, inVerified) {
+      Vue.set(state.newComputeForm, 'description', inVerified)
+    },
+    ADD_REFCOMPUTE_CODE (state, inVerified) {
+      Vue.set(state.newComputeForm, 'code', inVerified)
     }
   },
   actions: {
@@ -137,6 +150,18 @@ export default new Vuex.Store({
     },
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)
+    },
+    buildRefComputePrimary (context, update) {
+      context.commit('ADD_REFCOMPUTE_PRIMARY', update)
+    },
+    buildRefComputeName (context, update) {
+      context.commit('ADD_REFCOMPUTE_NAME', update)
+    },
+    buildRefComputeDescription (context, update) {
+      context.commit('ADD_REFCOMPUTE_DESCRIP', update)
+    },
+    buildRefComputeCode (context, update) {
+      context.commit('ADD_REFCOMPUTE_CODE', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'
