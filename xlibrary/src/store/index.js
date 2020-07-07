@@ -24,7 +24,8 @@ export default new Vuex.Store({
     {
       apicolumns: [],
       apicolHolder: [[]]
-    }
+    },
+    newVisualiseForm: {}
   },
   mutations: {
     ADD_REFCONTRACT_PRIMARY (state, inVerified) {
@@ -92,6 +93,24 @@ export default new Vuex.Store({
     },
     ADD_REFCOMPUTE_CODE (state, inVerified) {
       Vue.set(state.newComputeForm, 'code', inVerified)
+    },
+    ADD_REFVISUALISE_PRIMARY (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'primary', inVerified)
+    },
+    ADD_REFVISUALISE_NAME (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'name', inVerified)
+    },
+    ADD_REFVISUALISE_DESCRIPTION (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'description', inVerified)
+    },
+    ADD_REFVISUALISE_STRUCTURE (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'structure', inVerified)
+    },
+    ADD_REFVISUALISE_ELEMENTLABEL (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'structure', inVerified)
+    },
+    ADD_REFVISUALISE_ELEMENTTYPE (state, inVerified) {
+      Vue.set(state.newVisualiseForm, 'structure', inVerified)
     }
   },
   actions: {
@@ -162,6 +181,24 @@ export default new Vuex.Store({
     },
     buildRefComputeCode (context, update) {
       context.commit('ADD_REFCOMPUTE_CODE', update)
+    },
+    buildVisualisePrimary (context, update) {
+      context.commit('ADD_REFVISUALISE_PRIMARY', update)
+    },
+    buildRefVisualiseName (context, update) {
+      context.commit('ADD_REFVISUALISE_NAME', update)
+    },
+    buildVisualisedDescription (context, update) {
+      context.commit('ADD_REFVISUALISE_DESCRIPTION', update)
+    },
+    buildRefVisualiseStructure (context, update) {
+      context.commit('ADD_REFVISUALISE_STRUCTURE', update)
+    },
+    buildRefVisualiseStructureElement (context, update) {
+      context.commit('ADD_REFVISUALISE_ELEMENTLABEL', update)
+    },
+    buildRefVisualiseStructureElementLabel (context, update) {
+      context.commit('ADD_REFVISUALISE_ELEMENTTYPE', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

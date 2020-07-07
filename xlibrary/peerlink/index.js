@@ -6,6 +6,8 @@ var pump = require('pump')
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 const DatastoreWorker = require('./peerStore.js')
+const fs = require('fs')
+var os = require("os")
 
 let peerStoreLive
 var feed
@@ -18,10 +20,25 @@ const server = http.createServer((request, response) => {
 });
 server.listen(9888, () => {
   console.log('listening on *:9888');
-  feed = hypercore('./peerlog', {
+
+  if (fs.existsSync(os.homedir() + '/peerlink')) {
+    // Do something
+    console.log('yes path existings')
+  } else {
+    console.log('no path ')
+    fs.mkdir(os.homedir() + '/peerlink', function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log("New directory successfully created.")
+      }
+    })
+  }
+
+  feed = hypercore(os.homedir() + '/peerlink/peerlog', {
     valueEncoding: 'json'
   })
-  datastore = hypertrie('./datapeer1.db', {valueEncoding: 'json'})
+  datastore = hypertrie(os.homedir() + '/peerlink/datapeer1.db', {valueEncoding: 'json'})
   peerStoreLive = new DatastoreWorker(datastore)
   console.log('store worker live')
   // console.log(peerStoreLive)
@@ -82,6 +99,15 @@ wsServer.on('request', request => {
         // query peer hypertrie for packaging
         if (o.action === 'GET') {
           peerStoreLive.peerGETRefContracts('packaging', callback)
+        } else {
+          // save a new refContract
+          const savedFeedback = peerStoreLive.peerStoreRefContract(o)
+          connection.sendUTF(JSON.stringify(savedFeedback))
+        }
+      } else if (o.reftype.trim() === 'module') {
+        // query peer hypertrie for packaging
+        if (o.action === 'GET') {
+          peerStoreLive.peerGETRefContracts('module', callback)
         } else {
           // save a new refContract
           const savedFeedback = peerStoreLive.peerStoreRefContract(o)

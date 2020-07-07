@@ -99,5 +99,7 @@ export default {
 </script>
 
 <style>
-
+#wikipedia-datatype-name {
+  width: 300px;
+}
 </style>

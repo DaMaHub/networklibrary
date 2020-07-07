@@ -84,6 +84,8 @@ ReferenceContractComposer.prototype.packagingPrepare = function (inputRC) {
   datatypeReferenceContract.computational = {}
   // need to prepare matching of datatyps ref contracts to table columns
   const mergeDTColumn = this.mergePackageMap(inputRC.apicolumns, inputRC.apicolHolder)
+  console.log('merge colums back')
+  console.log(mergeDTColumn)
   const newPackagingMap = {}
   newPackagingMap.name = inputRC.name
   newPackagingMap.description = inputRC.description
@@ -104,6 +106,36 @@ ReferenceContractComposer.prototype.packagingPrepare = function (inputRC) {
   RefContractHolder.action = 'PUT'
   RefContractHolder.hash = dtHASH
   RefContractHolder.contract = datatypeReferenceContract
+  console.log('package holder')
+  console.log(RefContractHolder)
+  return RefContractHolder
+}
+
+/**
+* prepare a module template reference contract
+* @method modulePrepare
+*
+*/
+ReferenceContractComposer.prototype.modulePrepare = function (inputRC) {
+  const datatypeReferenceContract = {}
+  datatypeReferenceContract.refcontract = 'module'
+  datatypeReferenceContract.concept = {}
+  datatypeReferenceContract.space = {}
+  datatypeReferenceContract.computational = {}
+  // need to prepare matching of datatyps ref contracts to table columns
+  datatypeReferenceContract.concept = inputRC
+  // prepare space coordinates e.g. quark, atom, molecule etc.
+  datatypeReferenceContract.space = { concept: 'mind' }
+  datatypeReferenceContract.computational = { refcontract: null }
+  // create a hash of entries as the index key
+  const dtHASH = this.cryptoLive.evidenceProof(datatypeReferenceContract)
+  const RefContractHolder = {}
+  RefContractHolder.reftype = 'module'
+  RefContractHolder.action = 'PUT'
+  RefContractHolder.hash = dtHASH
+  RefContractHolder.contract = datatypeReferenceContract
+  console.log('module holder')
+  console.log(RefContractHolder)
   return RefContractHolder
 }
 
@@ -119,14 +151,18 @@ ReferenceContractComposer.prototype.mergePackageMap = function (col, table) {
   const mapped = []
   // remove first element array empty by design
   table.shift()
+  let countCol = 1
   for (const co of col) {
     console.log(co)
     for (const tb of table) {
       console.log(tb[0])
-      const mapPair = {}
-      mapPair.refcontract = tb[0].key
-      mapPair.column = co.name
-      mapped.push(mapPair)
+      if (co.count === countCol) {
+        const mapPair = {}
+        mapPair.refcontract = tb[0].key
+        mapPair.column = co.name
+        mapped.push(mapPair)
+        countCol++
+      }
     }
   }
   console.log('mapped pair')
@@ -147,6 +183,7 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
   const unitsList = []
   const computeList = []
   const packagingList = []
+  const moduleList = []
   for (const rc of refContractsList) {
     console.log(rc)
     if (rc.value.refcontract === 'datatype') {
@@ -161,12 +198,16 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
     } else if (rc.value.refcontract === 'packaging') {
       const refCont = { key: rc.key, value: rc.value }
       packagingList.push(refCont)
+    } else if (rc.value.refcontract === 'module') {
+      const refCont = { key: rc.key, value: rc.value }
+      moduleList.push(refCont)
     }
   }
   refContractHolder.datatype = datatypeList
   refContractHolder.units = unitsList
   refContractHolder.compute = computeList
   refContractHolder.packaging = packagingList
+  refContractHolder.module = moduleList
   return refContractHolder
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    xLibrary
+    Network Library
     <div class="library-info" id="library-introduction">
       <NetworkStatus msg="not connected"></NetworkStatus>
     </div>

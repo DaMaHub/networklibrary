@@ -5,10 +5,13 @@
         <button id="get-referencecontract" @click.prevent="getRefContracts()">Get Ref. Contract</button>
       </li>
       <li class="view-cnrl">
-        <button id="build-new-referencecontract" @click.prevent="newRefContract()">New Reference Contract</button>
+        <button id="build-modulecontracts" @click.prevent="makeModulecontracts()">Make modules</button>
+      </li>
+      <li class="view-cnrl">
+        <button id="build-new-referencecontract" @click.prevent="newSetRefContract(newRefContract)">{{ newRefContract.text }}</button>
       </li>
     </div>
-    <div v-if="newAPIseen.active !== true" id="view-network-library">
+    <div v-if="newRefContract.active !== true" id="view-network-library">
       <header>References by type</header>
       <ul>
         <!-- <li class="view-cnrl">
@@ -21,15 +24,21 @@
           <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLcomputeseen.text)"> {{ CNRLcomputeseen.text }}</button>
         </li>
         <li class="view-cnrl">
-          <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLunitseen.text)"> {{ CNRLunitseen.text }}</button>
+          <button id="unitsCNRL" @click.prevent="viewRefContracts(CNRLunitseen.text)"> {{ CNRLunitseen.text }}</button>
         </li>
         <li class="view-cnrl">
-          <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLpackagingseen.text)"> {{ CNRLpackagingseen.text }}</button>
+          <button id="packaingCNRL" @click.prevent="viewRefContracts(CNRLpackagingseen.text)"> {{ CNRLpackagingseen.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="moduleRefs" @click.prevent="viewRefContracts(CNRLmoduleseen.text)"> {{ CNRLmoduleseen.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="visualiseRefs" @click.prevent="viewRefContracts(CNRLvisualiseseen.text)"> {{ CNRLvisualiseseen.text }}</button>
         </li>
       </ul>
       <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
     </div>
-    <new-refcontract v-if="newAPIseen.active"></new-refcontract>
+    <new-refcontract v-if="newRefContract.active"></new-refcontract>
   </div>
 </template>
 
@@ -53,10 +62,10 @@ export default {
   },
   data: () => ({
     referenceLive: '',
-    newAPIseen:
+    newRefContract:
     {
       active: false,
-      text: 'Add new'
+      text: 'New Reference Contract'
     },
     statusCNRL:
     {
@@ -87,6 +96,16 @@ export default {
     {
       active: false,
       text: 'packaging'
+    },
+    CNRLmoduleseen:
+    {
+      active: false,
+      text: 'module'
+    },
+    CNRLvisualiseseen:
+    {
+      active: false,
+      text: 'visualise'
     }
   }),
   created () {
@@ -96,19 +115,16 @@ export default {
   visualised: {
   },
   methods: {
-    newRefContract (ap) {
-      console.log('new reference contract')
-      this.statusCNRL.active = false
-      if (this.newAPIseen.active === false) {
-        this.newAPIseen.active = true
-        this.newAPIseen.text = 'close'
+    newSetRefContract (ap) {
+      if (this.newRefContract.active === false) {
+        this.newRefContract.active = true
+        this.newRefContract.text = 'close'
       } else {
-        this.newAPIseen.active = false
-        this.newAPIseen.text = 'Add new'
+        this.newRefContract.active = false
+        this.newRefContract.text = 'Add new ref contract'
       }
     },
     getRefContracts () {
-      console.log('get all reference types')
       this.statusCNRL.active = true
       this.referenceLive = 'datatype'
       const refContract = {}
@@ -123,6 +139,22 @@ export default {
       console.log(type)
       // ask network library for contracts for this peer
       this.referenceLive = type
+    },
+    makeModulecontracts () {
+      const refModContract = {}
+      refModContract.reftype = 'module'
+      refModContract.action = 'PUT'
+      const refModJSON = JSON.stringify(refModContract)
+      // ask network library for contracts for this peer
+      this.$store.dispatch('actionMakeModuleRefContract', refModJSON)
+    },
+    makeVisuailsecontracts () {
+      const refVisContract = {}
+      refVisContract.reftype = 'visualise'
+      refVisContract.action = 'PUT'
+      const refVisJSON = JSON.stringify(refVisContract)
+      // ask network library for contracts for this peer
+      this.$store.dispatch('actionMakeVisualiseRefContract', refVisJSON)
     }
   }
 }

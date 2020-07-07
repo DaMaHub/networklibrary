@@ -9,7 +9,6 @@
             v-for="(element) in list1"
             :key="element.key"
           >
-            {{ element.key }}
             {{ element.value.concept.name }}
           </div>
         </draggable>
@@ -25,7 +24,6 @@
                 :key="element.key"
               >
                 {{ element.value.concept.name }}
-                {{ element.key }} --
               </div>
             </draggable>
           </div>
@@ -119,6 +117,7 @@ export default {
 
 .list-group {
   border: 1px solid red;
+  background-color: white;
   min-height: 4em;
 }
 

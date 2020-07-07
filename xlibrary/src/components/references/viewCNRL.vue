@@ -1,5 +1,5 @@
 <template>
-  <div id="cnrl-view"> REFERENCE VIEWER
+  <div id="cnrl-view"> REFERENCE VIEWER {{ viewerType }}
     <ul v-for="cd in referenceData" :key="cd.value.title">
       <li>
         <!-- <div class="cnrl-element"> <b> {{ cd.concept }} </b></div>
@@ -12,7 +12,7 @@
           <template v-slot:header>
             <!-- The code below goes into the header slot -->
             {{ cd.value.concept.name }}
-            {{ cd.key }}
+            <p> {{ cd.key }} </p>
           </template>
           <template v-slot:body>
             <!-- The code below goes into the header slot -->
@@ -30,7 +30,22 @@
                 {{ cd.value.concept.measurement }}
               </li>
             </div>
+            <div id="compute-slot" v-if="viewerType === 'compute-view'">
+              <li> key: {{ cd.key }} </li>
+              <ul v-for="(pi, index) in cd.value.computational" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
             <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
+              <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
+            <div id="module-slot" v-if="viewerType === 'module-view'">
               <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
                 <li>
                   {{ index }} --- {{ pi }}
@@ -48,13 +63,17 @@
 import DatatypeView from './datatypeViewer.vue'
 import ComputeView from './computeViewer.vue'
 import PackagingView from './packagingViewer.vue'
+import ModuleView from './moduleViewer.vue'
+import VisualiseView from './visualiseViewer.vue'
 
 export default {
   name: 'cnrlview-page',
   components: {
     DatatypeView,
     ComputeView,
-    PackagingView
+    PackagingView,
+    ModuleView,
+    VisualiseView
   },
   props: {
     refTypeLive:
@@ -88,6 +107,10 @@ export default {
         this.viewerType = 'compute-view'
       } else if (this.refTypeLive === 'packaging') {
         this.viewerType = 'packaging-view'
+      } else if (this.refTypeLive === 'module') {
+        this.viewerType = 'module-view'
+      } else if (this.refTypeLive === 'visualise') {
+        this.viewerType = 'visualise-view'
       }
       return this.viewerType
     }

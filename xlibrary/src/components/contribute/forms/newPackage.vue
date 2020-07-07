@@ -13,11 +13,11 @@
       </li>
       <li class="package-form-item">
         <label for="package-add-name">Name:</label>
-        <input id="package-mapping-name" @keyup="nameSave" v-model="packaging.name" placeholder="package mapping name" required="" type="text">
+        <input id="package-mapping-name" @paste="nameSave" @keyup="nameSave" v-model="packaging.name" placeholder="package mapping name" required="" type="text">
       </li>
       <li class="package-form-item">
         <label for="package-add-description">Description:</label>
-        <textarea name="message" cols="40" rows="6" required="" id="package-mapping-description" @keyup="nameSave" v-model="packaging.description"></textarea>
+        <textarea name="message" cols="40" rows="6" required="" id="package-mapping-description" @paste="descriptionSave" @keyup="descriptionSave" v-model="packaging.description"></textarea>
       </li>
       <li class="package-form-item">
         <label for="package-add-scripting">Type of data store:</label>
@@ -33,7 +33,7 @@
       </li>
       <li class="package-form-item">
         <label for="add-code-name">API base address</label>
-        <input type="text"  id="mapping-base-address" placeholder="https://" required @keyup="apibaseSave" v-model="packaging.baseaddress" />
+        <input type="text"  id="mapping-base-address" placeholder="https://" required @change="apibaseSave" @paste="apibaseSave" @keyup="apibaseSave" v-model="packaging.baseaddress" />
       </li>
       <!-- <li class="package-form-item">
         <label for="add-table-name">Device address:</label>
@@ -41,7 +41,7 @@
       </li> -->
       <li class="package-form-item">
         <label for="add-table-name">Datatype Path:</label>
-        <input type="text"  id="mapping-endpoint-address" placeholder="" required @keyup="apipathSave" v-model="packaging.aippath"/>
+        <input type="text"  id="mapping-endpoint-address" placeholder="" required @change="apipathSave" @paste="apipathSave" @keyup="apipathSave" v-model="packaging.apipath"/>
       </li>
       <li class="package-column-item">
         <label for="add-code-name">Column builder</label>
@@ -96,7 +96,7 @@ export default {
       this.$store.dispatch('buildRefPackageAPI', this.packaging.api)
     },
     apibaseSave (ak) {
-      this.$store.dispatch('buildRefPackageAPIbase', this.packaging.apibase)
+      this.$store.dispatch('buildRefPackageAPIbase', this.packaging.baseaddress)
     },
     apipathSave (ak) {
       this.$store.dispatch('buildRefPackageAPIpath', this.packaging.apipath)

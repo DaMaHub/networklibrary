@@ -10,6 +10,7 @@
           <option value="new-units">Units</option>
           <option value="new-compute">Compute</option>
           <option value="new-packaging">Packaging</option>
+          <option value="new-visualise">Visualise</option>
           <!-- <option value="new-experiment">Experiment</option> -->
         </select>
       </li>
@@ -33,6 +34,7 @@ import NewDatatype from '@/components/contribute/forms/newDatatype.vue'
 import NewCompute from '@/components/contribute/forms/newCompute.vue'
 import NewUnits from '@/components/contribute/forms/newUnits.vue'
 import NewPackaging from '@/components/contribute/forms/newPackage.vue'
+import NewVisualise from '@/components/contribute/forms/newVisualise.vue'
 
 export default {
   name: 'newapi-page',
@@ -40,7 +42,8 @@ export default {
     NewDatatype,
     NewCompute,
     NewUnits,
-    NewPackaging
+    NewPackaging,
+    NewVisualise
   },
   data: () => ({
     formType: null
