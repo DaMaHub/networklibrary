@@ -25,7 +25,13 @@ export default new Vuex.Store({
       apicolumns: [],
       apicolHolder: [[]]
     },
-    newVisualiseForm: {}
+    newVisualiseForm: {
+      structure:
+      {
+        name: '',
+        elements: []
+      }
+    }
   },
   mutations: {
     ADD_REFCONTRACT_PRIMARY (state, inVerified) {
@@ -104,13 +110,17 @@ export default new Vuex.Store({
       Vue.set(state.newVisualiseForm, 'description', inVerified)
     },
     ADD_REFVISUALISE_STRUCTURE (state, inVerified) {
-      Vue.set(state.newVisualiseForm, 'structure', inVerified)
+      Vue.set(state.newVisualiseForm.structure, 'name', inVerified)
     },
     ADD_REFVISUALISE_ELEMENTLABEL (state, inVerified) {
-      Vue.set(state.newVisualiseForm, 'structure', inVerified)
+      // Vue.set(state.newVisualiseForm.structure, 'elements', inVerified)
     },
     ADD_REFVISUALISE_ELEMENTTYPE (state, inVerified) {
-      Vue.set(state.newVisualiseForm, 'structure', inVerified)
+      // Vue.set(state.newVisualiseForm.structure, 'elements', inVerified)
+    },
+    ADD_REFVISUALISE_ELEMENTPAIR (state, inVerified) {
+      state.newVisualiseForm.structure.elements.push(inVerified)
+      console.log(state.newVisualiseForm.structure.elements)
     }
   },
   actions: {
@@ -188,17 +198,17 @@ export default new Vuex.Store({
     buildRefVisualiseName (context, update) {
       context.commit('ADD_REFVISUALISE_NAME', update)
     },
-    buildVisualisedDescription (context, update) {
+    buildRefVisualiseDescription (context, update) {
       context.commit('ADD_REFVISUALISE_DESCRIPTION', update)
     },
     buildRefVisualiseStructure (context, update) {
       context.commit('ADD_REFVISUALISE_STRUCTURE', update)
     },
-    buildRefVisualiseStructureElement (context, update) {
-      context.commit('ADD_REFVISUALISE_ELEMENTLABEL', update)
-    },
     buildRefVisualiseStructureElementLabel (context, update) {
-      context.commit('ADD_REFVISUALISE_ELEMENTTYPE', update)
+      context.commit('ADD_REFVISUALISE_ELEMENTNAME', update)
+    },
+    buildRefVisualiseStructureElementType (context, update) {
+      context.commit('ADD_REFVISUALISE_ELEMENTPAIR', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

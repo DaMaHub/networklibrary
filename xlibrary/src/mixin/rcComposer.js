@@ -73,6 +73,27 @@ ReferenceContractComposer.prototype.computePrepare = function (inputRC) {
 
 /**
 * prepare a datatype reference contract
+* @method visualisePrepare
+*
+*/
+ReferenceContractComposer.prototype.visualisePrepare = function (inputRC) {
+  const visualiseReferenceContract = {}
+  visualiseReferenceContract.refcontract = 'visualise'
+  visualiseReferenceContract.concept = {}
+  // prepare semantic part of datatype ref contracts
+  visualiseReferenceContract.computational = inputRC
+  // create a hash of entries as the index key
+  const dtHASH = this.cryptoLive.evidenceProof(visualiseReferenceContract)
+  const RefContractHolder = {}
+  RefContractHolder.reftype = 'visualise'
+  RefContractHolder.action = 'PUT'
+  RefContractHolder.hash = dtHASH
+  RefContractHolder.contract = visualiseReferenceContract
+  return RefContractHolder
+}
+
+/**
+* prepare a datatype reference contract
 * @method packagingPrepare
 *
 */

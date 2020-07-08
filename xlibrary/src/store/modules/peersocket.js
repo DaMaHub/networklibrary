@@ -62,6 +62,8 @@ export default {
         prepareRefContract = refcontComposerLive.packagingPrepare(this.state.newPackingForm)
       } else if (message.reftype === 'new-compute') {
         prepareRefContract = refcontComposerLive.computePrepare(this.state.newComputeForm)
+      } else if (message.reftype === 'new-visualise') {
+        prepareRefContract = refcontComposerLive.visualisePrepare(this.state.newVisualiseForm)
       }
       console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
