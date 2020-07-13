@@ -205,8 +205,9 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
   const computeList = []
   const packagingList = []
   const moduleList = []
+  const visualiseList = []
   for (const rc of refContractsList) {
-    console.log(rc)
+    // console.log(rc)
     if (rc.value.refcontract === 'datatype') {
       const refCont = { key: rc.key, value: rc.value }
       datatypeList.push(refCont)
@@ -222,6 +223,9 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
     } else if (rc.value.refcontract === 'module') {
       const refCont = { key: rc.key, value: rc.value }
       moduleList.push(refCont)
+    } else if (rc.value.refcontract === 'visualise') {
+      const refCont = { key: rc.key, value: rc.value }
+      visualiseList.push(refCont)
     }
   }
   refContractHolder.datatype = datatypeList
@@ -229,6 +233,7 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
   refContractHolder.compute = computeList
   refContractHolder.packaging = packagingList
   refContractHolder.module = moduleList
+  refContractHolder.visualise = visualiseList
   return refContractHolder
 }
 

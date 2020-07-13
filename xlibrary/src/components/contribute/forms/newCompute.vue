@@ -23,6 +23,20 @@
         <label for="compute-add-name">location of code:</label>
         <input id="compute-code-name" placeholder="compute code" @paste="codeSave" @keyup="codeSave" v-model="newCompute.code" required="" type="text">
       </li>
+      <li class="compute-form-item">
+        <label for="compute-add-source">Controls</label>
+        <select class="select-compute-source" @change="primarySave" v-model="newCompute.controls" id="">Please select
+          <option value="yes">YES</option>
+          <option value="no">NO</option>
+        </select>
+        <label for="compute-add-source">Automation</label>
+        <select class="select-compute-automation" @change="automationSave" v-model="newCompute.automation" id="">Please select
+          <option value="yes">YES</option>
+          <option value="no">NO</option>
+        </select>
+        <label for="compute-add-controls">a:</label>
+        <input id="compute-code-controls" placeholder="compute controls" @paste="codeSave" @keyup="codeSave" v-model="newCompute.code" required="" type="text">
+      </li>
     </ul>
   </div>
 </template>

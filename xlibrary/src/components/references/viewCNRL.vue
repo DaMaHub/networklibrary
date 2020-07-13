@@ -52,6 +52,13 @@
                 </li>
               </ul>
             </div>
+            <div id="visualise-slot" v-if="viewerType === 'visualise-view'">
+              <ul v-for="(pi, index) in cd.value.computational" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
           </template>
         </component>
       </li>
