@@ -122,10 +122,10 @@ wsServer.on('request', request => {
           const savedFeedback = peerStoreLive.peerStoreRefContract(o)
           connection.sendUTF(JSON.stringify(savedFeedback))
         }
-      } else if (o.reftype.trim() === 'nxpRefContract') {
+      } else if (o.reftype.trim() === 'experiment') {
         // query peer hypertrie for packaging
         if (o.action === 'GET') {
-          peerStoreLive.peerGETRefContracts('nxpRefContract', callback)
+          peerStoreLive.peerGETRefContracts('experiment', callback)
         } else {
           // save a new refContract
           const savedFeedback = peerStoreLive.peerStoreRefContract(o)

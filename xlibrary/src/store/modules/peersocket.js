@@ -57,13 +57,13 @@ export default {
       let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
-        prepareRefContract = refcontComposerLive.dataTypePrepare(localData)
+        prepareRefContract = refcontComposerLive.datatypeRefLive.dataTypePrepare(localData)
       } else if (message.reftype === 'new-packaging') {
-        prepareRefContract = refcontComposerLive.packagingPrepare(this.state.newPackingForm)
+        prepareRefContract = refcontComposerLive.packagingRefLive.packagingPrepare(this.state.newPackingForm)
       } else if (message.reftype === 'new-compute') {
-        prepareRefContract = refcontComposerLive.computePrepare(this.state.newComputeForm)
+        prepareRefContract = refcontComposerLive.computeRefLive.computePrepare(this.state.newComputeForm)
       } else if (message.reftype === 'new-visualise') {
-        prepareRefContract = refcontComposerLive.visualisePrepare(this.state.newVisualiseForm)
+        prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
       }
       console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
