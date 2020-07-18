@@ -15,7 +15,6 @@ const events = require('events')
 
 var ComputeReferenceContract = function () {
   events.EventEmitter.call(this)
-  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
 }
 

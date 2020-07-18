@@ -66,8 +66,8 @@ export default {
         prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
       }
       console.log(prepareRefContract)
-      const referenceContractReady = JSON.stringify(prepareRefContract)
-      Vue.prototype.$socket.send(referenceContractReady)
+      // const referenceContractReady = JSON.stringify(prepareRefContract)
+      // Vue.prototype.$socket.send(referenceContractReady)
     },
     actionGetRefContract (context, message) {
       console.log('action for ws')
@@ -185,7 +185,7 @@ export default {
       console.log(moduleContracts)
       for (const mc of moduleContracts) {
         console.log(mc)
-        const prepareModule = refcontComposerLive.modulePrepare(mc)
+        const prepareModule = refcontComposerLive.moduleComposer(mc)
         const referenceContractReady = JSON.stringify(prepareModule)
         Vue.prototype.$socket.send(referenceContractReady)
       }

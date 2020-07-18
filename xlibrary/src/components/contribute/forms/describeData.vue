@@ -45,18 +45,12 @@ export default {
   },
   computed: {
     list1: function () {
-      console.log('active DTs in library')
-      console.log(this.$store.state.referenceContract)
       return this.$store.state.referenceContract.datatype
     },
     dtcolumns: function () {
-      console.log('colums active')
-      console.log(this.$store.state.newPackingForm.apicolumns)
       return this.$store.state.newPackingForm.apicolumns
     },
     newLists: function () {
-      console.log('colums active')
-      console.log(this.$store.state.newPackingForm.apicolHolder)
       return this.$store.state.newPackingForm.apicolHolder // [[], [], []]
     }
   },
@@ -78,7 +72,7 @@ export default {
       }
     },
     log: function (evt) {
-      window.console.log(evt)
+      // window.console.log(evt)
     }
   }
 }

@@ -15,7 +15,6 @@ const events = require('events')
 
 var ExperimentReferenceContract = function () {
   events.EventEmitter.call(this)
-  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
 }
 
@@ -50,8 +49,6 @@ ExperimentReferenceContract.prototype.nxpPrepare = function (inputRC) {
   RefContractHolder.action = 'PUT'
   RefContractHolder.hash = dtHASH
   RefContractHolder.contract = nxpReferenceContract
-  console.log('nxp holder')
-  console.log(RefContractHolder)
   return RefContractHolder
 }
 

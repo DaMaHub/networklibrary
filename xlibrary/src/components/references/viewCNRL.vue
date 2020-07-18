@@ -97,15 +97,11 @@ export default {
   },
   computed: {
     referenceData: function () {
-      console.log('ref')
-      console.log(this.$store.state.referenceContract[this.refTypeLive])
       return this.$store.state.referenceContract[this.refTypeLive]
     }
   },
   methods: {
     viewMapper () {
-      console.log('view select')
-      console.log(this.refTypeLive)
       if (this.refTypeLive === 'datatype') {
         this.viewerType = 'datatype-view'
       } else if (this.refTypeLive === 'units') {

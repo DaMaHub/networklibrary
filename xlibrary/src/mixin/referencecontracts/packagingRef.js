@@ -15,7 +15,6 @@ const events = require('events')
 
 var PackagingReferenceContract = function () {
   events.EventEmitter.call(this)
-  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
 }
 
@@ -63,6 +62,51 @@ PackagingReferenceContract.prototype.packagingPrepare = function (inputRC) {
   console.log('package holder')
   console.log(RefContractHolder)
   return RefContractHolder
+}
+
+/**
+* map columns to datatype reference contracts
+* @method mergePackageMap
+*
+*/
+PackagingReferenceContract.prototype.mergePackageMap = function (col, table) {
+  const mapped = []
+  // remove first element array empty by design
+  table.shift()
+  console.log('map columns to dts contracts')
+  console.log(table)
+  console.log(col)
+  let countCol = 0
+  for (const co of col) {
+    countCol++
+    if (co.count === countCol) {
+      const keyID = countCol - 1
+      console.log('keuy' + keyID)
+      console.log('counts match')
+      console.log(table)
+      console.log(table[keyID])
+      const mapPair = {}
+      mapPair.refcontract = table[keyID][0].key
+      mapPair.column = co.name
+      mapped.push(mapPair)
+    }
+    /* for (const tb of table) {
+      console.log(co.count)
+      console.log(countCol)
+      if (co.count === countCol) {
+        // const keyID = countCol
+        console.log('counts match')
+        console.log(tb)
+        const mapPair = {}
+        mapPair.refcontract = tb[0].key
+        mapPair.column = co.name
+        mapped.push(mapPair)
+      } */
+    // }
+  }
+  console.log('mapped pair')
+  console.log(mapped)
+  return mapped
 }
 
 export default PackagingReferenceContract

@@ -102,8 +102,8 @@ export default {
       this.$store.dispatch('buildRefPackageAPIpath', this.packaging.apipath)
     },
     columnsSave (ak) {
-      console.log(ak)
-      console.log(this.packaging.columns)
+      // console.log(ak)
+      // console.log(this.packaging.columns)
       this.$store.dispatch('buildRefPackageColumns', this.packaging.columns)
     }
   }

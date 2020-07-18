@@ -14,17 +14,20 @@ import DatatypeRefCont from './referencecontracts/datatypeRef.js'
 import PackagingRefCont from './referencecontracts/packagingRef.js'
 import ComputeRefCont from './referencecontracts/computeRef.js'
 import VisualiseRefCont from './referencecontracts/visualiseRef.js'
+import ModulueRefCont from './referencecontracts/moduleRef.js'
+import ExperimentRefCont from './referencecontracts/experimentRef.js'
 const util = require('util')
 const events = require('events')
 
 var ReferenceContractComposer = function () {
   events.EventEmitter.call(this)
-  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
   this.datatypeRefLive = new DatatypeRefCont()
   this.packagingRefLive = new PackagingRefCont()
   this.computeRefLive = new ComputeRefCont()
   this.visualiseRefLive = new VisualiseRefCont()
+  this.moduleRefLive = new ModulueRefCont()
+  this.experimentRefLive = new ExperimentRefCont()
 }
 
 /**
@@ -74,6 +77,39 @@ ReferenceContractComposer.prototype.computeComposer = function (input) {
 ReferenceContractComposer.prototype.visualiseComposer = function (input) {
   console.log('prepare New visualise contract')
   const preContract = this.visualiseRefLive.visualisePrepare(input)
+  return preContract
+}
+
+/**
+* Visualise composer
+* @method visualiseComposer
+*
+*/
+ReferenceContractComposer.prototype.moduleComposer = function (input) {
+  console.log('prepare New visualise contract')
+  const preContract = this.moduleRefLive.modulePrepare(input)
+  return preContract
+}
+
+/**
+* Experiment composer
+* @method experimentComposerGenesis
+*
+*/
+ReferenceContractComposer.prototype.experimentComposerGenesis = function (input) {
+  console.log('prepare New visualise contract')
+  const preContract = this.experimentRefLive.nxpPrepare(input)
+  return preContract
+}
+
+/**
+* Experiment composer
+* @method experimentComposerJoin
+*
+*/
+ReferenceContractComposer.prototype.experimentComposerJoin = function (input) {
+  console.log('prepare New visualise contract')
+  const preContract = this.experimentRefLive.nxpJoinedPrepare(input)
   return preContract
 }
 
@@ -145,37 +181,6 @@ ReferenceContractComposer.prototype.refcontractSperate = function (refContractsL
   refContractHolder.visualise = visualiseList
   refContractHolder.experiment = nxpList
   return refContractHolder
-}
-
-/**
-* map columns to datatype reference contracts
-* @method mergePackageMap
-*
-*/
-ReferenceContractComposer.prototype.mergePackageMap = function (col, table) {
-  console.log('map columns to dts contracts')
-  console.log(col)
-  console.log(table)
-  const mapped = []
-  // remove first element array empty by design
-  table.shift()
-  let countCol = 1
-  for (const co of col) {
-    console.log(co)
-    for (const tb of table) {
-      console.log(tb[0])
-      if (co.count === countCol) {
-        const mapPair = {}
-        mapPair.refcontract = tb[0].key
-        mapPair.column = co.name
-        mapped.push(mapPair)
-        countCol++
-      }
-    }
-  }
-  console.log('mapped pair')
-  console.log(mapped)
-  return mapped
 }
 
 export default ReferenceContractComposer
