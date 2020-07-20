@@ -44,8 +44,10 @@ export default {
         // query back from peer data store
         // pass to sort data into ref contract types
         const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
+        const segmentedRefContracts2 = refcontComposerLive.refcontractSperate(backJSON)
         console.log('segmentated contracts')
         console.log(segmentedRefContracts)
+        this.state.packagingDatatypes = segmentedRefContracts2.datatype
         this.state.referenceContract = segmentedRefContracts
       }
     }
@@ -53,7 +55,7 @@ export default {
   actions: {
     sendMessage (context, message) {
       console.log('Ref Contract preapre peerLink')
-      console.log(message)
+      // console.log(message)
       let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
@@ -65,9 +67,8 @@ export default {
       } else if (message.reftype === 'new-visualise') {
         prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
       }
-      console.log(prepareRefContract)
-      // const referenceContractReady = JSON.stringify(prepareRefContract)
-      // Vue.prototype.$socket.send(referenceContractReady)
+      const referenceContractReady = JSON.stringify(prepareRefContract)
+      Vue.prototype.$socket.send(referenceContractReady)
     },
     actionGetRefContract (context, message) {
       console.log('action for ws')

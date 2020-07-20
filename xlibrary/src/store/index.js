@@ -18,6 +18,7 @@ export default new Vuex.Store({
     ],
     referenceData: dataTitle,
     referenceContract: [],
+    packagingDatatypes: [],
     newRefcontractForm: {},
     newComputeForm: {},
     newPackingForm:
@@ -99,6 +100,9 @@ export default new Vuex.Store({
     },
     ADD_REFCOMPUTE_CODE (state, inVerified) {
       Vue.set(state.newComputeForm, 'code', inVerified)
+    },
+    ADD_REFCOMPUTE_HASH (state, inVerified) {
+      Vue.set(state.newComputeForm, 'hash', inVerified)
     },
     ADD_REFVISUALISE_PRIMARY (state, inVerified) {
       Vue.set(state.newVisualiseForm, 'primary', inVerified)
@@ -191,6 +195,9 @@ export default new Vuex.Store({
     },
     buildRefComputeCode (context, update) {
       context.commit('ADD_REFCOMPUTE_CODE', update)
+    },
+    buildRefComputeHash (context, update) {
+      context.commit('ADD_REFCOMPUTE_HASH', update)
     },
     buildVisualisePrimary (context, update) {
       context.commit('ADD_REFVISUALISE_PRIMARY', update)

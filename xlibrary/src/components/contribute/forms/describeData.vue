@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     list1: function () {
-      return this.$store.state.referenceContract.datatype
+      return this.$store.state.packagingDatatypes
     },
     dtcolumns: function () {
       return this.$store.state.newPackingForm.apicolumns
@@ -60,17 +60,6 @@ export default {
     }
   },
   methods: {
-    add: function () {
-      this.list.push({ name: 'Juan' })
-    },
-    replace: function () {
-      this.list = [{ name: 'Edgard' }]
-    },
-    clone: function (el) {
-      return {
-        name: el.name + ' cloned'
-      }
-    },
     log: function (evt) {
       // window.console.log(evt)
     }

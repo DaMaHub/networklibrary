@@ -24,18 +24,8 @@
         <input id="compute-code-name" placeholder="compute code" @paste="codeSave" @keyup="codeSave" v-model="newCompute.code" required="" type="text">
       </li>
       <li class="compute-form-item">
-        <label for="compute-add-source">Controls</label>
-        <select class="select-compute-source" @change="primarySave" v-model="newCompute.controls" id="">Please select
-          <option value="yes">YES</option>
-          <option value="no">NO</option>
-        </select>
-        <label for="compute-add-source">Automation</label>
-        <select class="select-compute-automation" @change="automationSave" v-model="newCompute.automation" id="">Please select
-          <option value="yes">YES</option>
-          <option value="no">NO</option>
-        </select>
-        <label for="compute-add-controls">a:</label>
-        <input id="compute-code-controls" placeholder="compute controls" @paste="codeSave" @keyup="codeSave" v-model="newCompute.code" required="" type="text">
+        <label for="compute-add-hash">hash of code:</label>
+        <input id="compute-code-hash" placeholder="compute hash" @paste="hashSave" @keyup="hashSave" v-model="newCompute.hash" required="" type="text">
       </li>
     </ul>
   </div>
@@ -73,6 +63,9 @@ export default {
     },
     codeSave () {
       this.$store.dispatch('buildRefComputeCode', this.newCompute.code)
+    },
+    hashSave () {
+      this.$store.dispatch('buildRefComputeHash', this.newCompute.hash)
     }
   }
 }

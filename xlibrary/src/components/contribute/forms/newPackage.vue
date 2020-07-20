@@ -46,11 +46,23 @@
       <li class="package-column-item">
         <label for="add-code-name">Column builder</label>
         <input type="text"  id="package-base-address" placeholder="column" required  v-model="packaging.columns" />
-        <a href='#' id="add-column" @click.prevent="columnsSave"  >Add column</a>
+        <a href='#' id="add-column" @click.prevent="columnsSave" >Add column</a>
       </li>
       <describe-data></describe-data>
       <li class="package-form-item">
         <a href='#' id="add-newendpoint">Add another path</a>
+      </li>
+      <li v-for="dc of catnumber" :key="dc.id" >
+          <describe-category>{{ dc }}</describe-category>
+      </li>
+      <li>
+        <a href='#' id="add-category" @click.prevent="addCategory" >Add category</a>
+      </li>
+      <li v-for="dty of tidynumber" :key="dty.id" >
+        <describe-tidy>{{ dty }}</describe-tidy>
+      </li>
+      <li>
+        <a href='#' id="add-tidy-code" @click.prevent="addTidyItem">Add tidy rule</a>
       </li>
     </ul>
   </div>
@@ -58,11 +70,17 @@
 
 <script>
 import DescribeData from '@/components/contribute/forms/describeData.vue'
+import DescribeCategory from '@/components/contribute/forms/describeCategory.vue'
+import DescribeTidy from '@/components/contribute/forms/describeTidy.vue'
 
 export default {
   name: 'package-form',
   components: {
-    DescribeData
+    DescribeData,
+    DescribeCategory,
+    DescribeTidy
+  },
+  computed: {
   },
   data: () => ({
     packaging:
@@ -74,13 +92,13 @@ export default {
       baseaddress: '',
       apipath: ''
     },
+    catnumber: [0],
+    tidynumber: [0],
     index: 0
   }),
   created () {
   },
   mounted () {
-  },
-  computed: {
   },
   methods: {
     primarySelect () {
@@ -105,6 +123,12 @@ export default {
       // console.log(ak)
       // console.log(this.packaging.columns)
       this.$store.dispatch('buildRefPackageColumns', this.packaging.columns)
+    },
+    addCategory () {
+      this.catnumber.push(1)
+    },
+    addTidyItem () {
+      this.tidynumber.push(1)
     }
   }
 }

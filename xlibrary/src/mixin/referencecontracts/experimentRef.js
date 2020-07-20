@@ -15,6 +15,7 @@ const events = require('events')
 
 var ExperimentReferenceContract = function () {
   events.EventEmitter.call(this)
+  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
 }
 
@@ -30,6 +31,8 @@ util.inherits(ExperimentReferenceContract, events.EventEmitter)
 *
 */
 ExperimentReferenceContract.prototype.nxpPrepare = function (inputRC) {
+  console.log('genesis experiment')
+  console.log(inputRC)
   const nxpReferenceContract = {}
   nxpReferenceContract.refcontract = 'experiment'
   nxpReferenceContract.modules = {}
@@ -37,7 +40,7 @@ ExperimentReferenceContract.prototype.nxpPrepare = function (inputRC) {
   nxpReferenceContract.space = {}
   nxpReferenceContract.computational = {}
   // prepare semantic part of datatype ref contracts
-  nxpReferenceContract.concept = { new: 'experiment' }
+  nxpReferenceContract.concept = { state: 'genesis' }
   nxpReferenceContract.modules = inputRC
   // prepare space coordinates e.g. quark, atom, molecule etc.
   nxpReferenceContract.space = { concept: 'mind' }
@@ -49,6 +52,8 @@ ExperimentReferenceContract.prototype.nxpPrepare = function (inputRC) {
   RefContractHolder.action = 'PUT'
   RefContractHolder.hash = dtHASH
   RefContractHolder.contract = nxpReferenceContract
+  console.log('nxp holder')
+  console.log(RefContractHolder)
   return RefContractHolder
 }
 
@@ -65,7 +70,7 @@ ExperimentReferenceContract.prototype.nxpJoinedPrepare = function (inputRC) {
   nxpReferenceContract.space = {}
   nxpReferenceContract.computational = {}
   // prepare semantic part of datatype ref contracts
-  nxpReferenceContract.concept = { new: 'experiment' }
+  nxpReferenceContract.concept = { state: 'joined' }
   nxpReferenceContract.modules = inputRC
   // prepare space coordinates e.g. quark, atom, molecule etc.
   nxpReferenceContract.space = { concept: 'mind' }
