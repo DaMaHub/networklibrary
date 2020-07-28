@@ -61,12 +61,17 @@ export default {
         const localData = this.state.newRefcontractForm
         prepareRefContract = refcontComposerLive.datatypeRefLive.dataTypePrepare(localData)
       } else if (message.reftype === 'new-packaging') {
+        // check if category or packaging need bundled
+        console.log('packaing counts')
+        console.log(this.state.newPackingForm.catCount)
+        console.log(this.state.newPackingForm.tidyCount)
         prepareRefContract = refcontComposerLive.packagingRefLive.packagingPrepare(this.state.newPackingForm)
       } else if (message.reftype === 'new-compute') {
         prepareRefContract = refcontComposerLive.computeRefLive.computePrepare(this.state.newComputeForm)
       } else if (message.reftype === 'new-visualise') {
         prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
       }
+      console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
     },

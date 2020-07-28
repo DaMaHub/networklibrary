@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     primarySelect () {
-      this.$store.dispatch('buildRefPackagePrimary', this.packaging.prime)
+      this.$store.dispatch('buildRefPackagePrimary', this.packaging.primary)
     },
     nameSave (k) {
       this.$store.dispatch('buildRefPackageName', this.packaging.name)
@@ -125,9 +125,13 @@ export default {
       this.$store.dispatch('buildRefPackageColumns', this.packaging.columns)
     },
     addCategory () {
+      // tell vuex to bundle last entry together
+      this.$store.dispatch('buildRefPackageCatBundle')
       this.catnumber.push(1)
     },
     addTidyItem () {
+      // tell vuex to bundle last entry together
+      this.$store.dispatch('buildRefPackageTidyBundle')
       this.tidynumber.push(1)
     }
   }

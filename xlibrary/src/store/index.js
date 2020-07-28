@@ -24,7 +24,11 @@ export default new Vuex.Store({
     newPackingForm:
     {
       apicolumns: [],
-      apicolHolder: [[]]
+      apicolHolder: [[]],
+      catCount: 0,
+      tidyCount: 0,
+      category: [],
+      tidy: []
     },
     newVisualiseForm: {
       structure:
@@ -88,6 +92,44 @@ export default new Vuex.Store({
       newColumn.name = inVerified
       state.newPackingForm.apicolumns.push(newColumn)
       state.newPackingForm.apicolHolder.push([])
+    },
+    ADD_REFCONTPACK_CATEGORY (state, inVerified) {
+      // keep tabs on number of categories bundle being submitted
+      const updatCount = state.newPackingForm.catCount++
+      Vue.set(state.newPackingForm, 'catCount', updatCount)
+      Vue.set(state.newPackingForm, 'hcategory', inVerified)
+    },
+    ADD_REFCONTPACK_CATCOL (state, inVerified) {
+      Vue.set(state.newPackingForm, 'hcatcolumn', inVerified)
+    },
+    ADD_REFCONTPACK_CATRULE (state, inVerified) {
+      Vue.set(state.newPackingForm, 'hcatrule', inVerified)
+    },
+    BUNDLE_CATEGORY (state, inVerified) {
+      const catBundle = {}
+      catBundle.category = state.newPackingForm.hcategory
+      catBundle.column = state.newPackingForm.hcatcolumn
+      catBundle.rule = state.newPackingForm.hcatrule
+      state.newPackingForm.category.push(catBundle)
+    },
+    ADD_REFCONTPACK_TIDY (state, inVerified) {
+      // keep tabs on number of tidy bundle being submitted
+      const updatCount = state.newPackingForm.tidyCount++
+      Vue.set(state.newPackingForm, 'tidyCount', updatCount)
+      Vue.set(state.newPackingForm, 'htidy', inVerified)
+    },
+    ADD_REFCONTPACK_TIDYDT (state, inVerified) {
+      Vue.set(state.newPackingForm, 'htidydatatype', inVerified)
+    },
+    ADD_REFCONTPACK_TIDYCODE (state, inVerified) {
+      Vue.set(state.newPackingForm, 'htidycode', inVerified)
+    },
+    BUNDLE_TIDY (state, inVerified) {
+      const tidyBundle = {}
+      tidyBundle.tidy = state.newPackingForm.htidy
+      tidyBundle.datatype = state.newPackingForm.htidydatatype
+      tidyBundle.rule = state.newPackingForm.htidycode
+      state.newPackingForm.tidy.push(tidyBundle)
     },
     ADD_REFCOMPUTE_PRIMARY (state, inVerified) {
       Vue.set(state.newComputeForm, 'primary', inVerified)
@@ -184,6 +226,24 @@ export default new Vuex.Store({
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)
     },
+    buildRefPackageCategory (context, update) {
+      context.commit('ADD_REFCONTPACK_CATEGORY', update)
+    },
+    buildRefPackageCategoryColumn (context, update) {
+      context.commit('ADD_REFCONTPACK_CATCOL', update)
+    },
+    buildRefPackageCategoryRule (context, update) {
+      context.commit('ADD_REFCONTPACK_CATRULE', update)
+    },
+    buildRefPackageTidy (context, update) {
+      context.commit('ADD_REFCONTPACK_TIDY', update)
+    },
+    buildRefPackageTidyDT (context, update) {
+      context.commit('ADD_REFCONTPACK_TIDYDT', update)
+    },
+    buildRefPackageTidycode (context, update) {
+      context.commit('ADD_REFCONTPACK_TIDYCODE', update)
+    },
     buildRefComputePrimary (context, update) {
       context.commit('ADD_REFCOMPUTE_PRIMARY', update)
     },
@@ -216,6 +276,12 @@ export default new Vuex.Store({
     },
     buildRefVisualiseStructureElementType (context, update) {
       context.commit('ADD_REFVISUALISE_ELEMENTPAIR', update)
+    },
+    buildRefPackageCatBundle (context, update) {
+      context.commit('BUNDLE_CATEGORY', update)
+    },
+    buildRefPackageTidyBundle (context, update) {
+      context.commit('BUNDLE_TIDY', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

@@ -30,6 +30,8 @@ util.inherits(PackagingReferenceContract, events.EventEmitter)
 *
 */
 PackagingReferenceContract.prototype.packagingPrepare = function (inputRC) {
+  console.log('packing in')
+  console.log(inputRC)
   const datatypeReferenceContract = {}
   datatypeReferenceContract.refcontract = 'packaging'
   datatypeReferenceContract.concept = {}
@@ -47,6 +49,8 @@ PackagingReferenceContract.prototype.packagingPrepare = function (inputRC) {
   newPackagingMap.apibase = inputRC.apibase
   newPackagingMap.apipath = inputRC.apipath
   newPackagingMap.tablestructure = mergeDTColumn
+  newPackagingMap.tidy = inputRC.tidy
+  newPackagingMap.category = inputRC.category
   // prepare semantic part of datatype ref contracts
   datatypeReferenceContract.concept = newPackagingMap
   // prepare space coordinates e.g. quark, atom, molecule etc.
@@ -73,39 +77,17 @@ PackagingReferenceContract.prototype.mergePackageMap = function (col, table) {
   const mapped = []
   // remove first element array empty by design
   table.shift()
-  console.log('map columns to dts contracts')
-  console.log(table)
-  console.log(col)
   let countCol = 0
   for (const co of col) {
     countCol++
     if (co.count === countCol) {
       const keyID = countCol - 1
-      console.log('keuy' + keyID)
-      console.log('counts match')
-      console.log(table)
-      console.log(table[keyID])
       const mapPair = {}
       mapPair.refcontract = table[keyID][0].key
       mapPair.column = co.name
       mapped.push(mapPair)
     }
-    /* for (const tb of table) {
-      console.log(co.count)
-      console.log(countCol)
-      if (co.count === countCol) {
-        // const keyID = countCol
-        console.log('counts match')
-        console.log(tb)
-        const mapPair = {}
-        mapPair.refcontract = tb[0].key
-        mapPair.column = co.name
-        mapped.push(mapPair)
-      } */
-    // }
   }
-  console.log('mapped pair')
-  console.log(mapped)
   return mapped
 }
 

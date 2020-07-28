@@ -36,6 +36,9 @@ export default {
   data: () => ({
     packaging:
     {
+      category: null,
+      categorycolumn: null,
+      categoryrule: null,
       primary: null,
       name: '',
       description: '',
@@ -45,19 +48,17 @@ export default {
     }
   }),
   methods: {
-    categorySave (ak) {
-      // console.log(ak)
-      // console.log(this.packaging.category)
-      // this.$store.dispatch('buildRefPackageCategory', this.packaging.category)
-    },
     categoryDTSelect () {
       console.log('sele cat')
+      this.$store.dispatch('buildRefPackageCategory', this.packaging.category)
     },
     categorycolumnSelect () {
       console.log('cat col')
+      this.$store.dispatch('buildRefPackageCategoryColumn', this.packaging.categorycolumn)
     },
     categoryruleSave () {
       console.log('cat rule')
+      this.$store.dispatch('buildRefPackageCategoryRule', this.packaging.categoryrule)
     }
   }
 }

@@ -30,23 +30,23 @@ export default {
   data: () => ({
     packaging:
     {
-      primary: null,
-      name: '',
-      description: '',
-      api: '',
-      baseaddress: '',
-      apipath: ''
+      tidy: false,
+      tidydatatype: null,
+      tidycode: null
     }
   }),
   methods: {
     tidySelect () {
       console.log('cat yes no')
+      this.$store.dispatch('buildRefPackageTidy', this.packaging.tidy)
     },
     tidyDTSelect () {
       console.log('cat dt rule')
+      this.$store.dispatch('buildRefPackageTidyDT', this.packaging.tidydatatype)
     },
     tidycodeSave () {
       console.log('tidy code')
+      this.$store.dispatch('buildRefPackageTidycode', this.packaging.tidycode)
     }
   }
 }

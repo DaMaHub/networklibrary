@@ -57,6 +57,12 @@ export default {
       console.log('new contract in making???')
       console.log(this.$store.state.newRefcontractForm)
       return this.$store.state.newRefcontractForm
+    },
+    catCountLive: function () {
+      return this.$store.state.newPackingForm.catCount
+    },
+    tidyCountLive: function () {
+      return this.$store.state.newPackingForm.tidyCount
     }
   },
   methods: {
@@ -66,6 +72,14 @@ export default {
     },
     saveRefContract () {
       console.log('save new Ref Contract')
+      if (this.catCountLive === 0) {
+        // add array elements
+        this.$store.dispatch('buildRefPackageCatBundle')
+      }
+      if (this.tidyCountLive === 0) {
+        // add array element
+        this.$store.dispatch('buildRefPackageTidyBundle')
+      }
       // pull together other parts of refcontract
       const refContract = {}
       refContract.reftype = this.formType
