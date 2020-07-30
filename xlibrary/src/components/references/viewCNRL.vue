@@ -41,7 +41,15 @@
             <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
               <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
                 <li>
-                  {{ index }} --- {{ pi }}
+                  {{ index }}
+                    <ul v-if="index === 'tablestructure'" >
+                      <li v-for="ipv in pi" :key="ipv.key" >
+                          {{ ipv.refcontract }} -- {{ ipv.column }}
+                      </li>
+                    </ul>
+                    <ul v-else>
+                      <b>{{ pi }}</b>
+                    </ul>
                 </li>
               </ul>
             </div>
