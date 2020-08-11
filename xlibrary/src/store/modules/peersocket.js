@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import RCcomposer from '../../mixin/rcComposer.js'
+import KBIDcomposer from '../../mixin/kbidComposer.js'
 const refcontComposerLive = new RCcomposer()
+const kbidComposerLive = new KBIDcomposer()
 
 export default {
   state: {
@@ -83,6 +85,24 @@ export default {
       console.log('setup Visualise ref contract')
       console.log(message)
       // Vue.prototype.$socket.send(message)
+    },
+    actionMakeKBIDtemplate (context, message) {
+      console.log('make KBID template entry')
+      console.log(message)
+      let prepareKBIDtemplate = kbidComposerLive.kbidTemplateNew(message)
+      console.log(prepareKBIDtemplate)
+      const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
+      console.log(kbidTemplateReady)
+      // Vue.prototype.$socket.send(kbidTemplateReady)
+    },
+    actionMakeKBIDentry (context, message) {
+      console.log('make KBID entry')
+      console.log(message)
+      let prepareKBIDentry = kbidComposerLive.kbidEntry(message)
+      console.log(prepareKBIDentry)
+      const kbidEntryReady = JSON.stringify(prepareKBIDentry)
+      console.log(kbidEntryReady)
+      // Vue.prototype.$socket.send(kbidEntryReady)
     },
     actionMakeModuleRefContract (context, update) {
       console.log('setup Module Contracts')

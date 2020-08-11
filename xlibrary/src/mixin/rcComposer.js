@@ -81,8 +81,8 @@ ReferenceContractComposer.prototype.visualiseComposer = function (input) {
 }
 
 /**
-* Visualise composer
-* @method visualiseComposer
+* moduleComposer composer
+* @method moduleComposer
 *
 */
 ReferenceContractComposer.prototype.moduleComposer = function (input) {

@@ -6,12 +6,15 @@ var pump = require('pump')
 const WebSocketServer = require('websocket').server;
 const http = require('http');
 const DatastoreWorker = require('./peerStore.js')
+const KBIDstoreWorker = require('./kbidStore.js')
 const fs = require('fs')
 var os = require("os")
 
 let peerStoreLive
+let kbidStoreLive
 var feed
 var datastore
+var datastorek
 let clicks = 0
 
 const server = http.createServer((request, response) => {
@@ -40,7 +43,9 @@ server.listen(9888, () => {
   })
   datastore = hypertrie(os.homedir() + '/peerlink/datapeer1.db', {valueEncoding: 'json'})
   peerStoreLive = new DatastoreWorker(datastore)
-  console.log('store worker live')
+  datastoreK = hypertrie(os.homedir() + '/peerlink/kbidpeer1.db', {valueEncoding: 'json'})
+  kbidStoreLive = new KBIDstoreWorker(datastoreK)
+  console.log('store and KBID workers live')
   // console.log(peerStoreLive)
 });
 
@@ -129,6 +134,15 @@ wsServer.on('request', request => {
         } else {
           // save a new refContract
           const savedFeedback = peerStoreLive.peerStoreRefContract(o)
+          connection.sendUTF(JSON.stringify(savedFeedback))
+        }
+      } else if (o.reftype.trim() === 'kbid') {
+        // query peer hypertrie for packaging
+        if (o.action === 'GET') {
+          kbidStoreLive.peerGETkbids('kbid', callback)
+        } else {
+          // save a new refContract
+          const savedFeedback = kbidStoreLive.peerStoreKBIDentry(o)
           connection.sendUTF(JSON.stringify(savedFeedback))
         }
       } else {

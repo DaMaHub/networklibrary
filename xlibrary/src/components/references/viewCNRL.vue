@@ -12,6 +12,7 @@
           <template v-slot:header>
             <!-- The code below goes into the header slot -->
             {{ cd.value.concept.name }}
+            <p id="date-format">version 1 Date 10/01/2020</p>
             <p> {{ cd.key }} </p>
           </template>
           <template v-slot:body>
@@ -52,6 +53,7 @@
                     </ul>
                 </li>
               </ul>
+              <p>Networks: 3 Experiments 2 Archives</p>
             </div>
             <div id="module-slot" v-if="viewerType === 'module-view'">
               <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
@@ -133,5 +135,9 @@ export default {
 .cnrl-element {
   display: inline-block;
   margin-bottom: 1em;
+}
+
+#date-format {
+  font-size: 0.6em;
 }
 </style>
