@@ -6,7 +6,8 @@
     <button type="button" class="btn" @click="connectNetwork('new-connect')">New account</button>
     <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button>
     <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button>
-    <button type="button" class="btn" @click="connectNetwork('sync-networklibrary')">Sync Library</button>
+    <input v-model="peerSynckey" placeholder="public key">
+    <button type="button" class="btn" @click="peerSync()">Sync Library</button>
     <connect-modal v-show="isModalVisible" @close="closeModal">
       <template v-slot:header>
       <!-- The code below goes into the header slot -->
@@ -53,7 +54,8 @@ export default {
       },
       buttonName: 'Connect',
       secretPeer: '',
-      passwordPeer: ''
+      passwordPeer: '',
+      peerSynckey: ''
     }
   },
   methods: {
@@ -80,6 +82,10 @@ export default {
     },
     closeModal () {
       this.isModalVisible = false
+    },
+    peerSync () {
+      // pass on public key to peerlink and sync datastore for this peer
+      this.$store.dispatch('actionPeersync', this.peerSynckey)
     }
   }
 }

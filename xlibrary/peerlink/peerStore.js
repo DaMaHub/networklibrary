@@ -12,9 +12,10 @@
 const util = require('util')
 const events = require('events')
 
-var PeerStoreWorker = function (store) {
+var PeerStoreWorker = function (store, swarm) {
   events.EventEmitter.call(this)
   this.datastore = store
+  this.dataswarm = swarm
   this.listdata = []
 }
 
@@ -51,6 +52,23 @@ PeerStoreWorker.prototype.peerStoreRefContract = function (refContract) {
     localthis.datastore.get(refContract.hash, console.log)
   })
   return { stored: true }
+}
+
+/**
+* replicate an explicit peer ref contract datastore
+* @method peerRefContractReplicate
+*
+*/
+PeerStoreWorker.prototype.peerRefContractReplicate = function (refContract) {
+  // replicate
+  this.datastore.ready(() => {
+    console.log('ready to do replication?')
+    this.dataswarm.on('connection', function (socket, details) {
+      console.log('swarm connect peer')
+      // socket.write('three jioned')
+      pump(socket, this.datastore.replicate(false, { live: true }), socket)
+    })
+  })
 }
 
 module.exports = PeerStoreWorker;

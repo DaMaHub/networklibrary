@@ -17,6 +17,9 @@ var datastore
 var datastorek
 let clicks = 0
 
+let peer1Key = ''
+let swarm = hyperswarm()
+
 const server = http.createServer((request, response) => {
   // process HTTP request. Since we're writing just WebSockets
   // server we don't have to implement anything.
@@ -42,7 +45,7 @@ server.listen(9888, () => {
     valueEncoding: 'json'
   })
   datastore = hypertrie(os.homedir() + '/peerlink/datapeer1.db', {valueEncoding: 'json'})
-  peerStoreLive = new DatastoreWorker(datastore)
+  peerStoreLive = new DatastoreWorker(datastore, swarm)
   datastoreK = hypertrie(os.homedir() + '/peerlink/kbidpeer1.db', {valueEncoding: 'json'})
   kbidStoreLive = new KBIDstoreWorker(datastoreK)
   console.log('store and KBID workers live')
@@ -74,6 +77,14 @@ wsServer.on('request', request => {
       if (o.reftype.trim() === 'hello') {
         console.log('conversaton')
         connection.sendUTF(JSON.stringify('talk to CALE'));
+      } else if (o.reftype.trim() === 'replicatekey') {
+        // two peer syncing reference contracts
+        peer1Key = Buffer.from(o.publickey, "hex")
+        console.log(peer1Key)
+        swarm.join(peer1Key, {
+          lookup: true, // find & connect to peers
+          announce: true // optional- announce yourself as a connection target
+        })
       } else if (o.reftype.trim() === 'datatype') {
         // query peer hypertrie for datatypes
         if (o.action === 'GET') {

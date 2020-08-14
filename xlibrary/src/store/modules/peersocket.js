@@ -89,7 +89,7 @@ export default {
     actionMakeKBIDtemplate (context, message) {
       console.log('make KBID template entry')
       console.log(message)
-      let prepareKBIDtemplate = kbidComposerLive.kbidTemplateNew(message)
+      const prepareKBIDtemplate = kbidComposerLive.kbidTemplateNew(message)
       console.log(prepareKBIDtemplate)
       const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
       console.log(kbidTemplateReady)
@@ -98,11 +98,15 @@ export default {
     actionMakeKBIDentry (context, message) {
       console.log('make KBID entry')
       console.log(message)
-      let prepareKBIDentry = kbidComposerLive.kbidEntry(message)
+      const prepareKBIDentry = kbidComposerLive.kbidEntry(message)
       console.log(prepareKBIDentry)
       const kbidEntryReady = JSON.stringify(prepareKBIDentry)
       console.log(kbidEntryReady)
       // Vue.prototype.$socket.send(kbidEntryReady)
+    },
+    actionPeersync (context, message) {
+      console.log('peersync')
+      console.log(message)
     },
     actionMakeModuleRefContract (context, update) {
       console.log('setup Module Contracts')
