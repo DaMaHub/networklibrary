@@ -1,10 +1,9 @@
-// native.js
 const hypercore = require('hypercore')
 const hypertrie = require('hypertrie')
 const hyperswarm = require('hyperswarm')
 var pump = require('pump')
-const WebSocketServer = require('websocket').server;
-const http = require('http');
+const WebSocketServer = require('websocket').server
+const http = require('http')
 const DatastoreWorker = require('./peerStore.js')
 const KBIDstoreWorker = require('./kbidStore.js')
 const fs = require('fs')
@@ -23,9 +22,10 @@ let swarm = hyperswarm()
 const server = http.createServer((request, response) => {
   // process HTTP request. Since we're writing just WebSockets
   // server we don't have to implement anything.
-});
+})
+
 server.listen(9888, () => {
-  console.log('listening on *:9888');
+  console.log('listening on *:9888')
 
   if (fs.existsSync(os.homedir() + '/peerlink')) {
     // Do something
@@ -50,19 +50,28 @@ server.listen(9888, () => {
   kbidStoreLive = new KBIDstoreWorker(datastoreK)
   console.log('store and KBID workers live')
   // console.log(peerStoreLive)
-});
+})
 
 // create the server
 let wsServer = new WebSocketServer({
   httpServer: server
-});
+})
 
 // WebSocket server
 wsServer.on('request', request => {
-  let connection = request.accept(null, request.origin);
-  console.log('someone connected');
+  let connection = request.accept(null, request.origin)
+  console.log('someone connected')
 
   connection.on('message', async msg => {
+
+    function callbackKey (data) {
+      console.log('key data back')
+      console.log(data)
+      let pubkeyData = {}
+      pubkeyData.type = 'publickey'
+      pubkeyData.pubkey = data
+      connection.sendUTF(JSON.stringify(pubkeyData))
+    }
 
     function callback (err, data) {
       console.log('data from hyperieiee')
@@ -76,7 +85,10 @@ wsServer.on('request', request => {
       console.log(o.reftype.trim())
       if (o.reftype.trim() === 'hello') {
         console.log('conversaton')
-        connection.sendUTF(JSON.stringify('talk to CALE'));
+        connection.sendUTF(JSON.stringify('talk to CALE'))
+      } else if (o.reftype.trim() === 'viewpublickey') {
+        // two peer syncing reference contracts
+        const pubkey = peerStoreLive.getPrivatekey(callbackKey)
       } else if (o.reftype.trim() === 'replicatekey') {
         // two peer syncing reference contracts
         peer1Key = Buffer.from(o.publickey, "hex")
@@ -88,7 +100,7 @@ wsServer.on('request', request => {
       } else if (o.reftype.trim() === 'datatype') {
         // query peer hypertrie for datatypes
         if (o.action === 'GET') {
-          const datatypeList = await peerStoreLive.peerGETRefContracts('datatype', callback)
+          const datatypeList = peerStoreLive.peerGETRefContracts('datatype', callback)
         } else {
           // save a new refContract
           const newRefContract = o.refContract
@@ -158,11 +170,11 @@ wsServer.on('request', request => {
         }
       } else {
         clicks += 1
-        console.log('incrementing clicks to', clicks);
+        console.log('incrementing clicks to', clicks)
       }
     }
-  });
+  })
 
   connection.on('close', connection => {
-  });
-});
+  })
+})

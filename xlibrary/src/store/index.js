@@ -13,6 +13,7 @@ dataTitle[1] = { title: 'Curation', type: 'reference-builder' }
 export default new Vuex.Store({
   modules,
   state: {
+    publickey: '',
     dashboardGrid: [
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],

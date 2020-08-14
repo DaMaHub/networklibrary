@@ -21,6 +21,7 @@
         <div id="self-in" v-if="connectContext.type === 'selfsign'">
           <input v-model="secretPeer" placeholder="public key">
           <input v-model="passwordPeer" placeholder="token">
+          Publickey-- {{ storepubkey }}
         </div>
       </template>
       <template v-slot:submit-form>
@@ -39,6 +40,11 @@ export default {
   components: {
     ConnectModal,
     TokenReader
+  },
+  computed: {
+    storepubkey: function () {
+      return this.$store.state.publickey
+    }
   },
   props: {
     msg: String
@@ -74,6 +80,8 @@ export default {
         this.connectContext.type = 'selfsign'
         this.connectContext.message = 'Self sign-in'
         this.buttonName = 'Self Sign-in'
+        // display public key if already set
+        this.$store.dispatch('actionPublickey')
       } else if (typeConnect === 'self-testnetwork') {
         this.connectContext.type = 'testnetwork'
         this.connectContext.message = 'TestNetwork'

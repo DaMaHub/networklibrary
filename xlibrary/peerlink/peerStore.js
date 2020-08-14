@@ -26,6 +26,23 @@ var PeerStoreWorker = function (store, swarm) {
 util.inherits(PeerStoreWorker, events.EventEmitter)
 
 /**
+* return public key for datastore
+* @method getPrivatekey
+*
+*/
+PeerStoreWorker.prototype.getPrivatekey = function (callback) {
+  let pubkey = ''
+  this.datastore.ready(() => {
+    console.log('get public key datastore or share')
+    console.log(this.datastore.key)
+    pubkey = this.datastore.key.toString('hex')
+    console.log('internal')
+    console.log(pubkey)
+    callback(pubkey)
+  })
+}
+
+/**
 * filter by Peer datatypes
 * @method peerKBLstart
 *

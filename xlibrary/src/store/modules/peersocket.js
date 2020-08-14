@@ -42,6 +42,10 @@ export default {
       if (backJSON.stored === true) {
         // success in saving reference contract
         console.log('save successful')
+      } else if (backJSON.type === 'publickey') {
+        console.log('~~~~public key back ')
+        console.log(backJSON.pubkey)
+        this.state.publickey = backJSON.pubkey
       } else {
         // query back from peer data store
         // pass to sort data into ref contract types
@@ -76,6 +80,12 @@ export default {
       console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
+    },
+    actionPublickey (context, message) {
+      console.log('public key get')
+      const pubkeyGet = {}
+      pubkeyGet.reftype = 'viewpublickey'
+      Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
     actionGetRefContract (context, message) {
       console.log('action for ws')
