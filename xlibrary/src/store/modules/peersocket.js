@@ -117,6 +117,11 @@ export default {
     actionPeersync (context, message) {
       console.log('peersync')
       console.log(message)
+      let peerSync = {}
+      peerSync.reftype = 'replicatekey'
+      peerSync.publickey = message
+      const peerSyncJSON = JSON.stringify(peerSync)
+      Vue.prototype.$socket.send(peerSyncJSON)
     },
     actionMakeModuleRefContract (context, update) {
       console.log('setup Module Contracts')

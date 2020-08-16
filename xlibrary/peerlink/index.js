@@ -1,7 +1,3 @@
-const hypercore = require('hypercore')
-const hypertrie = require('hypertrie')
-const hyperswarm = require('hyperswarm')
-var pump = require('pump')
 const WebSocketServer = require('websocket').server
 const http = require('http')
 const DatastoreWorker = require('./peerStore.js')
@@ -9,15 +5,8 @@ const KBIDstoreWorker = require('./kbidStore.js')
 const fs = require('fs')
 var os = require("os")
 
-let peerStoreLive
+let peerStoreLive =  new DatastoreWorker()
 let kbidStoreLive
-var feed
-var datastore
-var datastorek
-let clicks = 0
-
-let peer1Key = ''
-let swarm = hyperswarm()
 
 const server = http.createServer((request, response) => {
   // process HTTP request. Since we're writing just WebSockets
@@ -26,10 +15,11 @@ const server = http.createServer((request, response) => {
 
 server.listen(9888, () => {
   console.log('listening on *:9888')
-
   if (fs.existsSync(os.homedir() + '/peerlink')) {
     // Do something
     console.log('yes path existings')
+    // setup datastores
+    peerStoreLive.setupDatastores()
   } else {
     console.log('no path ')
     fs.mkdir(os.homedir() + '/peerlink', function(err) {
@@ -37,19 +27,11 @@ server.listen(9888, () => {
         console.log(err)
       } else {
         console.log("New directory successfully created.")
+        // setup datastores
+        peerStoreLive.setupDatastores()
       }
     })
   }
-
-  feed = hypercore(os.homedir() + '/peerlink/peerlog', {
-    valueEncoding: 'json'
-  })
-  datastore = hypertrie(os.homedir() + '/peerlink/datapeer1.db', {valueEncoding: 'json'})
-  peerStoreLive = new DatastoreWorker(datastore, swarm)
-  datastoreK = hypertrie(os.homedir() + '/peerlink/kbidpeer1.db', {valueEncoding: 'json'})
-  kbidStoreLive = new KBIDstoreWorker(datastoreK)
-  console.log('store and KBID workers live')
-  // console.log(peerStoreLive)
 })
 
 // create the server
@@ -63,7 +45,7 @@ wsServer.on('request', request => {
   console.log('someone connected')
 
   connection.on('message', async msg => {
-
+    // kbidStoreLive = new KBIDstoreWorker(datastoreK)
     function callbackKey (data) {
       console.log('key data back')
       console.log(data)
@@ -91,12 +73,7 @@ wsServer.on('request', request => {
         const pubkey = peerStoreLive.getPrivatekey(callbackKey)
       } else if (o.reftype.trim() === 'replicatekey') {
         // two peer syncing reference contracts
-        peer1Key = Buffer.from(o.publickey, "hex")
-        console.log(peer1Key)
-        swarm.join(peer1Key, {
-          lookup: true, // find & connect to peers
-          announce: true // optional- announce yourself as a connection target
-        })
+        const replicateStore = peerStoreLive.peerRefContractReplicate(o.publickey)
       } else if (o.reftype.trim() === 'datatype') {
         // query peer hypertrie for datatypes
         if (o.action === 'GET') {
