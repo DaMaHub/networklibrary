@@ -14,7 +14,7 @@
           <!-- <option value="new-experiment">Experiment</option> -->
         </select>
       </li>
-      <component v-bind:is="formType"></component>
+      <component v-bind:is="formType" :formData="inputData" ></component>
       <li class="api-form-item">
         <button class="submit" type="submit"  id="save-new-refcontract" @click.prevent="saveRefContract()">Save</button>
         <button class="submit" type="submit" id="check-new-refcontract" @click.prevent="checkRefContract()">Check Contract</button>
@@ -46,7 +46,8 @@ export default {
     NewVisualise
   },
   data: () => ({
-    formType: null
+    formType: null,
+    inputData: {}
   }),
   created () {
   },
@@ -85,6 +86,8 @@ export default {
       refContract.reftype = this.formType
       refContract.action = 'PUT'
       this.$store.dispatch('sendMessage', refContract)
+      // reset the form data
+      this.inputData = {}
     }
   }
 }

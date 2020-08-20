@@ -66,16 +66,24 @@ export default {
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
         prepareRefContract = refcontComposerLive.datatypeRefLive.dataTypePrepare(localData)
+        // reset the form
+        this.state.newRefContractFrom = {}
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
         console.log('packaing counts')
         console.log(this.state.newPackingForm.catCount)
         console.log(this.state.newPackingForm.tidyCount)
         prepareRefContract = refcontComposerLive.packagingRefLive.packagingPrepare(this.state.newPackingForm)
+        // reset the form
+        this.state.newPackingForm = {}
       } else if (message.reftype === 'new-compute') {
         prepareRefContract = refcontComposerLive.computeRefLive.computePrepare(this.state.newComputeForm)
+        // reset the form
+        this.state.computeRefLive = {}
       } else if (message.reftype === 'new-visualise') {
         prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
+        // reset the form
+        this.state.visualiseRefLive = {}
       }
       console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
@@ -117,7 +125,7 @@ export default {
     actionPeersync (context, message) {
       console.log('peersync')
       console.log(message)
-      let peerSync = {}
+      const peerSync = {}
       peerSync.reftype = 'replicatekey'
       peerSync.publickey = message
       const peerSyncJSON = JSON.stringify(peerSync)
