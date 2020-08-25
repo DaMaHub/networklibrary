@@ -1,5 +1,5 @@
 <template>
-  <div id="reference-tools">
+  <div id="reference-tools">builder -- {{ startRefContract }}
     <div id="add-new-network">
       <li class="view-cnrl">
         <button id="get-referencecontract" @click.prevent="getRefContracts()">Get Ref. Contract</button>
@@ -8,10 +8,10 @@
         <button id="build-modulecontracts" @click.prevent="makeModulecontracts()">Make modules</button>
       </li>
       <li class="view-cnrl">
-        <button id="build-new-referencecontract" @click.prevent="newSetRefContract(newRefContract)">{{ newRefContract.text }}</button>
+        <button id="build-new-referencecontract" @click.prevent="newSetRefContract(startRefContract)">{{ startRefContract.text }}</button>
       </li>
     </div>
-    <div v-if="newRefContract.active !== true" id="view-network-library">
+    <div v-if="startRefContract.active !== true" id="view-network-library">
       <header>References by type</header>
       <ul>
         <!-- <li class="view-cnrl">
@@ -38,7 +38,7 @@
       </ul>
       <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
     </div>
-    <new-refcontract v-if="newRefContract.active"></new-refcontract>
+    <new-refcontract v-if="startRefContract.active"></new-refcontract>
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
   },
   data: () => ({
     referenceLive: '',
-    newRefContract:
+    startRefContract:
     {
       active: false,
       text: 'New Reference Contract'
@@ -116,12 +116,12 @@ export default {
   },
   methods: {
     newSetRefContract (ap) {
-      if (this.newRefContract.active === false) {
-        this.newRefContract.active = true
-        this.newRefContract.text = 'close'
+      if (this.startRefContract.active === false) {
+        this.startRefContract.active = true
+        this.startRefContract.text = 'close'
       } else {
-        this.newRefContract.active = false
-        this.newRefContract.text = 'Add new ref contract'
+        this.startRefContract.active = false
+        this.startRefContract.text = 'Add new ref contract'
       }
     },
     getRefContracts () {
