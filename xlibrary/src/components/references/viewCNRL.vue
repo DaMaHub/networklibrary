@@ -42,14 +42,35 @@
             <div id="packaging-slot" v-if="viewerType === 'packaging-view'">
               <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
                 <li>
-                  {{ index }}
+                  <div v-if="index === 'description'" >
+                    {{ index }} k-- {{ pi }}
+                  </div>
+                  <div v-if="index === 'primary'" >
+                    {{ index }} k-- {{ pi }}
+                  </div>
+                  <div v-if="index === 'api'" >
+                    {{ index }} k-- {{ pi }}
+                  </div>
+                  <div v-if="index === 'apibase'" >
+                    {{ index }} k-- {{ pi }}
+                  </div>
+                  <div v-if="index === 'apipath'" >
+                    {{ index }} k-- {{ pi }}
+                  </div>
                     <ul v-if="index === 'tablestructure'" >
                       <li v-for="ipv in pi" :key="ipv.key" >
                           {{ ipv.refcontract }} -- {{ ipv.column }}
                       </li>
                     </ul>
-                    <ul v-else>
-                      <b>{{ pi }}</b>
+                    <ul v-if="index === 'category'" >
+                      <li v-for="ipv in pi" :key="ipv.key" >
+                          {{ ipv.category }} -- {{ ipv.column }} -- {{ ipv.rule }}
+                      </li>
+                    </ul>
+                    <ul v-if="index === 'tidy'" >
+                      <li v-for="ipv in pi" :key="ipv.key" >
+                          {{ ipv.tidy }} -- {{ ipv.datatype }} -- {{ ipv.rule }}
+                      </li>
                     </ul>
                 </li>
               </ul>

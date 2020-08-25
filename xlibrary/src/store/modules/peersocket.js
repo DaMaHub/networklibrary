@@ -82,23 +82,23 @@ export default {
       Vue.prototype.$socket.send(referenceContractReady)
       // reset the form
       if (message.reftype === 'new-datatype') {
-        let formKeys = Object.keys(this.state.newRefcontractForm)
-        for (let fk of formKeys) {
+        const formKeys = Object.keys(this.state.newRefcontractForm)
+        for (const fk of formKeys) {
           Vue.set(this.state.newRefcontractForm, fk, {})
         }
       } else if (message.reftype === 'new-packaging') {
-        let formKeys = Object.keys(this.state.newPackingForm)
-        for (let fk of formKeys) {
+        const formKeys = Object.keys(this.state.newPackingForm)
+        for (const fk of formKeys) {
           Vue.set(this.state.newPackingForm, fk, {})
         }
       } else if (message.reftype === 'new-compute') {
-        let formKeys = Object.keys(this.state.newComputeForm)
-        for (let fk of formKeys) {
+        const formKeys = Object.keys(this.state.newComputeForm)
+        for (const fk of formKeys) {
           Vue.set(this.state.newComputeForm, fk, {})
         }
       } else if (message.reftype === 'new-visualise') {
-        let formKeys = Object.keys(this.state.newVisualiseForm)
-        for (let fk of formKeys) {
+        const formKeys = Object.keys(this.state.newVisualiseForm)
+        for (const fk of formKeys) {
           Vue.set(this.state.newVisualiseForm, fk, {})
         }
       }

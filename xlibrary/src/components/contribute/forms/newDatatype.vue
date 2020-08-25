@@ -1,7 +1,7 @@
 <template>
-  <div id="newapi-view"> --formdata== {{ formData }} --live {{ liveForm }}
+  <div id="newapi-view">
     <ul>
-      <li class="api-form-item"> {{ formData.primary }}
+      <li class="api-form-item">
         <span class="required_notification">All fields required</span>
       </li>
       <li class="api-form-item">

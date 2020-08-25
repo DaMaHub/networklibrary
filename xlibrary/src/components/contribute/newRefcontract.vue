@@ -1,6 +1,6 @@
 <template>
   <div id="newapi-view">
-    <header>New Reference Contract</header>== inputdata {{ inputData }}
+    <header>New Reference Contract</header>
     <form id="newapi_form" name="newapi_form">
     <ul>
       <li class="api-form-item">

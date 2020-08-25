@@ -1,5 +1,5 @@
 <template>
-  <div id="reference-tools">builder -- {{ startRefContract }}
+  <div id="reference-tools">
     <div id="add-new-network">
       <li class="view-cnrl">
         <button id="get-referencecontract" @click.prevent="getRefContracts()">Get Ref. Contract</button>

@@ -6,22 +6,22 @@
       </li>
       <li class="package-form-item">
         <label for="package-add-source">Source Primary?</label>
-        <select class="select-package-source" id="package-primary" @change="primarySelect" v-model="packaging.primary">Please select
+        <select class="select-package-source" id="package-primary" @change="primarySelect" v-model="formData.primary">Please select
           <option value=true>YES</option>
           <option value=false>NO</option>
         </select>
       </li>
       <li class="package-form-item">
         <label for="package-add-name">Name:</label>
-        <input id="package-mapping-name" @paste="nameSave" @keyup="nameSave" v-model="packaging.name" placeholder="package mapping name" required="" type="text">
+        <input id="package-mapping-name" @input="nameSave" @paste="nameSave" @keyup="nameSave" v-model="formData.name" placeholder="package mapping name" required="" type="text">
       </li>
       <li class="package-form-item">
         <label for="package-add-description">Description:</label>
-        <textarea name="message" cols="40" rows="6" required="" id="package-mapping-description" @paste="descriptionSave" @keyup="descriptionSave" v-model="packaging.description"></textarea>
+        <textarea name="message" cols="40" rows="6" required="" id="package-mapping-description" @input="descriptionSave" @paste="descriptionSave" @keyup="descriptionSave" v-model="formData.description"></textarea>
       </li>
       <li class="package-form-item">
         <label for="package-add-scripting">Type of data store:</label>
-        <select class="select-package-id" id="package-mapping-build" @change="apiSelect" v-model="packaging.api">
+        <select class="select-package-id" id="package-mapping-build" @change="apiSelect" v-model="formData.api">
           <option value="none" selected="">Please select</option>
           <option value="safeNetwork">SAFEnetwork</option>
           <option value="ipfs">IPFS</option>
@@ -33,7 +33,7 @@
       </li>
       <li class="package-form-item">
         <label for="add-code-name">API base address</label>
-        <input type="text"  id="mapping-base-address" placeholder="https://" required @change="apibaseSave" @paste="apibaseSave" @keyup="apibaseSave" v-model="packaging.baseaddress" />
+        <input type="text"  id="mapping-base-address" placeholder="https://" required @change="apibaseSave" @input="apibaseSave" @paste="apibaseSave" @keyup="apibaseSave" v-model="formData.baseaddress" />
       </li>
       <!-- <li class="package-form-item">
         <label for="add-table-name">Device address:</label>
@@ -41,11 +41,11 @@
       </li> -->
       <li class="package-form-item">
         <label for="add-table-name">Datatype Path:</label>
-        <input type="text"  id="mapping-endpoint-address" placeholder="" required @change="apipathSave" @paste="apipathSave" @keyup="apipathSave" v-model="packaging.apipath"/>
+        <input type="text"  id="mapping-endpoint-address" placeholder="" required @change="apipathSave" @input="apipathSave" @paste="apipathSave" @keyup="apipathSave" v-model="formData.apipath"/>
       </li>
       <li class="package-column-item">
         <label for="add-code-name">Column builder</label>
-        <input type="text"  id="package-base-address" placeholder="column" required  v-model="packaging.columns" />
+        <input type="text"  id="package-base-address" placeholder="column" required  v-model="formData.columns" />
         <a href='#' id="add-column" @click.prevent="columnsSave" >Add column</a>
       </li>
       <describe-data></describe-data>
@@ -81,17 +81,16 @@ export default {
     DescribeTidy
   },
   computed: {
+    livePackForm: function () {
+      return this.$store.state.newPackingForm
+    }
+  },
+  props: {
+    formData: {
+      type: Object
+    }
   },
   data: () => ({
-    packaging:
-    {
-      primary: null,
-      name: '',
-      description: '',
-      api: '',
-      baseaddress: '',
-      apipath: ''
-    },
     catnumber: [0],
     tidynumber: [0],
     index: 0
@@ -102,27 +101,27 @@ export default {
   },
   methods: {
     primarySelect () {
-      this.$store.dispatch('buildRefPackagePrimary', this.packaging.primary)
+      this.$store.dispatch('buildRefPackagePrimary', this.formData.primary)
     },
     nameSave (k) {
-      this.$store.dispatch('buildRefPackageName', this.packaging.name)
+      this.$store.dispatch('buildRefPackageName', this.formData.name)
     },
     descriptionSave (dk) {
-      this.$store.dispatch('buildRefPackageDescription', this.packaging.description)
+      this.$store.dispatch('buildRefPackageDescription', this.formData.description)
     },
     apiSelect (as) {
-      this.$store.dispatch('buildRefPackageAPI', this.packaging.api)
+      this.$store.dispatch('buildRefPackageAPI', this.formData.api)
     },
     apibaseSave (ak) {
-      this.$store.dispatch('buildRefPackageAPIbase', this.packaging.baseaddress)
+      this.$store.dispatch('buildRefPackageAPIbase', this.formData.baseaddress)
     },
     apipathSave (ak) {
-      this.$store.dispatch('buildRefPackageAPIpath', this.packaging.apipath)
+      this.$store.dispatch('buildRefPackageAPIpath', this.formData.apipath)
     },
     columnsSave (ak) {
       // console.log(ak)
       // console.log(this.packaging.columns)
-      this.$store.dispatch('buildRefPackageColumns', this.packaging.columns)
+      this.$store.dispatch('buildRefPackageColumns', this.formData.columns)
     },
     addCategory () {
       // tell vuex to bundle last entry together
