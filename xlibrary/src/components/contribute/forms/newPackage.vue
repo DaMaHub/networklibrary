@@ -1,5 +1,5 @@
 <template>
-  <div id="newpackage-view">
+  <div id="newpackage-view"> pform == {{ formData }} ==live {{ livePackForm }}
     <ul>
       <li class="package-form-item">
         <span class="required_notification">All fields required</span>
@@ -52,14 +52,14 @@
       <li class="package-form-item">
         <a href='#' id="add-newendpoint">Add another path</a>
       </li>
-      <li v-for="dc of catnumber" :key="dc.id" >
-          <describe-category>{{ dc }}</describe-category>
+      <li v-for="dc of catnumber" :key="dc.id" >cc{{ dc }}
+          <describe-category :catForm="formData.catHolder[dc]"></describe-category>
       </li>
       <li>
         <a href='#' id="add-category" @click.prevent="addCategory" >Add category</a>
       </li>
-      <li v-for="dty of tidynumber" :key="dty.id" >
-        <describe-tidy>{{ dty }}</describe-tidy>
+      <li v-for="dty of tidynumber" :key="dty.id" >dd{{ dty }}
+        <describe-tidy :tidyForm="formData.tidyHolder[dty]"></describe-tidy>
       </li>
       <li>
         <a href='#' id="add-tidy-code" @click.prevent="addTidyItem">Add tidy rule</a>

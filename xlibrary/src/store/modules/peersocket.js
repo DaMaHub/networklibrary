@@ -43,16 +43,12 @@ export default {
         // success in saving reference contract
         console.log('save successful')
       } else if (backJSON.type === 'publickey') {
-        console.log('~~~~public key back ')
-        console.log(backJSON.pubkey)
         this.state.publickey = backJSON.pubkey
       } else {
         // query back from peer data store
         // pass to sort data into ref contract types
         const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
         const segmentedRefContracts2 = refcontComposerLive.refcontractSperate(backJSON)
-        console.log('segmentated contracts')
-        console.log(segmentedRefContracts)
         this.state.packagingDatatypes = segmentedRefContracts2.datatype
         this.state.referenceContract = segmentedRefContracts
       }
@@ -72,10 +68,8 @@ export default {
         // reset the form
       } else if (message.reftype === 'new-compute') {
         prepareRefContract = refcontComposerLive.computeRefLive.computePrepare(this.state.newComputeForm)
-        // reset the form
       } else if (message.reftype === 'new-visualise') {
         prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
-        // reset the form
       }
       console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
@@ -89,7 +83,7 @@ export default {
       } else if (message.reftype === 'new-packaging') {
         const formKeys = Object.keys(this.state.newPackingForm)
         for (const fk of formKeys) {
-          Vue.set(this.state.newPackingForm, fk, {})
+          Vue.set(this.state.newPackingForm, fk, [])
         }
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)

@@ -47,7 +47,11 @@ export default {
   },
   data: () => ({
     formType: null,
-    inputData: {}
+    inputData:
+    {
+      catHolder: [],
+      tidyHolder: []
+    }
   }),
   created () {
   },
