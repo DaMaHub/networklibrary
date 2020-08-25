@@ -65,14 +65,9 @@ export default {
       let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
-        console.log('data type ref contrac FORM')
-        console.log(this.state.newRefcontractForm)
         prepareRefContract = refcontComposerLive.datatypeRefLive.dataTypePrepare(localData)
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
-        console.log('packaing counts')
-        console.log(this.state.newPackingForm.catCount)
-        console.log(this.state.newPackingForm.tidyCount)
         prepareRefContract = refcontComposerLive.packagingRefLive.packagingPrepare(this.state.newPackingForm)
         // reset the form
       } else if (message.reftype === 'new-compute') {
@@ -89,13 +84,23 @@ export default {
       if (message.reftype === 'new-datatype') {
         let formKeys = Object.keys(this.state.newRefcontractForm)
         for (let fk of formKeys) {
-          console.log('dt keys')
-          console.log(fk)
           Vue.set(this.state.newRefcontractForm, fk, {})
         }
       } else if (message.reftype === 'new-packaging') {
+        let formKeys = Object.keys(this.state.newPackingForm)
+        for (let fk of formKeys) {
+          Vue.set(this.state.newPackingForm, fk, {})
+        }
       } else if (message.reftype === 'new-compute') {
+        let formKeys = Object.keys(this.state.newComputeForm)
+        for (let fk of formKeys) {
+          Vue.set(this.state.newComputeForm, fk, {})
+        }
       } else if (message.reftype === 'new-visualise') {
+        let formKeys = Object.keys(this.state.newVisualiseForm)
+        for (let fk of formKeys) {
+          Vue.set(this.state.newVisualiseForm, fk, {})
+        }
       }
     },
     actionPublickey (context, message) {
