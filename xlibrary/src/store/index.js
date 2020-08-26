@@ -18,6 +18,7 @@ export default new Vuex.Store({
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
     referenceData: dataTitle,
+    dataTypesLive: [],
     referenceContract: [],
     packagingDatatypes: [],
     newRefcontractForm: {},
@@ -122,19 +123,18 @@ export default new Vuex.Store({
       tidyBundle.datatype = {}
       tidyBundle.rule = {}
       Vue.set(state.newPackingForm.tidy, state.newPackingForm.tidyCount, tidyBundle)
-      state.newPackingForm.tidyCount++
     },
     ADD_REFCONTPACK_TIDY (state, inVerified) {
       // keep tabs on number of tidy bundle being submitted
       // const updatCount = state.newPackingForm.tidyCount++
       // Vue.set(state.newPackingForm, 'tidyCount', updatCount)
-      Vue.set(state.newPackingForm, 'tidy', inVerified)
+      Vue.set(state.newPackingForm[state.newPackingForm.tidyCount], 'tidy', inVerified)
     },
     ADD_REFCONTPACK_TIDYDT (state, inVerified) {
-      Vue.set(state.newPackingForm, 'tidydatatype', inVerified)
+      Vue.set(state.newPackingForm[state.newPackingForm.tidyCount], 'tidydatatype', inVerified)
     },
     ADD_REFCONTPACK_TIDYCODE (state, inVerified) {
-      Vue.set(state.newPackingForm, 'tidycode', inVerified)
+      Vue.set(state.newPackingForm[state.newPackingForm.tidyCount], 'tidycode', inVerified)
     },
     ADD_REFCOMPUTE_PRIMARY (state, inVerified) {
       Vue.set(state.newComputeForm, 'primary', inVerified)

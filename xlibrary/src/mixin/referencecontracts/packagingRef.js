@@ -74,6 +74,9 @@ PackagingReferenceContract.prototype.packagingPrepare = function (inputRC) {
 *
 */
 PackagingReferenceContract.prototype.mergePackageMap = function (col, table) {
+  console.log('dt col matcher')
+  console.log(col)
+  console.log(table)
   const mapped = []
   // remove first element array empty by design
   table.shift()

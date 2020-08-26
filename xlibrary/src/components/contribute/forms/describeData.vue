@@ -13,7 +13,7 @@
           </div>
         </draggable>
       </div>
-      <div id="data-columns">
+      <div id="data-columns">dtcol == {{ dtcolumns }}
         <ul v-for='col in dtcolumns' :key='col.id'>
           <div class="col-name">
             <h3>{{ col.name }}</h3>
@@ -51,7 +51,7 @@ export default {
       return this.$store.state.newPackingForm.apicolumns
     },
     newLists: function () {
-      return this.$store.state.newPackingForm.apicolHolder // [[], [], []]
+      return this.$store.state.newPackingForm.apicolHolder
     }
   },
   data () {

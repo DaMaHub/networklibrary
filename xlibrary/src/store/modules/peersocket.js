@@ -49,8 +49,10 @@ export default {
         // pass to sort data into ref contract types
         const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
         const segmentedRefContracts2 = refcontComposerLive.refcontractSperate(backJSON)
+        const segmentedRefContracts3 = refcontComposerLive.refcontractSperate(backJSON)
         this.state.packagingDatatypes = segmentedRefContracts2.datatype
         this.state.referenceContract = segmentedRefContracts
+        this.state.dataTypesLive = segmentedRefContracts3.datatype
       }
     }
   },
@@ -85,6 +87,19 @@ export default {
         for (const fk of formKeys) {
           Vue.set(this.state.newPackingForm, fk, [])
         }
+        // need to reset datatype list
+        this.state.packagingDatatypes = this.state.dataTypesLive
+        // reset the holder matcher
+        console.log(this.state.newPackingForm.apicolHolder)
+        Vue.set(this.state.newPackingForm, 'apicolHolder', [])
+        this.state.newPackingForm.apicolumns = []
+        let colCount
+        if (this.state.newPackingForm.apicolumns.length === 0) {
+          colCount = 1
+        } else {
+          colCount = this.state.newPackingForm.apicolumns.length + 1
+        }
+        this.state.newPackingForm.apicolHolder.push([])
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)
         for (const fk of formKeys) {

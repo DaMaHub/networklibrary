@@ -1,5 +1,5 @@
 <template>
-  <div id="describe-tidy"> tidy---{{ tidyForm }} live == {{ tidyLive }}
+  <div id="describe-tidy">id == {{ tidyID }} tidy---{{ tidyForm }} live == {{ tidyLive }}
     <label for="tidy">Tidy</label>
     <input type="checkbox" id="tidy" value="tidy" @change="tidySelect" v-model="tidyForm.tidy">
     <label for="tidy-add-category">Select datatype:</label>
@@ -21,6 +21,7 @@ export default {
   components: {
   },
   props: {
+    tidyID: null,
     tidyForm: {
       type: Object
     }
