@@ -1,5 +1,5 @@
 <template>
-  <div id="describe-category">cat--{{ catForm }} catlive -- {{ categoryLive }}
+  <div id="describe-category">id = {{ catID }} cat--{{ catForm }} catlive -- {{ categoryLive }}
     Category
     <label for="package-add-category">Select datatype:</label>
     <select class="select-categor-id" id="category-mapping-build" @change="categoryDTSelect" v-model="catForm.category">
@@ -27,6 +27,7 @@ export default {
   components: {
   },
   props: {
+    catID: null,
     catForm: {
       type: Object
     }
@@ -36,7 +37,7 @@ export default {
       return this.$store.state.referenceContract.datatype
     },
     categoryLive: function () {
-      return this.$store.state.newPackingForm.hcategory
+      return this.$store.state.newPackingForm.category
     }
   },
   data: () => ({

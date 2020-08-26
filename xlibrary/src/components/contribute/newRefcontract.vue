@@ -49,8 +49,8 @@ export default {
     formType: null,
     inputData:
     {
-      catHolder: [],
-      tidyHolder: []
+      catHolder: {},
+      tidyHolder: {}
     }
   }),
   created () {
@@ -76,15 +76,6 @@ export default {
       console.log(this.formType)
     },
     saveRefContract () {
-      console.log('save new Ref Contract')
-      if (this.catCountLive === 0) {
-        // add array elements
-        this.$store.dispatch('buildRefPackageCatBundle')
-      }
-      if (this.tidyCountLive === 0) {
-        // add array element
-        this.$store.dispatch('buildRefPackageTidyBundle')
-      }
       // pull together other parts of refcontract
       const refContract = {}
       refContract.reftype = this.formType

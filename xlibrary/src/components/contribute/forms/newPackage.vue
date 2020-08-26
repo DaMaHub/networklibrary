@@ -52,14 +52,14 @@
       <li class="package-form-item">
         <a href='#' id="add-newendpoint">Add another path</a>
       </li>
-      <li v-for="dc of catnumber" :key="dc.id" >cc{{ dc }}
-          <describe-category :catForm="formData.catHolder[dc]"></describe-category>
+      <li v-for="dc of catCount" :key="dc.id" > {{ dc }}
+          <describe-category :catID="dc" :catForm="formData.catHolder[dc]"></describe-category>
       </li>
       <li>
         <a href='#' id="add-category" @click.prevent="addCategory" >Add category</a>
       </li>
-      <li v-for="dty of tidynumber" :key="dty.id" >dd{{ dty }}
-        <describe-tidy :tidyForm="formData.tidyHolder[dty]"></describe-tidy>
+      <li v-for="dty of tidyCount" :key="dty.id" >
+        <describe-tidy :tidyID="dty" :tidyForm="formData.tidyHolder[dty]"></describe-tidy>
       </li>
       <li>
         <a href='#' id="add-tidy-code" @click.prevent="addTidyItem">Add tidy rule</a>
@@ -83,6 +83,12 @@ export default {
   computed: {
     livePackForm: function () {
       return this.$store.state.newPackingForm
+    },
+    catCount: function () {
+      return this.$store.state.newPackingForm.catCount
+    },
+    tidyCount: function () {
+      return this.$store.state.newPackingForm.tidyCount
     }
   },
   props: {
@@ -91,8 +97,10 @@ export default {
     }
   },
   data: () => ({
-    catnumber: [0],
-    tidynumber: [0],
+    catnumber: 0,
+    tidynumber: 0,
+    catHolder: [],
+    tidyHolder: [],
     index: 0
   }),
   created () {
@@ -119,19 +127,17 @@ export default {
       this.$store.dispatch('buildRefPackageAPIpath', this.formData.apipath)
     },
     columnsSave (ak) {
-      // console.log(ak)
-      // console.log(this.packaging.columns)
       this.$store.dispatch('buildRefPackageColumns', this.formData.columns)
     },
     addCategory () {
       // tell vuex to bundle last entry together
       this.$store.dispatch('buildRefPackageCatBundle')
-      this.catnumber.push(1)
+      this.formData.catHolder[this.catCount] = {}
     },
     addTidyItem () {
       // tell vuex to bundle last entry together
       this.$store.dispatch('buildRefPackageTidyBundle')
-      this.tidynumber.push(1)
+      this.formData.tidyHolder[this.tidyCount] = {}
     }
   }
 }

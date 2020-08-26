@@ -28,8 +28,8 @@ export default new Vuex.Store({
       apicolHolder: [[]],
       catCount: 0,
       tidyCount: 0,
-      category: [],
-      tidy: []
+      category: {},
+      tidy: {}
     },
     newVisualiseForm: {
       structure:
@@ -94,43 +94,47 @@ export default new Vuex.Store({
       state.newPackingForm.apicolumns.push(newColumn)
       state.newPackingForm.apicolHolder.push([])
     },
+    BUNDLE_CATEGORY (state, inVerified) {
+      state.newPackingForm.catCount++
+      const catBundle = {}
+      catBundle.category = {}
+      catBundle.column = {}
+      catBundle.rule = {}
+      Vue.set(state.newPackingForm.category, state.newPackingForm.catCount, catBundle)
+    },
     ADD_REFCONTPACK_CATEGORY (state, inVerified) {
       // keep tabs on number of categories bundle being submitted
-      const updatCount = state.newPackingForm.catCount++
-      Vue.set(state.newPackingForm, 'catCount', updatCount)
-      Vue.set(state.newPackingForm, 'hcategory', inVerified)
+      // const updatCount = state.newPackingForm.catCount++
+      // Vue.set(state.newPackingForm, 'catCount', updatCount)
+      console.log(state.newPackingForm.catCount)
+      Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'category', inVerified)
     },
     ADD_REFCONTPACK_CATCOL (state, inVerified) {
-      Vue.set(state.newPackingForm, 'hcatcolumn', inVerified)
+      Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'column', inVerified)
     },
     ADD_REFCONTPACK_CATRULE (state, inVerified) {
-      Vue.set(state.newPackingForm, 'hcatrule', inVerified)
+      Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'rule', inVerified)
     },
-    BUNDLE_CATEGORY (state, inVerified) {
-      const catBundle = {}
-      catBundle.category = state.newPackingForm.hcategory
-      catBundle.column = state.newPackingForm.hcatcolumn
-      catBundle.rule = state.newPackingForm.hcatrule
-      state.newPackingForm.category.push(catBundle)
+    BUNDLE_TIDY (state, inVerified) {
+      state.newPackingForm.tidyCount++
+      const tidyBundle = {}
+      tidyBundle.tidy = {}
+      tidyBundle.datatype = {}
+      tidyBundle.rule = {}
+      Vue.set(state.newPackingForm.tidy, state.newPackingForm.tidyCount, tidyBundle)
+      state.newPackingForm.tidyCount++
     },
     ADD_REFCONTPACK_TIDY (state, inVerified) {
       // keep tabs on number of tidy bundle being submitted
-      const updatCount = state.newPackingForm.tidyCount++
-      Vue.set(state.newPackingForm, 'tidyCount', updatCount)
-      Vue.set(state.newPackingForm, 'htidy', inVerified)
+      // const updatCount = state.newPackingForm.tidyCount++
+      // Vue.set(state.newPackingForm, 'tidyCount', updatCount)
+      Vue.set(state.newPackingForm, 'tidy', inVerified)
     },
     ADD_REFCONTPACK_TIDYDT (state, inVerified) {
-      Vue.set(state.newPackingForm, 'htidydatatype', inVerified)
+      Vue.set(state.newPackingForm, 'tidydatatype', inVerified)
     },
     ADD_REFCONTPACK_TIDYCODE (state, inVerified) {
-      Vue.set(state.newPackingForm, 'htidycode', inVerified)
-    },
-    BUNDLE_TIDY (state, inVerified) {
-      const tidyBundle = {}
-      tidyBundle.tidy = state.newPackingForm.htidy
-      tidyBundle.datatype = state.newPackingForm.htidydatatype
-      tidyBundle.rule = state.newPackingForm.htidycode
-      state.newPackingForm.tidy.push(tidyBundle)
+      Vue.set(state.newPackingForm, 'tidycode', inVerified)
     },
     ADD_REFCOMPUTE_PRIMARY (state, inVerified) {
       Vue.set(state.newComputeForm, 'primary', inVerified)
