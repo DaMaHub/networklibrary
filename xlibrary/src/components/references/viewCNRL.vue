@@ -1,5 +1,5 @@
 <template>
-  <div id="cnrl-view"> REFERENCE VIEWER {{ viewerType }}
+  <div id="cnrl-view"> REFERENCE VIEWER
     <ul v-for="cd in referenceData" :key="cd.value.title">
       <li>
         <!-- <div class="cnrl-element"> <b> {{ cd.concept }} </b></div>

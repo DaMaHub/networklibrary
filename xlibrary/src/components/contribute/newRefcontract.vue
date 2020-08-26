@@ -50,7 +50,8 @@ export default {
     inputData:
     {
       catHolder: {},
-      tidyHolder: {}
+      tidyHolder: {},
+      visHolder: []
     }
   }),
   created () {
@@ -59,8 +60,6 @@ export default {
   },
   computed: {
     newRefContractLive: function () {
-      console.log('new contract in making???')
-      console.log(this.$store.state.newRefcontractForm)
       return this.$store.state.newRefcontractForm
     },
     catCountLive: function () {
@@ -72,8 +71,6 @@ export default {
   },
   methods: {
     importForm (ef) {
-      console.log('what form?')
-      console.log(this.formType)
     },
     saveRefContract () {
       // pull together other parts of refcontract
@@ -82,7 +79,12 @@ export default {
       refContract.action = 'PUT'
       this.$store.dispatch('sendMessage', refContract)
       // reset the form data
-      this.inputData = {}
+      this.inputData =
+      {
+        catHolder: {},
+        tidyHolder: {},
+        visHolder: []
+      }
     }
   }
 }

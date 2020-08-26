@@ -1,5 +1,5 @@
 <template>
-  <div id="newpackage-view"> pform == {{ formData }} ==live {{ livePackForm }}
+  <div id="newpackage-view">
     <ul>
       <li class="package-form-item">
         <span class="required_notification">All fields required</span>

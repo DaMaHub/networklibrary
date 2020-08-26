@@ -93,12 +93,13 @@ export default {
         console.log(this.state.newPackingForm.apicolHolder)
         Vue.set(this.state.newPackingForm, 'apicolHolder', [])
         this.state.newPackingForm.apicolumns = []
-        let colCount
+        let colCount = 0
         if (this.state.newPackingForm.apicolumns.length === 0) {
           colCount = 1
         } else {
           colCount = this.state.newPackingForm.apicolumns.length + 1
         }
+        console.log(colCount)
         this.state.newPackingForm.apicolHolder.push([])
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)

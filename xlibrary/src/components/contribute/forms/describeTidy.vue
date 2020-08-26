@@ -1,5 +1,5 @@
 <template>
-  <div id="describe-tidy">id == {{ tidyID }} tidy---{{ tidyForm }} live == {{ tidyLive }}
+  <div id="describe-tidy">
     <label for="tidy">Tidy</label>
     <input type="checkbox" id="tidy" value="tidy" @change="tidySelect" v-model="tidyForm.tidy">
     <label for="tidy-add-category">Select datatype:</label>
@@ -38,15 +38,12 @@ export default {
   }),
   methods: {
     tidySelect () {
-      console.log('cat yes no')
       this.$store.dispatch('buildRefPackageTidy', this.tidyForm.tidy)
     },
     tidyDTSelect () {
-      console.log('cat dt rule')
       this.$store.dispatch('buildRefPackageTidyDT', this.tidyForm.tidydatatype)
     },
     tidycodeSave () {
-      console.log('tidy code')
       this.$store.dispatch('buildRefPackageTidycode', this.tidyForm.tidycode)
     }
   }

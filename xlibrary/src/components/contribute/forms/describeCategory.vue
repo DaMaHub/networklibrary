@@ -1,5 +1,5 @@
 <template>
-  <div id="describe-category">id = {{ catID }} cat--{{ catForm }} catlive -- {{ categoryLive }}
+  <div id="describe-category">
     Category
     <label for="package-add-category">Select datatype:</label>
     <select class="select-categor-id" id="category-mapping-build" @change="categoryDTSelect" v-model="catForm.category">
@@ -44,15 +44,12 @@ export default {
   }),
   methods: {
     categoryDTSelect () {
-      console.log('sele cat')
       this.$store.dispatch('buildRefPackageCategory', this.catForm.category)
     },
     categorycolumnSelect () {
-      console.log('cat col')
       this.$store.dispatch('buildRefPackageCategoryColumn', this.catForm.categorycolumn)
     },
     categoryruleSave () {
-      console.log('cat rule')
       this.$store.dispatch('buildRefPackageCategoryRule', this.catForm.categoryrule)
     }
   }

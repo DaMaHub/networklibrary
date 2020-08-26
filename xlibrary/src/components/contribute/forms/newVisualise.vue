@@ -1,35 +1,34 @@
 <template>
   <div id="newvisualise-view">
     <ul>
-      <li class="visualise-form-item">-- {{ newVisRefContract }}
+      <li class="visualise-form-item">
         <span class="required_notification">All fields required</span>
       </li>
       <li class="visualise-form-item">
         <label for="visualise-add-source">Source Primary?</label>
-        <select class="select-package-source" id="v-primary" @change="primarySelect" v-model="visualise.primary">Please select
+        <select class="select-package-source" id="v-primary" @input="primarySelect" @change="primarySelect" v-model="formData.primary">Please select
           <option value=true>YES</option>
           <option value=false>NO</option>
         </select>
       </li>
       <li class="visualise-form-item">
         <label for="visualise-add-name">Name:</label>
-        <input id="visualise-mapping-name" @paste="nameSave" @keyup="nameSave" v-model="visualise.name" placeholder="visualise mapping name" required="" type="text">
+        <input id="visualise-mapping-name" @input="nameSave" @paste="nameSave" @keyup="nameSave" v-model="formData.name" placeholder="visualise mapping name" required="" type="text">
       </li>
       <li class="visualise-form-item">
         <label for="visualise-add-description">Description:</label>
-        <textarea name="message" cols="40" rows="6" required="" id="visualise-mapping-description" @paste="descriptionSave" @keyup="descriptionSave" v-model="visualise.description"></textarea>
+        <textarea name="message" cols="40" rows="6" required="" id="visualise-mapping-description" @input="descriptionSave" @paste="descriptionSave" @keyup="descriptionSave" v-model="formData.description"></textarea>
       </li>
       <li class="visualise-form-item">
         <h2>Data Structure</h2>
         <label for="visualise-structure-types">Structure name</label>
-        <input id="visualise-mapping-name" @paste="structureSave" @keyup="structureSave" v-model="visualise.structure.name" placeholder="visualise structure name" required="" type="text">
-        <!-- <a href="#" @click.prevent="addLabel" >add label</a> @change="labelAddinput" -->
+        <input id="visualise-mapping-name" @input="structureSave" @paste="structureSave" @keyup="structureSave" v-model="formData.structureName" placeholder="visualise structure name" required="" type="text">
         <div id="new-structure-lab">
-          <ul v-for="(dl, index) of structElement" :key='dl.id'>
+          <ul v-for="(dl, index) of formData.visHolder" :key='dl.id'>
             <li>
-              <input id="structure-label-name"  v-model="structElement[index].labels" placeholder="" required="" type="text">
+              <input id="structure-label-name"  v-model="formData.visHolder[index].labels" placeholder="" required="" type="text">
               <label for="structure-add-element">Data holder</label>
-              <select class="select-structure-source" id="v-primary" @change="typeESelect(index)" v-model="structElement[index].type">Please select type
+              <select class="select-structure-source" id="v-primary" @change="typeESelect(index)" v-model="formData.visHolder[index].type">Please select type
                 <option value=null>null</option>
                 <option value=Array>Array</option>
                 <option value=Object>Object</option>
@@ -51,21 +50,15 @@ export default {
   },
   computed: {
     newVisRefContract: function () {
-      console.log('new contract in making???')
-      console.log(this.$store.state.newVisualiseForm)
       return this.$store.state.newVisualiseForm
     }
   },
+  props: {
+    formData: {
+      type: Object
+    }
+  },
   data: () => ({
-    visualise:
-    {
-      primary: null,
-      name: '',
-      description: '',
-      structure: {},
-      elements: []
-    },
-    structElement: [],
     index: 0
   }),
   created () {
@@ -74,36 +67,22 @@ export default {
   },
   methods: {
     primarySelect () {
-      this.$store.dispatch('buildVisualisePrimary', this.visualise.primary)
+      this.$store.dispatch('buildVisualisePrimary', this.formData.primary)
     },
     nameSave (k) {
-      this.$store.dispatch('buildRefVisualiseName', this.visualise.name)
+      this.$store.dispatch('buildRefVisualiseName', this.formData.name)
     },
     descriptionSave (dk) {
-      this.$store.dispatch('buildRefVisualiseDescription', this.visualise.description)
+      this.$store.dispatch('buildRefVisualiseDescription', this.formData.description)
     },
     structureSave () {
-      this.$store.dispatch('buildRefVisualiseStructure', this.visualise.structure.name)
-    },
-    structureElementSave () {
-      console.log('structure element save')
-      // this.$store.dispatch('buildRefVisualiseStructureElement', this.visualise.structure)
-    },
-    labelAddinput () {
-      this.$store.dispatch('buildRefVisualiseStructureElementLabel', this.visualise.elements.label)
+      this.$store.dispatch('buildRefVisualiseStructure', this.formData.structureName)
     },
     typeESelect (index) {
-      console.log('structure element save')
-      console.log(index)
-      this.$store.dispatch('buildRefVisualiseStructureElementType', this.structElement[index])
-    },
-    addLabel () {
-      console.log('add structure label')
-      // this.structLabel.push({ label: 0 })
+      this.$store.dispatch('buildRefVisualiseStructureElementType', this.formData.visHolder[index])
     },
     addElement () {
-      console.log('add structure label')
-      this.structElement.push({})
+      this.formData.visHolder.push({})
     }
   }
 }

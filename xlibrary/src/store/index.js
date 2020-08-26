@@ -33,11 +33,8 @@ export default new Vuex.Store({
       tidy: {}
     },
     newVisualiseForm: {
-      structure:
-      {
-        name: '',
-        elements: []
-      }
+      structureName: '',
+      structure: []
     }
   },
   mutations: {
@@ -161,7 +158,7 @@ export default new Vuex.Store({
       Vue.set(state.newVisualiseForm, 'description', inVerified)
     },
     ADD_REFVISUALISE_STRUCTURE (state, inVerified) {
-      Vue.set(state.newVisualiseForm.structure, 'name', inVerified)
+      Vue.set(state.newVisualiseForm, 'structureName', inVerified)
     },
     ADD_REFVISUALISE_ELEMENTLABEL (state, inVerified) {
       // Vue.set(state.newVisualiseForm.structure, 'elements', inVerified)
@@ -170,8 +167,8 @@ export default new Vuex.Store({
       // Vue.set(state.newVisualiseForm.structure, 'elements', inVerified)
     },
     ADD_REFVISUALISE_ELEMENTPAIR (state, inVerified) {
-      state.newVisualiseForm.structure.elements.push(inVerified)
-      console.log(state.newVisualiseForm.structure.elements)
+      state.newVisualiseForm.structure.push(inVerified)
+      console.log(state.newVisualiseForm.structure)
     }
   },
   actions: {

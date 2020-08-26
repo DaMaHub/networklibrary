@@ -13,7 +13,7 @@
           </div>
         </draggable>
       </div>
-      <div id="data-columns">dtcol == {{ dtcolumns }}
+      <div id="data-columns">
         <ul v-for='col in dtcolumns' :key='col.id'>
           <div class="col-name">
             <h3>{{ col.name }}</h3>
