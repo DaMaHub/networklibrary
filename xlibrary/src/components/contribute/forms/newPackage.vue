@@ -1,5 +1,5 @@
 <template>
-  <div id="newpackage-view">
+  <div id="newpackage-view">packform -- {{ livePackForm }}
     <ul>
       <li class="package-form-item">
         <span class="required_notification">All fields required</span>
@@ -55,13 +55,13 @@
       <li v-for="dc of catCount" :key="dc.id" > {{ dc }}
           <describe-category :catID="dc" :catForm="formData.catHolder[dc]"></describe-category>
       </li>
-      <li>
+      <li class="pack-info">
         <a href='#' id="add-category" @click.prevent="addCategory" >Add category</a>
       </li>
       <li v-for="dty of tidyCount" :key="dty.id" >
         <describe-tidy :tidyID="dty" :tidyForm="formData.tidyHolder[dty]"></describe-tidy>
       </li>
-      <li>
+      <li class="pack-info">
         <a href='#' id="add-tidy-code" @click.prevent="addTidyItem">Add tidy rule</a>
       </li>
     </ul>
@@ -97,10 +97,6 @@ export default {
     }
   },
   data: () => ({
-    catnumber: 0,
-    tidynumber: 0,
-    catHolder: [],
-    tidyHolder: [],
     index: 0
   }),
   created () {
@@ -148,4 +144,9 @@ export default {
   margin: 1em;
   list-style: none;
 }
+
+.pack-info {
+  padding: 1em;
+}
+
 </style>

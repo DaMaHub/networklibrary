@@ -69,7 +69,7 @@
                     </ul>
                     <ul v-if="index === 'tidy'" >
                       <li v-for="ipv in pi" :key="ipv.key" >
-                          {{ ipv.tidy }} -- {{ ipv.datatype }} -- {{ ipv.rule }}
+                          {{ ipv.tidy }} -- {{ ipv.tidydatatype }} -- {{ ipv.tidycode }}
                       </li>
                     </ul>
                 </li>

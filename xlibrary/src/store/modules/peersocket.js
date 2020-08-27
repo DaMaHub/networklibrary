@@ -85,7 +85,12 @@ export default {
       } else if (message.reftype === 'new-packaging') {
         const formKeys = Object.keys(this.state.newPackingForm)
         for (const fk of formKeys) {
-          Vue.set(this.state.newPackingForm, fk, [])
+          console.log(fk)
+          if (fk === 'category' || fk === 'tidy') {
+            Vue.set(this.state.newPackingForm, fk, {})
+          } else {
+            Vue.set(this.state.newPackingForm, fk, [])
+          }
         }
         // need to reset datatype list
         this.state.packagingDatatypes = this.state.dataTypesLive
