@@ -103,7 +103,12 @@ PeerStoreWorker.prototype.peerStoreRefContract = function (refContract) {
     console.log('saved hypertrie OK')
     localthis.datastore.get(refContract.hash, console.log)
   })
-  return { stored: true }
+  let returnMessage = {}
+  returnMessage.stored = true
+  returnMessage.type = refContract.reftype
+  returnMessage.key = refContract.hash
+  console.log(returnMessage)
+  return returnMessage
 }
 
 /**
