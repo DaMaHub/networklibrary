@@ -21,6 +21,7 @@ const events = require('events')
 
 var ReferenceContractComposer = function () {
   events.EventEmitter.call(this)
+  console.log('ref contract composer live')
   this.cryptoLive = new CryptoUtility()
   this.datatypeRefLive = new DatatypeRefCont()
   this.packagingRefLive = new PackagingRefCont()
@@ -85,9 +86,13 @@ ReferenceContractComposer.prototype.visualiseComposer = function (input) {
 * @method moduleComposer
 *
 */
-ReferenceContractComposer.prototype.moduleComposer = function (input) {
-  console.log('prepare New visualise contract')
-  const preContract = this.moduleRefLive.modulePrepare(input)
+ReferenceContractComposer.prototype.moduleComposer = function (input, join) {
+  let preContract = {}
+  if (join === 'join') {
+    preContract = this.moduleRefLive.moduleJoinPrepare(input)
+  } else {
+    preContract = this.moduleRefLive.moduleGenesisPrepare(input)
+  }
   return preContract
 }
 
@@ -118,69 +123,17 @@ ReferenceContractComposer.prototype.experimentComposerJoin = function (input) {
 * @method refcontractLookup
 *
 */
-ReferenceContractComposer.prototype.refcontractLookup = function (cnrl, allContracts) {
-  console.log('all ref contracts')
-  console.log(cnrl)
-  console.log(allContracts)
+ReferenceContractComposer.prototype.refcontractLookup = function (refCont, allContracts) {
+  console.log('lookup contract')
+  console.log(refCont)
   let matchKey = {}
   for (const rc of allContracts) {
     console.log(rc)
-    if (cnrl.trim() === rc.key) {
+    if (refCont.trim() === rc.key) {
       matchKey = rc
     }
   }
   return matchKey
-}
-
-/**
-* seperate reference contracts by contract type
-* @method refcontractSperate
-*
-*/
-ReferenceContractComposer.prototype.refcontractSperate = function (refContractsList) {
-  console.log('seperate out the reference contracts')
-  console.log(refContractsList)
-  const refContractHolder = {}
-  const datatypeList = []
-  const unitsList = []
-  const computeList = []
-  const packagingList = []
-  const moduleList = []
-  const visualiseList = []
-  const nxpList = []
-  for (const rc of refContractsList) {
-    // console.log(rc)
-    if (rc.value.refcontract === 'datatype') {
-      const refCont = { key: rc.key, value: rc.value }
-      datatypeList.push(refCont)
-    } else if (rc.value.refcontract === 'units') {
-      const refCont = { key: rc.key, value: rc.value }
-      unitsList.push(refCont)
-    } else if (rc.value.refcontract === 'compute') {
-      const refCont = { key: rc.key, value: rc.value }
-      computeList.push(refCont)
-    } else if (rc.value.refcontract === 'packaging') {
-      const refCont = { key: rc.key, value: rc.value }
-      packagingList.push(refCont)
-    } else if (rc.value.refcontract === 'module') {
-      const refCont = { key: rc.key, value: rc.value }
-      moduleList.push(refCont)
-    } else if (rc.value.refcontract === 'visualise') {
-      const refCont = { key: rc.key, value: rc.value }
-      visualiseList.push(refCont)
-    } else if (rc.value.refcontract === 'experiment') {
-      const refCont = { key: rc.key, value: rc.value }
-      nxpList.push(refCont)
-    }
-  }
-  refContractHolder.datatype = datatypeList
-  refContractHolder.units = unitsList
-  refContractHolder.compute = computeList
-  refContractHolder.packaging = packagingList
-  refContractHolder.module = moduleList
-  refContractHolder.visualise = visualiseList
-  refContractHolder.experiment = nxpList
-  return refContractHolder
 }
 
 export default ReferenceContractComposer

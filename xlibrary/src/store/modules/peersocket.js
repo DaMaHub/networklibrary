@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import RCcomposer from '../../mixin/rcComposer.js'
 import KBIDcomposer from '../../mixin/kbidComposer.js'
+import LibraryUtility from '../../mixin/rcUtility.js'
 const refcontComposerLive = new RCcomposer()
 const kbidComposerLive = new KBIDcomposer()
+const libUtilityLive = new LibraryUtility()
 
 export default {
   state: {
@@ -47,9 +49,9 @@ export default {
       } else {
         // query back from peer data store
         // pass to sort data into ref contract types
-        const segmentedRefContracts = refcontComposerLive.refcontractSperate(backJSON)
-        const segmentedRefContracts2 = refcontComposerLive.refcontractSperate(backJSON)
-        const segmentedRefContracts3 = refcontComposerLive.refcontractSperate(backJSON)
+        const segmentedRefContracts = libUtilityLive.refcontractSperate(backJSON)
+        const segmentedRefContracts2 = libUtilityLive.refcontractSperate(backJSON)
+        const segmentedRefContracts3 = libUtilityLive.refcontractSperate(backJSON)
         this.state.packagingDatatypes = segmentedRefContracts2.datatype
         this.state.referenceContract = segmentedRefContracts
         this.state.dataTypesLive = segmentedRefContracts3.datatype
