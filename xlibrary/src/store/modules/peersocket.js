@@ -1,10 +1,6 @@
 import Vue from 'vue'
-import RCcomposer from '../../mixin/rcComposer.js'
-import KBIDcomposer from '../../mixin/kbidComposer.js'
-import LibraryUtility from '../../mixin/rcUtility.js'
-const refcontComposerLive = new RCcomposer()
-const kbidComposerLive = new KBIDcomposer()
-const libUtilityLive = new LibraryUtility()
+import LibComposer from 'refcontractcomposer'
+const LibLib = new LibComposer()
 
 export default {
   state: {
@@ -49,11 +45,11 @@ export default {
       } else {
         // query back from peer data store
         // pass to sort data into ref contract types
-        const segmentedRefContracts = libUtilityLive.refcontractSperate(backJSON)
-        const segmentedRefContracts2 = libUtilityLive.refcontractSperate(backJSON)
-        const segmentedRefContracts3 = libUtilityLive.refcontractSperate(backJSON)
-        this.state.packagingDatatypes = segmentedRefContracts2.datatype
+        const segmentedRefContracts = LibLib.liveLibraryLib.refcontractSperate(backJSON)
+        const segmentedRefContracts2 = LibLib.liveLibraryLib.refcontractSperate(backJSON)
+        const segmentedRefContracts3 = LibLib.liveLibraryLib.refcontractSperate(backJSON)
         this.state.referenceContract = segmentedRefContracts
+        this.state.packagingDatatypes = segmentedRefContracts2.datatype
         this.state.dataTypesLive = segmentedRefContracts3.datatype
       }
     }
@@ -62,20 +58,20 @@ export default {
     sendMessage (context, message) {
       console.log('Ref Contract preapre peerLink')
       // console.log(message)
-      let prepareRefContract = {}
+      // let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
-        prepareRefContract = refcontComposerLive.datatypeRefLive.dataTypePrepare(localData)
+        prepareRefContract = LibLib.liveLibraryLib.datatypeRefLive.dataTypePrepare(localData)
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
-        prepareRefContract = refcontComposerLive.packagingRefLive.packagingPrepare(this.state.newPackingForm)
+        prepareRefContract = LibLib.liveLibraryLib.packagingRefLive.packagingPrepare(this.state.newPackingForm)
         // reset the form
       } else if (message.reftype === 'new-compute') {
-        prepareRefContract = refcontComposerLive.computeRefLive.computePrepare(this.state.newComputeForm)
+        prepareRefContract = LibLib.liveLibraryLib.computeRefLive.computePrepare(this.state.newComputeForm)
       } else if (message.reftype === 'new-visualise') {
-        prepareRefContract = refcontComposerLive.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
+        prepareRefContract = LibLib.liveLibraryLib.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
       }
-      console.log(prepareRefContract)
+      // console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
       // reset the form
@@ -138,19 +134,19 @@ export default {
     actionMakeKBIDtemplate (context, message) {
       console.log('make KBID template entry')
       console.log(message)
-      const prepareKBIDtemplate = kbidComposerLive.kbidTemplateNew(message)
-      console.log(prepareKBIDtemplate)
-      const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
-      console.log(kbidTemplateReady)
+      // const prepareKBIDtemplate = LibLib.liveLibraryLib.kbidTemplateNew(message)
+      // console.log(prepareKBIDtemplate)
+      // const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
+      // console.log(kbidTemplateReady)
       // Vue.prototype.$socket.send(kbidTemplateReady)
     },
     actionMakeKBIDentry (context, message) {
       console.log('make KBID entry')
       console.log(message)
-      const prepareKBIDentry = kbidComposerLive.kbidEntry(message)
-      console.log(prepareKBIDentry)
-      const kbidEntryReady = JSON.stringify(prepareKBIDentry)
-      console.log(kbidEntryReady)
+      // const prepareKBIDentry = LibLib.liveLibraryLib.kbidEntry(message)
+      // console.log(prepareKBIDentry)
+      // const kbidEntryReady = JSON.stringify(prepareKBIDentry)
+      // console.log(kbidEntryReady)
       // Vue.prototype.$socket.send(kbidEntryReady)
     },
     actionPeersync (context, message) {
@@ -269,9 +265,9 @@ export default {
       console.log(moduleContracts)
       for (const mc of moduleContracts) {
         console.log(mc)
-        const prepareModule = refcontComposerLive.moduleComposer(mc)
-        const referenceContractReady = JSON.stringify(prepareModule)
-        Vue.prototype.$socket.send(referenceContractReady)
+        // const prepareModule = refcontComposerLive.moduleComposer(mc)
+        // const referenceContractReady = JSON.stringify(prepareModule)
+        // Vue.prototype.$socket.send(referenceContractReady)
       }
     }
   }
