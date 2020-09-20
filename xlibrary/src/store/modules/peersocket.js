@@ -32,14 +32,9 @@ export default {
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
-      console.log('peerLink response')
-      console.log(message.data)
       const backJSON = JSON.parse(message.data)
-      console.log('back message')
-      console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
-        console.log('save successful')
       } else if (backJSON.type === 'publickey') {
         this.state.publickey = backJSON.pubkey
       } else {
@@ -56,20 +51,18 @@ export default {
   },
   actions: {
     sendMessage (context, message) {
-      console.log('Ref Contract preapre peerLink')
-      // console.log(message)
-      // let prepareRefContract = {}
+      let prepareRefContract = {}
       if (message.reftype === 'new-datatype') {
         const localData = this.state.newRefcontractForm
-        prepareRefContract = LibLib.liveLibraryLib.datatypeRefLive.dataTypePrepare(localData)
+        prepareRefContract = LibLib.liveComposer.datatypeComposer(localData)
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
-        prepareRefContract = LibLib.liveLibraryLib.packagingRefLive.packagingPrepare(this.state.newPackingForm)
+        prepareRefContract = LibLib.liveComposer.packagingComposer(this.state.newPackingForm)
         // reset the form
       } else if (message.reftype === 'new-compute') {
-        prepareRefContract = LibLib.liveLibraryLib.computeRefLive.computePrepare(this.state.newComputeForm)
+        prepareRefContract = LibLib.liveComposer.computeComposer(this.state.newComputeForm)
       } else if (message.reftype === 'new-visualise') {
-        prepareRefContract = LibLib.liveLibraryLib.visualiseRefLive.visualisePrepare(this.state.newVisualiseForm)
+        prepareRefContract = LibLib.liveComposer.visualiseComposer(this.state.newVisualiseForm)
       }
       // console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
@@ -93,7 +86,6 @@ export default {
         // need to reset datatype list
         this.state.packagingDatatypes = this.state.dataTypesLive
         // reset the holder matcher
-        console.log(this.state.newPackingForm.apicolHolder)
         Vue.set(this.state.newPackingForm, 'apicolHolder', [])
         this.state.newPackingForm.apicolumns = []
         let colCount = 0
@@ -117,7 +109,6 @@ export default {
       }
     },
     actionPublickey (context, message) {
-      console.log('public key get')
       const pubkeyGet = {}
       pubkeyGet.reftype = 'viewpublickey'
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
@@ -134,7 +125,7 @@ export default {
     actionMakeKBIDtemplate (context, message) {
       console.log('make KBID template entry')
       console.log(message)
-      // const prepareKBIDtemplate = LibLib.liveLibraryLib.kbidTemplateNew(message)
+      // const prepareKBIDtemplate = LibLib.liveKBID.kbidTemplateNew(message)
       // console.log(prepareKBIDtemplate)
       // const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
       // console.log(kbidTemplateReady)
@@ -143,15 +134,13 @@ export default {
     actionMakeKBIDentry (context, message) {
       console.log('make KBID entry')
       console.log(message)
-      // const prepareKBIDentry = LibLib.liveLibraryLib.kbidEntry(message)
+      // const prepareKBIDentry = LibLib.liveKBID.kbidEntry(message)
       // console.log(prepareKBIDentry)
       // const kbidEntryReady = JSON.stringify(prepareKBIDentry)
       // console.log(kbidEntryReady)
       // Vue.prototype.$socket.send(kbidEntryReady)
     },
     actionPeersync (context, message) {
-      console.log('peersync')
-      console.log(message)
       const peerSync = {}
       peerSync.reftype = 'replicatekey'
       peerSync.publickey = message
@@ -159,7 +148,6 @@ export default {
       Vue.prototype.$socket.send(peerSyncJSON)
     },
     actionMakeModuleRefContract (context, update) {
-      console.log('setup Module Contracts')
       const moduleContracts = []
       const dataCNRLbundle = {}
       // CNRL implementation contract e.g. from mobile phone sqlite table structure
