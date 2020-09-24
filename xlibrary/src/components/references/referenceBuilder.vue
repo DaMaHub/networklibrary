@@ -128,6 +128,7 @@ export default {
       this.statusCNRL.active = true
       this.referenceLive = 'datatype'
       const refContract = {}
+      refContract.type = 'library'
       refContract.reftype = 'datatype'
       refContract.action = 'GET'
       const refCJSON = JSON.stringify(refContract)

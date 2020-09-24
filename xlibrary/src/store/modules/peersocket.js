@@ -33,19 +33,17 @@ export default {
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
+      console.log('back fae PEERlink')
+      console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
       } else if (backJSON.type === 'publickey') {
         this.state.publickey = backJSON.pubkey
-      } else {
+      } else if (backJSON.data === 'contracts') {
         // query back from peer data store
-        // pass to sort data into ref contract types
-        const segmentedRefContracts = LibLib.liveLibraryLib.refcontractSperate(backJSON)
-        const segmentedRefContracts2 = LibLib.liveLibraryLib.refcontractSperate(backJSON)
-        const segmentedRefContracts3 = LibLib.liveLibraryLib.refcontractSperate(backJSON)
-        this.state.referenceContract = segmentedRefContracts
-        this.state.packagingDatatypes = segmentedRefContracts2.datatype
-        this.state.dataTypesLive = segmentedRefContracts3.datatype
+        this.state.referenceContract = backJSON.referenceContracts
+        this.state.packagingDatatypes = backJSON.referenceContracts.datatype
+        this.state.dataTypesLive = backJSON.referenceContracts.datatype
       }
     }
   },
