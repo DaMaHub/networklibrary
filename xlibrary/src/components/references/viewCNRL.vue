@@ -57,21 +57,31 @@
                   <div v-if="index === 'apipath'" >
                     {{ index }} k-- {{ pi }}
                   </div>
-                    <ul v-if="index === 'tablestructure'" >
-                      <li v-for="ipv in pi" :key="ipv.key" >
-                          {{ ipv.refcontract }} -- {{ ipv.column }}
+                  <div id="table-structure">
+                    <ul>
+                      <li class="packaging-lists">
+                        <ul v-if="index === 'tablestructure'" >
+                          <li v-for="ipv in pi" :key="ipv.key" >
+                              {{ ipv.refcontract }} -- {{ ipv.column }}
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <ul v-if="index === 'category'" >
+                          <li v-for="ipv in pi" :key="ipv.key" >
+                              {{ ipv.category }} -- {{ ipv.column }} -- {{ ipv.rule }}
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <ul v-if="index === 'tidy'" >
+                          <li v-for="ipv in pi" :key="ipv.key" >
+                              {{ ipv.tidy }} -- {{ ipv.tidydatatype }} -- {{ ipv.tidycode }}
+                          </li>
+                        </ul>
                       </li>
                     </ul>
-                    <ul v-if="index === 'category'" >
-                      <li v-for="ipv in pi" :key="ipv.key" >
-                          {{ ipv.category }} -- {{ ipv.column }} -- {{ ipv.rule }}
-                      </li>
-                    </ul>
-                    <ul v-if="index === 'tidy'" >
-                      <li v-for="ipv in pi" :key="ipv.key" >
-                          {{ ipv.tidy }} -- {{ ipv.tidydatatype }} -- {{ ipv.tidycode }}
-                      </li>
-                    </ul>
+                  </div>
                 </li>
               </ul>
               <p>Networks: 3 Experiments 2 Archives</p>
@@ -160,5 +170,14 @@ export default {
 
 #date-format {
   font-size: 0.6em;
+}
+
+#packaging-slot ul {
+  list-style-type: none;
+}
+
+.packaging-lists {
+  list-style-type: none;
+  margin-top: 2em;
 }
 </style>

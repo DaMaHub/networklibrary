@@ -5,7 +5,7 @@
     <label for="tidy-add-category">Select datatype:</label>
     <select class="select-tidy-id" id="tidy-mapping-build" @change="tidyDTSelect" v-model="tidyForm.tidydatatype">
       <option value="none" selected="">Please select</option>
-      <option v-for="dtl in datatypesLive" :key="dtl.key" >
+      <option v-for="dtl in datatypesLive" :key="dtl.key" v-bind:value="dtl.key">
         <option value=dtl.key>{{ dtl.value.concept.name }}</option>
       </option>
     </select>
@@ -41,6 +41,8 @@ export default {
       this.$store.dispatch('buildRefPackageTidy', this.tidyForm.tidy)
     },
     tidyDTSelect () {
+      // console.log('tidy dataytpe')
+      // console.log(this.tidyForm.tidydatatype)
       this.$store.dispatch('buildRefPackageTidyDT', this.tidyForm.tidydatatype)
     },
     tidycodeSave () {
