@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import LibComposer from 'refcontractcomposer'
+import LibComposer from 'librarycomposer'
 const LibLib = new LibComposer()
 
 export default {
@@ -108,6 +108,7 @@ export default {
     },
     actionPublickey (context, message) {
       const pubkeyGet = {}
+      pubkeyGet.type = 'library'
       pubkeyGet.reftype = 'viewpublickey'
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
@@ -140,6 +141,7 @@ export default {
     },
     actionPeersync (context, message) {
       const peerSync = {}
+      peerSync.type = 'library'
       peerSync.reftype = 'replicatekey'
       peerSync.publickey = message
       const peerSyncJSON = JSON.stringify(peerSync)

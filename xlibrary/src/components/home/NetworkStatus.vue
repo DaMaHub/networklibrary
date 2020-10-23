@@ -5,7 +5,7 @@
     <button type="button" class="btn" @click="connectNetwork('connect')">Connect</button>
     <button type="button" class="btn" @click="connectNetwork('new-connect')">New account</button>
     <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button>
-    <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button>
+    <!-- <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button> -->
     <input v-model="peerSynckey" placeholder="public key">
     <button type="button" class="btn" @click="peerSync()">Sync Library</button>
     <connect-modal v-show="isModalVisible" @close="closeModal">
@@ -21,7 +21,9 @@
         <div id="self-in" v-if="connectContext.type === 'selfsign'">
           <input v-model="secretPeer" placeholder="public key">
           <input v-model="passwordPeer" placeholder="token">
-          Publickey-- {{ storepubkey }}
+          <div id="disply-pubkey">
+            Publickey-- {{ storepubkey }}
+          </div>
         </div>
       </template>
       <template v-slot:submit-form>
