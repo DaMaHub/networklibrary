@@ -129,7 +129,7 @@ export default {
       this.referenceLive = 'datatype'
       const refContract = {}
       refContract.type = 'library'
-      refContract.reftype = 'datatype'
+      refContract.reftype = 'publiclibrary'
       refContract.action = 'GET'
       const refCJSON = JSON.stringify(refContract)
       // ask network library for contracts for this peer
