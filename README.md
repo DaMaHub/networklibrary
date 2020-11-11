@@ -1,23 +1,34 @@
-# networklibrary
-Building a network library from first principals
+# xlibrary
 
+## Project setup
+```
+npm install
+```
 
-Network Library Toolkit
-=========================
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
 
-The xlibrary folder contains the install instructions for the toolkit.
+### Compiles and minifies for production
+```
+npm run build
+```
 
-The toolkit is a graphic interface for interacting with a network library, allowing the creation of 'smart' reference contracts for datatypes, data packaging, computation and visualisations.  Form inputs are validated by library composers.  Saved reference contract can be view back by type and reference identifiers can be used other applications.
+### Run your unit tests
+```
+npm run test:unit
+```
 
-Demonstration:
-==============
-Creating <a href="https://youtu.be/N-Ak9mvmZZM">datatypes and data packaging contracts</a>
-Inputs into a <a href="https://youtu.be/OuJEGhPP4B4">data science toolkit</>
+### Run your end-to-end tests
+```
+npm run test:e2e
+```
 
+### Lints and fixes files
+```
+npm run lint
+```
 
-Implementation status
-=====================
-
-This is the concept implementation of the founding idea of the DaMaHub Project.  The reference contracts are stored using the hypercore protocol but the goal is to give each peer the freedom to select a store protocol of their choosing.
-
-Peer to Peer Replication:  The next stage is to experiment with way to share governance over the reference contracts.
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
