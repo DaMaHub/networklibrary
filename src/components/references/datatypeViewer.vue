@@ -45,7 +45,7 @@ export default {
 #datatype-referencecontract {
   text-align: left;
   margin: 2em;
-  background-color: #ffefd5;
+  background-color: #e6e6ff;
   border: 1px solid lightgrey;
 }
 

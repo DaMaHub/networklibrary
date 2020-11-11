@@ -1,5 +1,5 @@
 <template>
-  <div id="newpackage-view">packform -- {{ livePackForm }}
+  <div id="newpackage-view">Packing form
     <ul>
       <li class="package-form-item">
         <span class="required_notification">All fields required</span>

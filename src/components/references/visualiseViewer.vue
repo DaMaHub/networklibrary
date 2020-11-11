@@ -18,7 +18,6 @@
     </section>
     <footer class="board-footer">
       <slot name="footer">
-        Close
       </slot>
     </footer>
   </div>

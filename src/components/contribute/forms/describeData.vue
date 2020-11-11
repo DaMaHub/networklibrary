@@ -14,12 +14,13 @@
         </draggable>
       </div>
       <div id="data-columns">
+        <header>Drag datatype to column name</header>
         <ul v-for='col in dtcolumns' :key='col.id'>
           <div class="col-name">
             <h3>{{ col.name }}</h3>
             <draggable class="list-group" :list="newLists[col.count]" group="people" @change="log">
               <div
-                class="list-group-item"
+                class="list-match-item"
                 v-for="(element) in newLists[col.count]"
                 :key="element.key"
               >
@@ -79,7 +80,7 @@ export default {
 .col-3 {
   display: inline-block;
   vertical-align: text-top;
-  width: 15%;
+  width: 25%;
   border: 2px solid grey;
   margin-right: 4em;
 }
@@ -87,19 +88,20 @@ export default {
 .col-name {
   display: inline-block;
   vertical-align: text-top;
-  width: 20%;
-  border: 2px solid grey;
+  width: 60%;
+  border: 1px solid grey;
 }
 
 #data-columns {
-  border: 4px solid red;
+  border: 4px solid orange;
+  min-height: 400px;
   vertical-align: text-top;
   display: inline-block;
   width: 40%;
 }
 
 .list-group {
-  border: 1px solid red;
+  border: 1px solid lightgrey;
   background-color: white;
   min-height: 4em;
 }
@@ -107,6 +109,15 @@ export default {
 .list-group-item {
   display: block;
   width: 80%;
+  padding: .5em;
+  margin: 1em;
+  border: 1px solid lightgrey;
+  background-color: #E6ECEC;
+}
+
+.list-match-item {
+  display: block;
+  width: 200px;
   padding: .5em;
   margin: 1em;
   border: 1px solid lightgrey;

@@ -118,9 +118,15 @@
               </ul>
             </div>
             <div id="visualise-slot" v-if="viewerType === 'visualise-view'">
+              <header>Details</header>
               <ul v-for="(pi, index) in cd.value.computational" :key="pi.refcontract">
                 <li>
-                  {{ index }} --- {{ pi }}
+                  <div class="vis-type">
+                    {{ index }}
+                  </div>
+                  <div class="vis-info">
+                    {{ pi }}
+                  </div>
                 </li>
               </ul>
             </div>
@@ -268,6 +274,26 @@ export default {
   text-align: left;
 }
 
+#visualise-slot header {
+  text-align: left;
+  margin-left: 2em;
+}
+
+#visualise-slot ul li {
+  text-align: left;
+  margin-left: 2em;
+  list-style-type: none;
+}
+
+.vis-type {
+  display: inline;
+  width: 200px;
+  font-weight: bold;
+}
+
+.vis-info {
+  display: inline;
+}
 #goverannce-slot {
   text-align: left;
   margin: 2em;
