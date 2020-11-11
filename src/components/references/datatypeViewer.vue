@@ -18,7 +18,6 @@
     </section>
     <footer class="board-footer">
       <slot name="footer">
-        Close
       </slot>
     </footer>
   </div>
@@ -44,12 +43,13 @@ export default {
 
 <style>
 #datatype-referencecontract {
-  text-align: center;
-  background-color: #e6ffff;
+  text-align: left;
+  margin: 2em;
+  background-color: #ffefd5;
+  border: 1px solid lightgrey;
 }
 
 .viewer-header {
-  text-align: center;
   font-size: 2em;
   font-weight: bold;
 }

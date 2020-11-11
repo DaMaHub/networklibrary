@@ -18,7 +18,6 @@
     </section>
     <footer class="board-footer">
       <slot name="footer">
-        Close
       </slot>
     </footer>
   </div>
@@ -44,18 +43,15 @@ export default {
 
 <style>
 #packaging-referencecontract {
-  text-align: center;
   background-color: #e6e6ff;
 }
 
 .viewer-header {
-  text-align: center;
   font-size: 2em;
   font-weight: bold;
 }
 
 .board-body {
-  font-size: 1.4em;
 }
 
 </style>

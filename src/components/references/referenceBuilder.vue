@@ -136,8 +136,6 @@ export default {
       this.$store.dispatch('actionGetRefContract', refCJSON)
     },
     viewRefContracts (type) {
-      console.log('reference type')
-      console.log(type)
       // ask network library for contracts for this peer
       this.referenceLive = type
     },
@@ -167,7 +165,7 @@ export default {
 }
 
 #reference-tools {
-  border: 2px solid green;
+  border: 1px solid white;
 }
 
 #add-new-network {

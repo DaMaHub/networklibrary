@@ -44,12 +44,10 @@ export default {
 
 <style>
 #visualise-referencecontract {
-  text-align: center;
   background-color: #e6e6ff;
 }
 
 .viewer-header {
-  text-align: center;
   font-size: 2em;
   font-weight: bold;
 }

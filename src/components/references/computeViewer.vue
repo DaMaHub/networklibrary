@@ -44,12 +44,10 @@ export default {
 
 <style>
 #packaging-referencecontract {
-  text-align: center;
   background-color: #e6e6ff;
 }
 
 .viewer-header {
-  text-align: center;
   font-size: 2em;
   font-weight: bold;
 }
