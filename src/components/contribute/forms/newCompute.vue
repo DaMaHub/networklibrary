@@ -19,6 +19,10 @@
           <option value="no">NO</option>
         </select>
       </li>
+      <li class="compute-form-datatype">
+        <label for="compute-add-datatype">datatype prefix:</label>
+        <input id="compute-refcontract-dt" placeholder="datatype ref contract" @input="dtprefixSave" @paste="dtprefixSave" @keyup="dtprefixSave" v-model="formData.dtprefiex" required="" type="text">
+      </li>
       <li class="compute-form-item">
         <label for="compute-add-name">location of code:</label>
         <input id="compute-code-name" placeholder="compute code" @input="codeSave" @paste="codeSave" @keyup="codeSave" v-model="formData.code" required="" type="text">
@@ -58,6 +62,9 @@ export default {
     },
     primarySave () {
       this.$store.dispatch('buildRefComputePrimary', this.formData.primary)
+    },
+    dtprefixSave () {
+      this.$store.dispatch('buildRefComputeDTprefix', this.formData.dtprefiex)
     },
     codeSave () {
       this.$store.dispatch('buildRefComputeCode', this.formData.code)

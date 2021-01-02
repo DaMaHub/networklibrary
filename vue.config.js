@@ -13,4 +13,3 @@ module.exports = {
     }
   }
 }
-// './vue.js': './node_modules/vue/dist/vue.esm.browser.min.js'

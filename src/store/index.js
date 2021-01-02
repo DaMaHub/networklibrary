@@ -135,6 +135,9 @@ export default new Vuex.Store({
     ADD_REFCOMPUTE_DESCRIP (state, inVerified) {
       Vue.set(state.newComputeForm, 'description', inVerified)
     },
+    ADD_REFCOMPUTE_DTPREFIX (state, inVerified) {
+      Vue.set(state.newComputeForm, 'dtprefix', inVerified)
+    },
     ADD_REFCOMPUTE_CODE (state, inVerified) {
       Vue.set(state.newComputeForm, 'code', inVerified)
     },
@@ -247,6 +250,9 @@ export default new Vuex.Store({
     },
     buildRefComputeDescription (context, update) {
       context.commit('ADD_REFCOMPUTE_DESCRIP', update)
+    },
+    buildRefComputeDTprefix (context, update) {
+      context.commit('ADD_REFCOMPUTE_DTPREFIX', update)
     },
     buildRefComputeCode (context, update) {
       context.commit('ADD_REFCOMPUTE_CODE', update)
