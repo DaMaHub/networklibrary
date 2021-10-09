@@ -27,6 +27,7 @@
           <option value="ipfs">IPFS</option>
           <option value="dat">DAT</option>
           <option value="rest">REST</option>
+          <option value="sqlite">SQLite</option>
           <option value="grpc">gRPC</option>
           <option value="csv">CVS</option>
         </select>
