@@ -16,19 +16,27 @@ export default {
     SOCKET_ONOPEN (state, event) {
       this.$socket = event.currentTarget
       state.socket.isConnected = true
+      this.state.connectStatus = true
     },
     SOCKET_ONCLOSE (state, event) {
       state.socket.isConnected = false
+      this.state.connectStatus = false
+      this.state.peerauthStatus = false
     },
     SOCKET_ONERROR (state, event) {
       console.error(state, event)
+      this.state.connectStatus = false
+      this.state.peerauthStatus = false
+      // remote.getCurrentWindow().close()
+      // inform Peer connection to network lost
     },
     // mutations for reconnect methods
     SOCKET_RECONNECT (state, count) {
-      console.info(state, count)
+      // console.info(state, count)
     },
     SOCKET_RECONNECT_ERROR (state) {
       state.socket.reconnectError = true
+      this.state.peerauthStatus = false
     },
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
@@ -37,6 +45,37 @@ export default {
       console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
+        // safeFLOW inflow
+      } else if (backJSON.type === 'auth') {
+        // console.log('saeFLOW auth')
+        // set remove welcome message
+        this.state.peerauthStatus = true
+        // get starting experiments
+        const refContractp = {}
+        refContractp.type = 'library'
+        refContractp.reftype = 'publiclibrary'
+        refContractp.action = 'GET'
+        const refCJSONp = JSON.stringify(refContractp)
+        Vue.prototype.$socket.send(refCJSONp)
+        // network library updates?
+        const refContract = {}
+        refContract.type = 'library'
+        refContract.reftype = 'privatelibrary'
+        refContract.action = 'GET'
+        const refCJSON = JSON.stringify(refContract)
+        Vue.prototype.$socket.send(refCJSON)
+        // ask for datastore public keys
+        //  need call, added manualy for now  SET_ASK_KEYMANAGEMENT(state)
+        this.state.publickeys = []
+        const pubkeyGet = {}
+        pubkeyGet.type = 'library'
+        pubkeyGet.reftype = 'keymanagement'
+        Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
+        // get datastore
+        let getWarmPeers = {}
+        getWarmPeers.type = 'library'
+        getWarmPeers.reftype = 'warm-peers'
+        Vue.prototype.$socket.send(JSON.stringify(getWarmPeers))
       } else if (backJSON.type === 'publickey') {
         this.state.publickey = backJSON.pubkey
       } else if (backJSON.data === 'contracts') {

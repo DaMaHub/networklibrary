@@ -28,6 +28,7 @@
           <option value="dat">DAT</option>
           <option value="rest">REST</option>
           <option value="sqlite">SQLite</option>
+          <option value="json">JSON</option>
           <option value="grpc">gRPC</option>
           <option value="csv">CVS</option>
         </select>

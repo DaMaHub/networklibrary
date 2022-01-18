@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import NetworkConnect from '@/refflow/cryptoUtility.js'
+// import NetworkConnect from '@/refflow/cryptoUtility.js'
 import modules from './modules'
 
-const refFlow = new NetworkConnect()
+// const refFlow = new NetworkConnect()
 Vue.use(Vuex)
 
 const dataTitle = {}
@@ -14,6 +14,15 @@ export default new Vuex.Store({
   modules,
   state: {
     publickey: '',
+    networkConnection: {
+      active: false,
+      type: 'self-verify',
+      text: 'Connect'
+    },
+    authorised: false,
+    connectStatus: false,
+    peerauthStatus: false,
+    connectContext: {},
     dashboardGrid: [
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
@@ -165,14 +174,37 @@ export default new Vuex.Store({
     ADD_REFVISUALISE_ELEMENTPAIR (state, inVerified) {
       state.newVisualiseForm.structure.push(inVerified)
       console.log(state.newVisualiseForm.structure)
+    },
+    SET_CONNECTION_STATUS: (state, inVerified) => {
+      Vue.set(state.networkConnection, 'active', true)
+      if (state.connectStatus === false) {
+        console.log('no peerlink')
+      } else {
+        // yes socket connection
+        Vue.set(state.networkConnection, 'active', true)
+        Vue.set(state.networkConnection, 'text', 'edit-connection')
+        Vue.set(state.networkConnection, 'type', 'check-connection')
+      }
     }
   },
   actions: {
     async startconnectNSnetwork (context, update) {
-      const peerLive = await refFlow.connectPeerNSnetwork(update.network, update.settings)
-      // console.log('peer star returned')
-      console.log(peerLive)
-      // context.commit('setAuthorisation', true)
+      // send a auth requrst to peerlink if not already authorsed
+      console.log(this.state.connectStatus)
+      console.log(this.state.peerauthStatus)
+      if (this.state.connectStatus === true && this.state.peerauthStatus !== true) {
+        console.log('connect to HOP')
+        const message = {}
+        message.type = 'safeflow'
+        message.reftype = 'ignore'
+        message.action = 'auth'
+        message.network = null // update.network
+        message.settings = null // update.settings
+        const safeFlowMessage = JSON.stringify(message)
+        Vue.prototype.$socket.send(safeFlowMessage)
+      } else {
+        // console.log('socket and authored already so nothing')
+      }
     },
     async annonconnectNSnetwork (context, update) {
       console.log('annon connect')
@@ -283,6 +315,9 @@ export default new Vuex.Store({
     },
     buildRefPackageTidyBundle (context, update) {
       context.commit('BUNDLE_TIDY', update)
+    },
+    actionCheckConnect (context, update) {
+      context.commit('SET_CONNECTION_STATUS', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

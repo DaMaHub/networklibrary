@@ -3,8 +3,8 @@
     <header>Network Status</header>
     <div id="connection-status">{{ msg }}</div>
     <button type="button" class="btn" @click="connectNetwork('connect')">Connect</button>
-    <button type="button" class="btn" @click="connectNetwork('new-connect')">New account</button>
-    <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button>
+    <!-- <button type="button" class="btn" @click="connectNetwork('new-connect')">New account</button>
+    <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button> -->
     <!-- <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button> -->
     <input v-model="peerSynckey" placeholder="public key">
     <button type="button" class="btn" @click="peerSync()">Sync Library</button>
@@ -73,7 +73,10 @@ export default {
         this.connectContext.type = 'connect'
         this.connectContext.message = 'Anno. connect to network'
         this.buttonName = 'Annon. connect'
-        this.$store.dispatch('annonconnectNSnetwork')
+        // this.$store.dispatch('annonconnectNSnetwork')
+        console.log('connect basic')
+        this.$store.dispatch('actionCheckConnect')
+        this.$store.dispatch('startconnectNSnetwork')
       } else if (typeConnect === 'new-connect') {
         this.connectContext.type = 'firsttime'
         this.connectContext.message = 'first time new connection setup'
