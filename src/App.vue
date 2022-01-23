@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div id="nav" v-if="pluginNL === false">
       <router-link to="/">{{ $t('home') }}</router-link> |
       <router-link to="/about">{{ $t('about') }}</router-link>
       <div class="toolkit-settings">
@@ -17,11 +17,9 @@
         </button>
         <help-modal v-show="isModalVisible" @close="closeModal">
           <template v-slot:header>
-          <!-- The code below goes into the header slot -->
             {{ $t('help') }} for -- {{ helpContext }}
           </template>
           <template v-slot:body>
-          <!-- The code below goes into the header slot -->
             {{ helpContext }} sections are:
             <div class="help-section">
               Custom content for page help button clicked
@@ -50,6 +48,7 @@ export default {
   },
   data () {
     return {
+      pluginNL: false,
       isModalVisible: false,
       helpContext: 'home',
       languages: [

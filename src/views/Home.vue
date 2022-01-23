@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    Network Library
     <div class="library-info" id="library-introduction">
-      <NetworkStatus msg="not connected"></NetworkStatus>
+      <NetworkStatus v-if="pluginNL === false" msg="not connected"></NetworkStatus>
     </div>
     <library-dashboard></library-dashboard>
   </div>
@@ -17,6 +16,11 @@ export default {
   components: {
     NetworkStatus,
     LibraryDashboard
+  },
+  data () {
+    return {
+      pluginNL: false
+    }
   }
 }
 </script>

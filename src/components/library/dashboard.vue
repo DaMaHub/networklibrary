@@ -40,7 +40,7 @@
 import _ from 'lodash'
 import { mapState, mapActions } from 'vuex'
 import VueGridLayout from 'vue-grid-layout'
-import SourceBuilder from '@/components/references/sourceBuilder.vue'
+import SourceBuilder from '@/components/source/sourceBuilder.vue'
 import ReferenceBuilder from '@/components/references/referenceBuilder.vue'
 
 export default {

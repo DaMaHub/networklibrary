@@ -19,11 +19,13 @@ export default {
       this.state.connectStatus = true
     },
     SOCKET_ONCLOSE (state, event) {
+      console.log('networklibrary close')
       state.socket.isConnected = false
       this.state.connectStatus = false
       this.state.peerauthStatus = false
     },
     SOCKET_ONERROR (state, event) {
+      console.log('networklibrary close')
       console.error(state, event)
       this.state.connectStatus = false
       this.state.peerauthStatus = false
@@ -35,6 +37,7 @@ export default {
       // console.info(state, count)
     },
     SOCKET_RECONNECT_ERROR (state) {
+      console.log('networklibrary close')
       state.socket.reconnectError = true
       this.state.peerauthStatus = false
     },
@@ -72,7 +75,7 @@ export default {
         pubkeyGet.reftype = 'keymanagement'
         Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
         // get datastore
-        let getWarmPeers = {}
+        const getWarmPeers = {}
         getWarmPeers.type = 'library'
         getWarmPeers.reftype = 'warm-peers'
         Vue.prototype.$socket.send(JSON.stringify(getWarmPeers))
@@ -83,6 +86,9 @@ export default {
         this.state.referenceContract = backJSON.referenceContracts
         this.state.packagingDatatypes = backJSON.referenceContracts.datatype
         this.state.dataTypesLive = backJSON.referenceContracts.datatype
+      } else if (backJSON.type === 'file-save') {
+        // Vue.set(this.state.fileSaveStatus, backJSON.data)
+        this.state.fileSaveStatus = backJSON.data
       }
     }
   },
@@ -296,6 +302,14 @@ export default {
         // const referenceContractReady = JSON.stringify(prepareModule)
         // Vue.prototype.$socket.send(referenceContractReady)
       }
+    },
+    actionFileconvert (context, update) {
+      var fileInfo = {}
+      fileInfo.type = 'library'
+      fileInfo.reftype = 'convert-csv-json'
+      fileInfo.data = update
+      const fileJSON = JSON.stringify(fileInfo)
+      Vue.prototype.$socket.send(fileJSON)
     }
   }
 }

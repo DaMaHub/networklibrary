@@ -23,6 +23,7 @@ export default new Vuex.Store({
     connectStatus: false,
     peerauthStatus: false,
     connectContext: {},
+    fileSaveStatus: false,
     dashboardGrid: [
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
@@ -190,8 +191,6 @@ export default new Vuex.Store({
   actions: {
     async startconnectNSnetwork (context, update) {
       // send a auth requrst to peerlink if not already authorsed
-      console.log(this.state.connectStatus)
-      console.log(this.state.peerauthStatus)
       if (this.state.connectStatus === true && this.state.peerauthStatus !== true) {
         console.log('connect to HOP')
         const message = {}
