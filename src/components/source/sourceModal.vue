@@ -62,22 +62,24 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
+    /* background-color: rgba(0, 0, 0, 0.3); */
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    /* align-items: center; */
     z-index: 12;
     overflow: scroll;
+    width: 50%;
+    margin-left: 2em;
   }
 
 .modal {
   background: #FFFFFF;
-  box-shadow: 2px 2px 20px 1px;
+  /* box-shadow: 2px 2px 20px 1px; */
   overflow-x: auto;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   margin-top: 200px;
 }
 

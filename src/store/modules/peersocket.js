@@ -88,7 +88,8 @@ export default {
         this.state.dataTypesLive = backJSON.referenceContracts.datatype
       } else if (backJSON.type === 'file-save') {
         // Vue.set(this.state.fileSaveStatus, backJSON.data)
-        this.state.fileSaveStatus = backJSON.data
+        this.state.fileSaveStatus = backJSON.data.success
+        this.state.fileFeedback = backJSON.data
       }
     }
   },

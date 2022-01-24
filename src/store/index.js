@@ -24,6 +24,7 @@ export default new Vuex.Store({
     peerauthStatus: false,
     connectContext: {},
     fileSaveStatus: false,
+    fileFeedback: {},
     dashboardGrid: [
       { x: 0, y: 0, w: 2, h: 2, i: '0' }, { x: 2, y: 0, w: 10, h: 10, i: '1' } // , { x: 8, y: 0, w: 3, h: 2, i: '2' }, { x: 0, y: 1, w: 7, h: 4, i: '3' }
     ],
@@ -101,6 +102,24 @@ export default new Vuex.Store({
       newColumn.name = inVerified
       state.newPackingForm.apicolumns.push(newColumn)
       state.newPackingForm.apicolHolder.push([])
+    },
+    AUTOADD_REFCONTPACK_APICOL (state, inVerified) {
+      console.log('AUTO api COLUM')
+      console.log(inVerified)
+      let colCount
+      if (state.newPackingForm.apicolumns.length === 0) {
+        colCount = 1
+      } else {
+        colCount = state.newPackingForm.apicolumns.length + 1
+      }
+      for (const col of state.fileFeedback.columns) {
+        const newColumn = {}
+        newColumn.count = colCount
+        newColumn.name = col
+        state.newPackingForm.apicolumns.push(newColumn)
+        state.newPackingForm.apicolHolder.push([])
+        colCount++
+      }
     },
     BUNDLE_CATEGORY (state, inVerified) {
       state.newPackingForm.catCount++
@@ -254,6 +273,9 @@ export default new Vuex.Store({
     },
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)
+    },
+    buildRefPackageAutoColumns (context, update) {
+      context.commit('AUTOADD_REFCONTPACK_APICOL', update)
     },
     buildRefPackageCategory (context, update) {
       context.commit('ADD_REFCONTPACK_CATEGORY', update)

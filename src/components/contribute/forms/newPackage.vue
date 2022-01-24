@@ -49,6 +49,7 @@
         <label for="add-code-name">Column builder</label>
         <input type="text"  id="package-base-address" placeholder="column" required  v-model="formData.columns" />
         <a href='#' id="add-column" @click.prevent="columnsSave" >Add column</a>
+        <a href='#' id="auto-column" @click.prevent="columnsAuto" >Auto add</a>
       </li>
       <describe-data></describe-data>
       <li class="package-form-item">
@@ -91,6 +92,9 @@ export default {
     },
     tidyCount: function () {
       return this.$store.state.newPackingForm.tidyCount
+    },
+    fileFeedback: function () {
+      return this.$store.state.fileFeedback.columns
     }
   },
   props: {
@@ -126,6 +130,9 @@ export default {
     },
     columnsSave (ak) {
       this.$store.dispatch('buildRefPackageColumns', this.formData.columns)
+    },
+    columnsAuto (ak) {
+      this.$store.dispatch('buildRefPackageAutoColumns', 'auto')
     },
     addCategory () {
       // tell vuex to bundle last entry together

@@ -37,6 +37,9 @@
         </div>
         <div id="feedback-save">
           save status {{ fileStatus }}
+          <p>
+            feeback {{ fileFeedback }}
+          </p>
         </div>
         <div id="keypw-feedback">
           {{ verifyfeedbackM }}
@@ -66,6 +69,9 @@ export default {
   computed: {
     fileStatus: function () {
       return this.$store.state.fileSaveStatus
+    },
+    fileFeedback: function () {
+      return this.$store.state.fileFeedback
     }
   },
   data: () => ({
