@@ -24,25 +24,43 @@
             <li>{{index }} {{ value }}</li>
           </ul>
         </div>
-        <div id="convert-data">
-          <form>
-            <label for="linenumber">Please enter colum name line number</label>
-            <input type="text" value="line number" v-model="lineBundle.cnumber">
-            <label for="linenumber">Data start line</label>
-            <input type="text" value="line number" v-model="lineBundle.dataline">
-            <label for="linenumber">Please enter seperator type</label>
-            <input type="text" value="comma, tab etc" v-model="lineBundle.delimiter">
+        <div id="convert-data" v-if="linesLimit.length > 0">
+          <form class="file-info">
+            Please enter:
+            <div class="file-info-label">
+              <label for="linenumber">column names line number</label>
+              <input type="text" value="" v-model="lineBundle.cnumber">
+            </div>
+            <div class="file-info-label">
+              <label for="dataline">Data start line number</label>
+              <input type="text" value="" v-model="lineBundle.dataline">
+            </div>
+            <div class="file-info-label">
+              <label for="seperator">Seperator type</label>
+              <input type="text" value="" placeholder="comma tab other" v-model="lineBundle.delimiter">
+            </div>
+            <div class="file-info-label">
+              <label for="datetype">Type of date</label>
+              <input type="text" value="" v-model="lineBundle.datetype">
+            </div>
           </form>
-          <button @click='convertJSON'>Convert to JSON & SAVE</button>
-        </div>
-        <div id="feedback-save">
-          save status {{ fileStatus }}
-          <p>
-            feeback {{ fileFeedback }}
-          </p>
-        </div>
-        <div id="keypw-feedback">
-          {{ verifyfeedbackM }}
+          <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
+          <div id="feedback-save">
+              <div id="file-save-feedback" v-if="fileStatus === true">
+                <div class="file-feedback">
+                  Conversion and save successful
+                </div>
+                <div>
+                  File save info:
+                  <div class="feedback-info-package">
+                    PATH: {{ fileFeedback.path }}
+                  </div>
+                  <div class="feedback-info-package">
+                    COLUMNS: {{ fileFeedback.columns }}
+                  </div>
+                </div>
+            </div>
+          </div>
         </div>
       </template>
     </source-modal>
@@ -83,9 +101,10 @@ export default {
     lineCounter: 0,
     lineBundle:
     {
-      numberc: 0,
-      dataline: 0,
-      delimiter: ''
+      cnumber: '',
+      dataline: '',
+      delimiter: '',
+      datetype: ''
     },
     fileinputSeen: true,
     fileData: {},
@@ -94,7 +113,6 @@ export default {
     fileType: '',
     fileSummary: '',
     linesLimit: [],
-    verifyfeedbackM: '',
     feedbackM: '',
     warningM: ''
   }),
@@ -129,7 +147,8 @@ export default {
       this.$store.dispatch('actionFileconvert', fileBund)
     },
     closeSourceModal () {
-      // this.sourceButton.active = !this.sourceButton.active
+      // clear the feedback on close
+      this.$store.dispatch('actionClearFileFeeback', 'clear')
       this.$emit('closeSModal')
     }
   }
@@ -154,5 +173,22 @@ export default {
   left: 0;
   z-index: -1;
   opacity: 0;
+}
+
+.file-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  font-size: 1.2em;
+}
+
+.file-info-label {
+  border: 1px solid red;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.convert-button {
+  margin: 1em;
+  font-size: 1.2em;
 }
 </style>

@@ -91,6 +91,10 @@ export default {
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
       }
+    },
+    CLEAR_FILE_FEEDBACK (state, update) {
+      console.log('clear file feedback')
+      this.state.fileFeedback = {}
     }
   },
   actions: {
@@ -311,6 +315,9 @@ export default {
       fileInfo.data = update
       const fileJSON = JSON.stringify(fileInfo)
       Vue.prototype.$socket.send(fileJSON)
+    },
+    actionClearFileFeeback (context, update) {
+      context.commit('CLEAR_FILE_FEEDBACK', update)
     }
   }
 }
