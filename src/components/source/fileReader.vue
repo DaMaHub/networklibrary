@@ -19,6 +19,13 @@
             <input type="file" @change="loadTextFromFile">
           </label>
         </div>
+        <div id="file-url-preview">
+          <label>
+            or enter url location:
+          </label>
+          <input type="text" v-model="readRemotefile">
+          <button class="url-remote-file" @click="getRemotefile">read url file</button>
+        </div>
         <div id="summary-content">
           <ul v-for="(value, index) in linesLimit" :key="value.id">
             <li>{{index }} {{ value }}</li>
@@ -69,6 +76,7 @@
 
 <script>
 import SourceModal from '@/components/source/sourceModal.vue'
+import axios from 'axios'
 
 export default {
   name: 'fileupload-page',
@@ -114,11 +122,15 @@ export default {
     fileSummary: '',
     linesLimit: [],
     feedbackM: '',
-    warningM: ''
+    warningM: '',
+    readRemotefile: '',
+    sourceLocation: ''
   }),
   methods: {
     loadTextFromFile (ev) {
       // prompt for Password
+      this.sourceLocation = 'local'
+      console.log(ev.target.files)
       const localthis = this
       this.fileData = ev.target.files[0]
       this.fileName = this.fileData.name
@@ -141,10 +153,33 @@ export default {
       // need to do this via peer peerLink
       const fileBund = {}
       fileBund.name = this.fileName
+      fileBund.source = this.sourceLocation
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
       this.$store.dispatch('actionFileconvert', fileBund)
+    },
+    getRemotefile () {
+      console.log('remote file read')
+      this.sourceLocation = 'web'
+      const localthis = this
+      axios.get(this.readRemotefile)
+        .then(function (response) {
+          // handle success
+          // console.log(Object.keys(response))
+          // console.log(response.data)
+          const dataSource = response.data
+          const lines = dataSource.split(/\r\n|\n/)
+          console.log(lines)
+          localthis.linesLimit = lines.slice(0, 30)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function () {
+          // always executed
+        })
     },
     closeSourceModal () {
       // clear the feedback on close
@@ -191,4 +226,9 @@ export default {
   margin: 1em;
   font-size: 1.2em;
 }
+
+.url-remote-file {
+  font-size: 1.2em;
+}
+
 </style>

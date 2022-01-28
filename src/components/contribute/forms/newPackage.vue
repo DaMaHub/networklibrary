@@ -48,8 +48,8 @@
       <li class="package-column-item">
         <label for="add-code-name">Column builder</label>
         <input type="text"  id="package-base-address" placeholder="column" required  v-model="formData.columns" />
-        <a href='#' id="add-column" @click.prevent="columnsSave" >Add column</a>
-        <a href='#' id="auto-column" @click.prevent="columnsAuto" >Auto add</a>
+        <a href='#' id="add-column" @click.prevent="columnsSave" >Add column </a>
+        <a href='#' id="auto-column" @click.prevent="columnsAuto" > Auto add</a>
       </li>
       <describe-data></describe-data>
       <li class="package-form-item">
@@ -148,7 +148,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .package-form-item {
   margin: 1em;
   list-style: none;
@@ -158,4 +158,8 @@ export default {
   padding: 1em;
 }
 
+#auto-column {
+  margin-left: 2em;
+  border: 1px solid red;
+}
 </style>
