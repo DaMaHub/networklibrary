@@ -46,12 +46,9 @@ export default {
   },
   methods: {
     sourceSelect () {
-      console.log('source file type asked for')
-      console.log(this.source)
       this.fileType = this.source
       if (this.source === 'csv') {
         this.sourceState = !this.sourceState
-        console.log(this.sourceState)
       }
     },
     closeSModal () {

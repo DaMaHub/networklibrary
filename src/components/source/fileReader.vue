@@ -130,7 +130,6 @@ export default {
     loadTextFromFile (ev) {
       // prompt for Password
       this.sourceLocation = 'local'
-      console.log(ev.target.files)
       const localthis = this
       this.fileData = ev.target.files[0]
       this.fileName = this.fileData.name
@@ -170,7 +169,6 @@ export default {
           // console.log(response.data)
           const dataSource = response.data
           const lines = dataSource.split(/\r\n|\n/)
-          console.log(lines)
           localthis.linesLimit = lines.slice(0, 30)
         })
         .catch(function (error) {

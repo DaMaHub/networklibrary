@@ -73,7 +73,7 @@ export default {
 }
 
 .row {
-  border: 3px solid green;
+  border: 3px solid lightgrey;
   min-height: 2em;
 }
 
@@ -93,7 +93,7 @@ export default {
 }
 
 #data-columns {
-  border: 4px solid orange;
+  border: 2px solid orange;
   min-height: 400px;
   vertical-align: text-top;
   display: inline-block;

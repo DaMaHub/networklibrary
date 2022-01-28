@@ -36,6 +36,8 @@ export default new Vuex.Store({
     newComputeForm: {},
     newPackingForm:
     {
+      authrequired: false,
+      authtoken: '',
       apicolumns: [],
       apicolHolder: [[]],
       catCount: 0,
@@ -87,6 +89,9 @@ export default new Vuex.Store({
     },
     ADD_REFCONTPACK_APIPATH (state, inVerified) {
       Vue.set(state.newPackingForm, 'apipath', inVerified)
+    },
+    ADD_REFCONTPACK_AUTHREQUIRED  (state, inVerified) {
+      Vue.set(state.newPackingForm, 'authrequired', inVerified)
     },
     ADD_REFCONTPACK_APICOL (state, inVerified) {
       console.log('api COLUM')
@@ -270,6 +275,9 @@ export default new Vuex.Store({
     },
     buildRefPackageAPIpath (context, update) {
       context.commit('ADD_REFCONTPACK_APIPATH', update)
+    },
+    buildRefPackageAuthrequired (context, update) {
+      context.commit('ADD_REFCONTPACK_AUTHREQUIRED', update)
     },
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)

@@ -7,7 +7,7 @@
     <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button> -->
     <!-- <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button> -->
     <input v-model="peerSynckey" placeholder="public key">
-    <button type="button" class="btn" @click="peerSync()">Sync Library</button>
+    <button type="button" class="btn" @click="peerSync()">Sync Public Library</button>
     <connect-modal v-show="isModalVisible" @close="closeModal">
       <template v-slot:header>
       <!-- The code below goes into the header slot -->
