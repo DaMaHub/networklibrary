@@ -74,7 +74,6 @@ export default {
         this.connectContext.message = 'Anno. connect to network'
         this.buttonName = 'Annon. connect'
         // this.$store.dispatch('annonconnectNSnetwork')
-        console.log('connect basic')
         this.$store.dispatch('actionCheckConnect')
         this.$store.dispatch('startconnectNSnetwork')
       } else if (typeConnect === 'new-connect') {

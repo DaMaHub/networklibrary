@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import NetworkConnect from '@/refflow/cryptoUtility.js'
 import modules from './modules'
 
-// const refFlow = new NetworkConnect()
 Vue.use(Vuex)
 
+const urlLive = window.location.href
+const query = location.search
+const token = query.substring(1)
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source-builder' }
 dataTitle[1] = { title: 'Curation', type: 'reference-builder' }
@@ -20,7 +21,7 @@ export default new Vuex.Store({
       text: 'Connect'
     },
     authorised: false,
-    jwttoken: '',
+    jwttoken: token,
     connectStatus: false,
     peerauthStatus: false,
     connectContext: {},
@@ -95,8 +96,6 @@ export default new Vuex.Store({
       Vue.set(state.newPackingForm, 'authrequired', inVerified)
     },
     ADD_REFCONTPACK_APICOL (state, inVerified) {
-      console.log('api COLUM')
-      console.log(inVerified)
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
         colCount = 1
@@ -110,8 +109,6 @@ export default new Vuex.Store({
       state.newPackingForm.apicolHolder.push([])
     },
     AUTOADD_REFCONTPACK_APICOL (state, inVerified) {
-      console.log('AUTO api COLUM')
-      console.log(inVerified)
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
         colCount = 1
@@ -199,7 +196,6 @@ export default new Vuex.Store({
     },
     ADD_REFVISUALISE_ELEMENTPAIR (state, inVerified) {
       state.newVisualiseForm.structure.push(inVerified)
-      console.log(state.newVisualiseForm.structure)
     },
     SET_CONNECTION_STATUS: (state, inVerified) => {
       Vue.set(state.networkConnection, 'active', true)

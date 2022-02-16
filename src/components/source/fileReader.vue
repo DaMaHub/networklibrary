@@ -160,7 +160,6 @@ export default {
       this.$store.dispatch('actionFileconvert', fileBund)
     },
     getRemotefile () {
-      console.log('remote file read')
       this.sourceLocation = 'web'
       const localthis = this
       axios.get(this.readRemotefile)

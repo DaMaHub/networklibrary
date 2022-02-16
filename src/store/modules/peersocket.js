@@ -44,8 +44,6 @@ export default {
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
-      console.log('back fae PEERlink')
-      console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
         // safeFLOW inflow
@@ -97,7 +95,6 @@ export default {
       }
     },
     CLEAR_FILE_FEEDBACK (state, update) {
-      console.log('clear file feedback')
       this.state.fileFeedback = {}
     }
   },
@@ -129,7 +126,6 @@ export default {
       } else if (message.reftype === 'new-packaging') {
         const formKeys = Object.keys(this.state.newPackingForm)
         for (const fk of formKeys) {
-          console.log(fk)
           if (fk === 'category' || fk === 'tidy') {
             Vue.set(this.state.newPackingForm, fk, {})
           } else {
@@ -147,7 +143,6 @@ export default {
         } else {
           colCount = this.state.newPackingForm.apicolumns.length + 1
         }
-        console.log(colCount)
         this.state.newPackingForm.apicolHolder.push([])
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)
@@ -169,7 +164,6 @@ export default {
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
     actionGetRefContract (context, message) {
-      console.log('action for ws')
       message.jwt = this.state.jwttoken
       Vue.prototype.$socket.send(message)
     },
@@ -308,7 +302,6 @@ export default {
       dataCNRLbundle13.concept = 'cnrl-001234543220'
       dataCNRLbundle13.grid = []
       moduleContracts.push(dataCNRLbundle13)
-      console.log(moduleContracts)
       for (const mc of moduleContracts) {
         console.log(mc)
         // const prepareModule = refcontComposerLive.moduleComposer(mc)
