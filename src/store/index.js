@@ -20,6 +20,7 @@ export default new Vuex.Store({
       text: 'Connect'
     },
     authorised: false,
+    jwttoken: '',
     connectStatus: false,
     peerauthStatus: false,
     connectContext: {},

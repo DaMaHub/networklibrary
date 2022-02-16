@@ -13,7 +13,7 @@ export default {
   getters: {
   },
   mutations: {
-    SOCKET_ONOPEN (state, event) {
+    /* SOCKET_ONOPEN (state, event) {
       this.$socket = event.currentTarget
       state.socket.isConnected = true
       this.state.connectStatus = true
@@ -40,7 +40,7 @@ export default {
       console.log('networklibrary close')
       state.socket.reconnectError = true
       this.state.peerauthStatus = false
-    },
+    }, */
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
@@ -58,6 +58,7 @@ export default {
         refContractp.type = 'library'
         refContractp.reftype = 'publiclibrary'
         refContractp.action = 'GET'
+        refContractp.jwt = this.state.jwttoken
         const refCJSONp = JSON.stringify(refContractp)
         Vue.prototype.$socket.send(refCJSONp)
         // network library updates?
@@ -65,6 +66,7 @@ export default {
         refContract.type = 'library'
         refContract.reftype = 'privatelibrary'
         refContract.action = 'GET'
+        refContract.jwt = this.state.jwttoken
         const refCJSON = JSON.stringify(refContract)
         Vue.prototype.$socket.send(refCJSON)
         // ask for datastore public keys
@@ -73,11 +75,13 @@ export default {
         const pubkeyGet = {}
         pubkeyGet.type = 'library'
         pubkeyGet.reftype = 'keymanagement'
+        pubkeyGet.jwt = this.state.jwttoken
         Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
         // get datastore
         const getWarmPeers = {}
         getWarmPeers.type = 'library'
         getWarmPeers.reftype = 'warm-peers'
+        getWarmPeers.jwt = this.state.jwttoken
         Vue.prototype.$socket.send(JSON.stringify(getWarmPeers))
       } else if (backJSON.type === 'publickey') {
         this.state.publickey = backJSON.pubkey
@@ -113,6 +117,7 @@ export default {
         prepareRefContract = LibLib.liveComposer.visualiseComposer(this.state.newVisualiseForm)
       }
       // console.log(prepareRefContract)
+      prepareRefContract.jwt = this.state.jwttoken
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
       // reset the form
@@ -160,10 +165,12 @@ export default {
       const pubkeyGet = {}
       pubkeyGet.type = 'library'
       pubkeyGet.reftype = 'viewpublickey'
+      pubkeyGet.jwt = this.state.jwttoken
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
     actionGetRefContract (context, message) {
       console.log('action for ws')
+      message.jwt = this.state.jwttoken
       Vue.prototype.$socket.send(message)
     },
     actionMakeVisualiseRefContract (context, message) {
@@ -194,6 +201,7 @@ export default {
       peerSync.type = 'library'
       peerSync.reftype = 'replicatekey'
       peerSync.publickey = message
+      peerSync.jwt = this.state.jwttoken
       const peerSyncJSON = JSON.stringify(peerSync)
       Vue.prototype.$socket.send(peerSyncJSON)
     },
@@ -313,6 +321,7 @@ export default {
       fileInfo.type = 'library'
       fileInfo.reftype = 'convert-csv-json'
       fileInfo.data = update
+      fileInfo.jwt = this.state.jwttoken
       const fileJSON = JSON.stringify(fileInfo)
       Vue.prototype.$socket.send(fileJSON)
     },

@@ -19,7 +19,7 @@ export default {
   },
   data () {
     return {
-      pluginNL: false
+      pluginNL: true
     }
   }
 }

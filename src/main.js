@@ -7,7 +7,7 @@ import VueNativeSock from 'vue-native-websocket'
 
 Vue.config.productionTip = false
 // 127.0.0.1:9888
-Vue.use(VueNativeSock, 'wss://127.0.0.1:9888', {
+Vue.use(VueNativeSock, 'wss://wapird.healthscience.network', {
   store: store,
   // format: 'json',
   reconnection: true,

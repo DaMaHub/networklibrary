@@ -48,7 +48,7 @@ export default {
   },
   data () {
     return {
-      pluginNL: false,
+      pluginNL: true,
       isModalVisible: false,
       helpContext: 'home',
       languages: [
