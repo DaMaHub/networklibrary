@@ -4,9 +4,10 @@ import modules from './modules'
 
 Vue.use(Vuex)
 
-const urlLive = window.location.href
+// const urlLive = window.location.href
 const query = location.search
 const token = query.substring(1)
+
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source-builder' }
 dataTitle[1] = { title: 'Curation', type: 'reference-builder' }

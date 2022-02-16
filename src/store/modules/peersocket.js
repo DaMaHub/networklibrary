@@ -114,7 +114,7 @@ export default {
         prepareRefContract = LibLib.liveComposer.visualiseComposer(this.state.newVisualiseForm)
       }
       // console.log(prepareRefContract)
-      prepareRefContract.jwt = this.state.jwttoken
+      prepareRefContract.jwt = context.rootState.jwttoken
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
       // reset the form
@@ -143,6 +143,7 @@ export default {
         } else {
           colCount = this.state.newPackingForm.apicolumns.length + 1
         }
+        console.log(colCount)
         this.state.newPackingForm.apicolHolder.push([])
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)
@@ -160,12 +161,15 @@ export default {
       const pubkeyGet = {}
       pubkeyGet.type = 'library'
       pubkeyGet.reftype = 'viewpublickey'
-      pubkeyGet.jwt = this.state.jwttoken
+      pubkeyGet.jwt = context.rootState.jwttoken
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
     actionGetRefContract (context, message) {
-      message.jwt = this.state.jwttoken
-      Vue.prototype.$socket.send(message)
+      console.log(message)
+      const updateMessage = JSON.parse(message)
+      updateMessage.jwt = context.rootState.jwttoken
+      let newString = JSON.stringify(updateMessage)
+      Vue.prototype.$socket.send(newString)
     },
     actionMakeVisualiseRefContract (context, message) {
       console.log('setup Visualise ref contract')
@@ -195,7 +199,7 @@ export default {
       peerSync.type = 'library'
       peerSync.reftype = 'replicatekey'
       peerSync.publickey = message
-      peerSync.jwt = this.state.jwttoken
+      peerSync.jwt = context.rootState.jwttoken
       const peerSyncJSON = JSON.stringify(peerSync)
       Vue.prototype.$socket.send(peerSyncJSON)
     },
@@ -314,7 +318,7 @@ export default {
       fileInfo.type = 'library'
       fileInfo.reftype = 'convert-csv-json'
       fileInfo.data = update
-      fileInfo.jwt = this.state.jwttoken
+      fileInfo.jwt = context.rootState.jwttoken
       const fileJSON = JSON.stringify(fileInfo)
       Vue.prototype.$socket.send(fileJSON)
     },
