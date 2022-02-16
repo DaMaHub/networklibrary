@@ -9,7 +9,7 @@
         <option value="ipfs">IPFS</option>
         <option value="rest">REST</option>
         <option value="grpc">gRPC</option>
-        <option value="csv">CVS</option>
+        <option value="csv">CSV</option>
         <option value="json">JSON</option>
       </select>
     </li>

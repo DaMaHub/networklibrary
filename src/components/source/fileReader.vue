@@ -153,6 +153,7 @@ export default {
       const fileBund = {}
       fileBund.name = this.fileName
       fileBund.source = this.sourceLocation
+      fileBund.websource = this.readRemotefile
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
