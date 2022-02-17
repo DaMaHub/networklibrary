@@ -157,6 +157,8 @@ export default {
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
+      console.log('convert JSON info')
+      console.log(fileBund)
       this.$store.dispatch('actionFileconvert', fileBund)
     },
     getRemotefile () {

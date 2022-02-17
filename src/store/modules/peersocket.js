@@ -165,7 +165,6 @@ export default {
       Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
     },
     actionGetRefContract (context, message) {
-      console.log(message)
       const updateMessage = JSON.parse(message)
       updateMessage.jwt = context.rootState.jwttoken
       let newString = JSON.stringify(updateMessage)
