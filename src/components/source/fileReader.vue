@@ -132,6 +132,7 @@ export default {
       this.sourceLocation = 'local'
       const localthis = this
       this.fileData = ev.target.files[0]
+      console.log(this.fileData)
       this.fileName = this.fileData.name
       this.filepath = this.fileData.path
       this.fileType = this.fileData.type
@@ -147,6 +148,12 @@ export default {
         localthis.fileSummary = shortText */
       }
       reader.readAsText(this.fileData)
+      const reader2 = new FileReader()
+      reader2.readAsDataURL(this.fileData)
+      reader2.onload = function (e) {
+        console.log('DataURL:', e.target.result)
+        localthis.filepath = e.target.result
+      }
     },
     convertJSON () {
       // need to do this via peer peerLink
@@ -154,11 +161,10 @@ export default {
       fileBund.name = this.fileName
       fileBund.source = this.sourceLocation
       fileBund.websource = this.readRemotefile
+      fileBund.web = 'weblocal'
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
-      console.log('convert JSON info')
-      console.log(fileBund)
       this.$store.dispatch('actionFileconvert', fileBund)
     },
     getRemotefile () {
