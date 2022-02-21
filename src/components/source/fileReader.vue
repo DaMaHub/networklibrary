@@ -13,59 +13,61 @@
         </button>
       </template>
       <template v-slot:source-file>
-        <div id="file-preview">
-          <label class="text-reader">
-            Read file
-            <input type="file" @change="loadTextFromFile">
-          </label>
-        </div>
-        <div id="file-url-preview">
-          <label>
-            or enter url location:
-          </label>
-          <input type="text" v-model="readRemotefile">
-          <button class="url-remote-file" @click="getRemotefile">read url file</button>
-        </div>
-        <div id="summary-content">
-          <ul v-for="(value, index) in linesLimit" :key="value.id">
-            <li>{{index }} {{ value }}</li>
-          </ul>
-        </div>
-        <div id="convert-data" v-if="linesLimit.length > 0">
-          <form class="file-info">
-            Please enter:
-            <div class="file-info-label">
-              <label for="linenumber">column names line number</label>
-              <input type="text" value="" v-model="lineBundle.cnumber">
-            </div>
-            <div class="file-info-label">
-              <label for="dataline">Data start line number</label>
-              <input type="text" value="" v-model="lineBundle.dataline">
-            </div>
-            <div class="file-info-label">
-              <label for="seperator">Seperator type</label>
-              <input type="text" value="" placeholder="comma tab other" v-model="lineBundle.delimiter">
-            </div>
-            <div class="file-info-label">
-              <label for="datetype">Type of date</label>
-              <input type="text" value="" v-model="lineBundle.datetype">
-            </div>
-          </form>
-          <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
-          <div id="feedback-save">
-              <div id="file-save-feedback" v-if="fileStatus === true">
-                <div class="file-feedback">
-                  Conversion and save successful
-                </div>
-                <div>
-                  File save info:
-                  <div class="feedback-info-package">
-                    PATH: {{ fileFeedback.path }}
+        <div id="file-container">file cotnent
+          <div id="file-preview">
+            <label class="text-reader">
+              Read file
+              <input type="file" @change="loadTextFromFile">
+            </label>
+          </div>
+          <div id="file-url-preview">
+            <label>
+              or enter url location:
+            </label>
+            <input type="text" v-model="readRemotefile">
+            <button class="url-remote-file" @click="getRemotefile">read url file</button>
+          </div>
+          <div id="summary-content">
+            <ul v-for="(value, index) in linesLimit" :key="value.id">
+              <li>{{index }} {{ value }}</li>
+            </ul>
+          </div>
+          <div id="convert-data" v-if="linesLimit.length > 0">
+            <form class="file-info">
+              Please enter:
+              <div class="file-info-label">
+                <label for="linenumber">column names line number</label>
+                <input type="text" value="" v-model="lineBundle.cnumber">
+              </div>
+              <div class="file-info-label">
+                <label for="dataline">Data start line number</label>
+                <input type="text" value="" v-model="lineBundle.dataline">
+              </div>
+              <div class="file-info-label">
+                <label for="seperator">Seperator type</label>
+                <input type="text" value="" placeholder="comma tab other" v-model="lineBundle.delimiter">
+              </div>
+              <div class="file-info-label">
+                <label for="datetype">Type of date</label>
+                <input type="text" value="" v-model="lineBundle.datetype">
+              </div>
+            </form>
+            <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
+            <div id="feedback-save">
+                <div id="file-save-feedback" v-if="fileStatus === true">
+                  <div class="file-feedback">
+                    Conversion and save successful
                   </div>
-                  <div class="feedback-info-package">
-                    COLUMNS: {{ fileFeedback.columns }}
+                  <div>
+                    File save info:
+                    <div class="feedback-info-package">
+                      PATH: {{ fileFeedback.path }}
+                    </div>
+                    <div class="feedback-info-package">
+                      COLUMNS: {{ fileFeedback.columns }}
+                    </div>
                   </div>
-                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -132,7 +134,6 @@ export default {
       this.sourceLocation = 'local'
       const localthis = this
       this.fileData = ev.target.files[0]
-      console.log(this.fileData)
       this.fileName = this.fileData.name
       this.filepath = this.fileData.path
       this.fileType = this.fileData.type
@@ -151,7 +152,6 @@ export default {
       const reader2 = new FileReader()
       reader2.readAsDataURL(this.fileData)
       reader2.onload = function (e) {
-        console.log('DataURL:', e.target.result)
         localthis.filepath = e.target.result
       }
     },
@@ -196,12 +196,20 @@ export default {
 }
 </script>
 
-<style>
-.text-reader {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
+<style scoped>
+#file-system {
+  display: grid;
+  grid-template-columns: 1fr;
+}
 
+#file-preview {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 4px solid red;
+}
+.text-reader {
+  display: grid;
+  grid-template-columns: 1fr;
   /* Fancy button looking */
   border: 2px solid black;
   border-radius: 5px;
@@ -209,9 +217,6 @@ export default {
   cursor: pointer;
 }
 .text-reader input {
-  position: absolute;
-  top: 0;
-  left: 0;
   z-index: -1;
   opacity: 0;
 }
@@ -237,4 +242,13 @@ export default {
   font-size: 1.2em;
 }
 
+#file-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+#summary-content {
+  max-height: 60%;
+  overflow: scroll;
+}
 </style>
