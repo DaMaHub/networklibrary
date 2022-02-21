@@ -66,6 +66,7 @@ export default {
     display: flex;
     justify-content: start;
     align-items: center;
+    width: 51%;
     z-index: 15;
   }
 
@@ -76,7 +77,7 @@ export default {
     overflow-x: auto;
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 99%;
     margin-top: 20px;
     z-index: 15;
   }

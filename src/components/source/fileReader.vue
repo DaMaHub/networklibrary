@@ -271,4 +271,11 @@ form.file-info {
   height: 600px;
   overflow: scroll;
 }
+
+#feedback-save {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px dashed orange;
+}
+
 </style>
