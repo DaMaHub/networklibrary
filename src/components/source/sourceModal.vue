@@ -64,7 +64,7 @@ export default {
     right: 0;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     z-index: 15;
   }
@@ -76,7 +76,7 @@ export default {
     overflow-x: auto;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 50%;
     margin-top: 20px;
     z-index: 15;
   }

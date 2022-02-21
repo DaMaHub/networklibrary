@@ -13,26 +13,25 @@
         </button>
       </template>
       <template v-slot:source-file>
-        <div id="file-container">file cotnent
-          <div id="file-preview">
-            <label class="text-reader">
-              Read file
-              <input type="file" @change="loadTextFromFile">
-            </label>
+        <div id="file-container">
+          <header>FILE CONTENT</header>
+          <div class="file-section">
+            <label class="file-select">Read file</label>
+            <input type="file" @change="loadTextFromFile">
           </div>
-          <div id="file-url-preview">
-            <label>
-              or enter url location:
-            </label>
+          <div class="file-section">
+            <label class="file-select">or enter url location:</label>
+          </div>
+          <div class="file-section" id="web-file-path">
             <input type="text" v-model="readRemotefile">
-            <button class="url-remote-file" @click="getRemotefile">read url file</button>
+            <button @click="getRemotefile">read url file</button>
           </div>
-          <div id="summary-content">
+          <div class="file-section" id="summary-content">
             <ul v-for="(value, index) in linesLimit" :key="value.id">
-              <li>{{index }} {{ value }}</li>
+              <li><b>{{index }}</b> {{ value }}</li>
             </ul>
           </div>
-          <div id="convert-data" v-if="linesLimit.length > 0">
+          <div class="convert-section" id="convert-data" v-if="linesLimit.length > 0">
             <form class="file-info">
               Please enter:
               <div class="file-info-label">
@@ -202,35 +201,65 @@ export default {
   grid-template-columns: 1fr;
 }
 
-#file-preview {
+#file-container {
   display: grid;
   grid-template-columns: 1fr;
-  border: 4px solid red;
-}
-.text-reader {
-  display: grid;
-  grid-template-columns: 1fr;
-  /* Fancy button looking */
-  border: 2px solid black;
-  border-radius: 5px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-.text-reader input {
-  z-index: -1;
-  opacity: 0;
 }
 
-.file-info {
+.file-section {
   display: grid;
   grid-template-columns: 1fr;
+  margin-top: 1em;
+}
+
+.file-section input {
+  font-size: 1.2em;
+  margin: 0 auto 1em auto;
+}
+
+.file-section input.web-path-file {
+  width: 20em;
+}
+
+.file-select {
+  font-size: 1.2em;
+}
+
+#web-file-path input {
+  width: 30em;
+}
+
+#web-file-path button {
+  width: 6em;
+  margin: 0 auto 1em auto;
+  font-size: 1.2em;
+}
+
+.url-remote-file {
+  font-size: 1.2em;
+  margin: 0 auto 1em auto;
+  width: 8em;
+  font-size: 1.2em;
+}
+
+form.file-info {
   font-size: 1.2em;
 }
 
 .file-info-label {
-  border: 1px solid red;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  line-height: 1.4em;
+  margin-bottom: .5em;
+}
+
+.file-info-label label {
+  justify-self: end;
+  margin-right: 1em;
+}
+
+.file-info-label input {
+  width: 40%;
 }
 
 .convert-button {
@@ -238,17 +267,8 @@ export default {
   font-size: 1.2em;
 }
 
-.url-remote-file {
-  font-size: 1.2em;
-}
-
-#file-container {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
 #summary-content {
-  max-height: 60%;
+  height: 600px;
   overflow: scroll;
 }
 </style>

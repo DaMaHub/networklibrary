@@ -144,7 +144,6 @@ export default {
       this.$store.dispatch('buildRefPackageAPIauth', this.formData.authorisation)
     },
     authrequiredSelect (ak) {
-      console.log(this.formData.authrequired)
       this.$store.dispatch('buildRefPackageAuthrequired', this.formData.authrequired)
     },
     columnsSave (ak) {
