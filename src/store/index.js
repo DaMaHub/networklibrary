@@ -5,8 +5,8 @@ import modules from './modules'
 Vue.use(Vuex)
 
 // const urlLive = window.location.href
-const query = location.search
-const token = query.substring(1)
+// const query = location.search
+// const token = query.substring(1)
 
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source-builder' }
@@ -16,16 +16,20 @@ export default new Vuex.Store({
   modules,
   state: {
     publickey: '',
+    authorised: false,
+    connectStatus: false,
+    peerauthStatus: false,
+    jwttoken: '', // token for integrated other apps
+    connectContext: {},
     networkConnection: {
       active: false,
       type: 'self-verify',
       text: 'Connect'
     },
-    authorised: false,
-    jwttoken: token,
-    connectStatus: false,
-    peerauthStatus: false,
-    connectContext: {},
+    publickeys: [],
+    warmNetwork: [],
+    liveRefContIndex: {},
+    livePeerRefContIndex: {},
     fileSaveStatus: false,
     fileFeedback: {},
     dashboardGrid: [
@@ -208,9 +212,43 @@ export default new Vuex.Store({
         Vue.set(state.networkConnection, 'text', 'edit-connection')
         Vue.set(state.networkConnection, 'type', 'check-connection')
       }
+    },
+    SET_CONECTIONSOCK_STATUS: (state, inVerified) => {
+      let updateState = false
+      if (inVerified === false) {
+        updateState = true
+      } else {
+        updateState = false
+      }
+      Vue.set(state.networkConnection, 'active', updateState)
+    },
+    SET_DISCONNECT_NETWORK: (state, inVerifed) => {
+      let safeFlowMessage = {}
+      // set auth to not auth
+      state.peerauthStatus = false
+      const message = {}
+      message.type = 'safeflow'
+      message.reftype = 'ignore'
+      message.action = 'disconnect'
+      message.jwt = state.jwttoken
+      safeFlowMessage = JSON.stringify(message)
+      // clear peer data
+      state.joinedNXPlist = []
+      // clear peeers and data list
+      state.publickeys = []
+      state.warmNetwork = []
+      state.moduleGrid = {}
+      state.NXPexperimentData = {}
+      state.networkConnection.active = false
+      state.networkConnection.text = 'connect'
+      state.networkConnection.type = 'self-verify'
+      Vue.prototype.$socket.send(safeFlowMessage)
     }
   },
   actions: {
+    actionCloseNetworkModal (context, update) {
+      context.commit('SET_CONECTIONSOCK_STATUS', update)
+    },
     async startconnectNSnetwork (context, update) {
       // send a auth requrst to peerlink if not already authorsed
       if (this.state.connectStatus === true && this.state.peerauthStatus !== true) {
@@ -345,6 +383,9 @@ export default new Vuex.Store({
     },
     actionCheckConnect (context, update) {
       context.commit('SET_CONNECTION_STATUS', update)
+    },
+    actionDisconnect (context, update) {
+      context.commit('SET_DISCONNECT_NETWORK', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

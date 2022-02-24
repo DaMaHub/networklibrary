@@ -64,7 +64,7 @@ export default {
     right: 0;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
-    justify-content: start;
+    /*align-items: flex-start;*/
     align-items: center;
     width: 51%;
     z-index: 15;

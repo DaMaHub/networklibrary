@@ -270,6 +270,7 @@ form.file-info {
 #summary-content {
   height: 600px;
   overflow: scroll;
+  background-color: lightgrey;
 }
 
 #feedback-save {

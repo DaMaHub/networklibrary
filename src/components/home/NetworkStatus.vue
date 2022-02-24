@@ -1,33 +1,66 @@
 <template>
-  <div class="hello">
-    <header>Network Status</header>
-    <div id="connection-status">{{ msg }}</div>
-    <button type="button" class="btn" @click="connectNetwork('connect')">Connect</button>
-    <!-- <button type="button" class="btn" @click="connectNetwork('new-connect')">New account</button>
-    <button type="button" class="btn" @click="connectNetwork('self-connect')">Self sign-in</button> -->
-    <!-- <button type="button" class="btn" @click="connectNetwork('self-testnetwork')">Testnetwork sign-in</button> -->
-    <input v-model="peerSynckey" placeholder="public key">
-    <button type="button" class="btn" @click="peerSync()">Sync Public Library</button>
-    <connect-modal v-show="isModalVisible" @close="closeModal">
+  <div class="network-connectstatus">
+    <connect-modal v-show="connectBut.active === true" @close="closeModal">
       <template v-slot:header>
-      <!-- The code below goes into the header slot -->
-        CONNECT
+        <!-- The code below goes into the header slot -->
+        <button
+          type="button"
+          class="btn-green"
+          @click="closeModal"
+          aria-label="Close modal"
+        >
+          Close
+        </button>
+        CONNECT <a href="#" id="disconnect-network" @click="disconnectNetwork">Disconnect</a>
       </template>
       <template v-slot:title-form>
-        {{ connectContext.message }}
+        <header class="connect-info">DaMaHub Network Library</header>
       </template>
-      <template v-slot:input-form>
-        <token-reader v-if="connectContext.type === 'testnetwork'" @closeTreader="closeModal"></token-reader>
-        <div id="self-in" v-if="connectContext.type === 'selfsign'">
-          <input v-model="secretPeer" placeholder="public key">
-          <input v-model="passwordPeer" placeholder="token">
-          <div id="disply-pubkey">
-            Publickey-- {{ storepubkey }}
+      <template v-slot:connect-network>
+        <div id="network-status">
+          <div class="status-info">
+            Connection Status: <div class="hon-square-status" v-bind:class="{ active: connectNetworkstatus === true && peerauth === true }"></div>
+          </div>
+          <div class="status-info">
+            Warm peers connected: {{ warmPeers.length }}
           </div>
         </div>
       </template>
-      <template v-slot:submit-form>
-        <button>{{ buttonName }}</button>
+      <template v-slot:input-form>
+        <div id="external-datastores">
+          <header class="connect-info">External data source connections</header>
+          <div class="external-token-status">
+            <header>REST</header>
+            <div id="self-in" v-if="peerauth === true">
+              <!-- <input v-model="secretPeer" placeholder="public key">
+              <input v-model="passwordPeer" placeholder="token"> -->
+            </div>
+          </div>
+          <div class="external-token-status">
+            <header>SQLite</header>
+              <p>Gadgetbridge</p>
+          </div>
+        </div>
+      </template>
+      <template v-slot:submit-cloud v-if="cloudConnect === 'signin-cloud' && peerauth === false">
+        <form id="cloud-signin-form" >
+          <div class="cloud-inputs">
+            <label class="form-couple-type" for="signin-cloud">username</label>
+            <input class="form-couple" type="text" id="usernamecloud" name="username" v-model="cloudsigninInput">
+          </div>
+          <div class="cloud-inputs">
+            <label class="form-couple-type" for="password-cloud">password</label>
+            <input class="form-couple" type="password" id="passwordcloud" name="password" v-model="cloudpwInput">
+          </div>
+          <div class="cloud-confirm">
+            <button id="cloud-submit" @click.prevent="submitCloudin">
+              Sign-in
+            </button>
+          </div>
+        </form>
+      </template>
+      <template v-slot:peers-warm>
+        <connection-lists></connection-lists>
       </template>
     </connect-modal>
   </div>
@@ -35,17 +68,30 @@
 
 <script>
 import ConnectModal from '@/components/connect/ConnectModal.vue'
-import TokenReader from '@/components/connect/token-reader.vue'
+import ConnectionLists from '@/components/connect/connectionLists.vue'
+// const remote = require('electron').remote
 
 export default {
   name: 'Network-Connect',
   components: {
     ConnectModal,
-    TokenReader
+    ConnectionLists
   },
   computed: {
-    storepubkey: function () {
-      return this.$store.state.publickey
+    connectBut: function () {
+      return this.$store.state.networkConnection
+    },
+    connectNetworkstatus: function () {
+      return this.$store.state.connectStatus
+    },
+    peerauth: function () {
+      return this.$store.state.peerauthStatus
+    },
+    connectContext: function () {
+      return this.$store.state.connectContext
+    },
+    warmPeers: function () {
+      return this.$store.state.warmNetwork
     }
   },
   props: {
@@ -53,51 +99,31 @@ export default {
   },
   data () {
     return {
+      // w: remote.getCurrentWindow(),
       isModalVisible: false,
-      connectContext:
-      {
-        type: '',
-        message: '',
-        footer: ''
-      },
-      buttonName: 'Connect',
-      secretPeer: '',
-      passwordPeer: '',
-      peerSynckey: ''
+      buttonName: 'verify token',
+      cloudConnect: 'signin-cloud', // 'signin-cloud',
+      cloudsigninInput: '',
+      cloudpwInput: ''
     }
   },
   methods: {
-    connectNetwork (typeConnect) {
-      this.isModalVisible = true
-      if (typeConnect === 'connect') {
-        this.connectContext.type = 'connect'
-        this.connectContext.message = 'Anno. connect to network'
-        this.buttonName = 'Annon. connect'
-        // this.$store.dispatch('annonconnectNSnetwork')
-        this.$store.dispatch('actionCheckConnect')
-        this.$store.dispatch('startconnectNSnetwork')
-      } else if (typeConnect === 'new-connect') {
-        this.connectContext.type = 'firsttime'
-        this.connectContext.message = 'first time new connection setup'
-        this.buttonName = 'Submit'
-      } else if (typeConnect === 'self-connect') {
-        this.connectContext.type = 'selfsign'
-        this.connectContext.message = 'Self sign-in'
-        this.buttonName = 'Self Sign-in'
-        // display public key if already set
-        this.$store.dispatch('actionPublickey')
-      } else if (typeConnect === 'self-testnetwork') {
-        this.connectContext.type = 'testnetwork'
-        this.connectContext.message = 'TestNetwork'
-        this.buttonName = ''
-      }
+    disconnectNetwork () {
+      // close peerLINK
+      this.$store.dispatch('actionDisconnect')
+      // close electron / webapp
+      this.w.close()
     },
     closeModal () {
-      this.isModalVisible = false
+      this.$store.dispatch('actionCloseNetworkModal')
     },
-    peerSync () {
-      // pass on public key to peerlink and sync datastore for this peer
-      this.$store.dispatch('actionPeersync', this.peerSynckey)
+    submitCloudin () {
+      const peerConnect = {}
+      peerConnect.peer = this.cloudsigninInput
+      peerConnect.password = this.cloudpwInput
+      this.$store.dispatch('actionCloudSignin', peerConnect)
+      this.cloudsigninInput = ''
+      this.cloudpwInput = ''
     }
   }
 }
@@ -105,18 +131,109 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
+.network-connectstatus {
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+#network-status {
+  display: block;
+  border-bottom: 1px solid lightgrey;
+  padding: .5em;
+  font-size: 1.4em;
 }
-li {
+
+.status-info {
+  display: block;
+  margin-left: 30px;
+  padding-top: 1em;
+}
+
+.hon-square-status {
   display: inline-block;
-  margin: 0 10px;
+  border: 1px solid grey;
+  width: 40px;
+  height: 20px;
+  background-color: red;
 }
-a {
-  color: #42b983;
+
+.hon-square-status.active {
+  display: inline-block;
+  border: 1px solid grey;
+  width: 40px;
+  height: 20px;
+  background-color: green;
 }
+
+#cloud-signin-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid red
+}
+
+.cloud-inputs {
+  display: grid;
+  grid-template-columns: 200px 400px;
+  grid-gap: 16px;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  font-size: 1.2em;
+}
+
+.form-couple-type {
+  justify-self: end;
+}
+.cloud-confirm {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+#cloud-submit {
+  width: 200px;
+  padding: 1em;
+}
+
+#external-datastores {
+  display: block;
+  border-bottom: 1px solid grey;
+}
+
+.external-token-status {
+  display: block;
+}
+
+.local-sqlite {
+  display: block;
+}
+
+.connect-info {
+  padding-bottom: 1.2em;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.network-state {
+  display: inline-block;
+}
+
+.peer-list-set {
+  font-size: 1.4em;
+}
+
+.peer-ledgers {
+  font-size: 1.4em;
+}
+
+.btn {
+  font-size: 1.2em;
+}
+
+#disconnect-network {
+  color: red;
+}
+
+.reset {
+  clear: both;
+}
+
 </style>

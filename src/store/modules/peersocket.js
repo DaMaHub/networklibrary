@@ -13,20 +13,17 @@ export default {
   getters: {
   },
   mutations: {
-    /* SOCKET_ONOPEN (state, event) {
+    SOCKET_ONOPEN (state, event) {
       this.$socket = event.currentTarget
       state.socket.isConnected = true
       this.state.connectStatus = true
     },
     SOCKET_ONCLOSE (state, event) {
-      console.log('networklibrary close')
       state.socket.isConnected = false
       this.state.connectStatus = false
       this.state.peerauthStatus = false
     },
     SOCKET_ONERROR (state, event) {
-      console.log('networklibrary close')
-      console.error(state, event)
       this.state.connectStatus = false
       this.state.peerauthStatus = false
       // remote.getCurrentWindow().close()
@@ -37,61 +34,105 @@ export default {
       // console.info(state, count)
     },
     SOCKET_RECONNECT_ERROR (state) {
-      console.log('networklibrary close')
       state.socket.reconnectError = true
       this.state.peerauthStatus = false
-    }, */
+    },
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
+      // console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
         // safeFLOW inflow
       } else if (backJSON.type === 'auth') {
-        // console.log('saeFLOW auth')
-        // set remove welcome message
-        this.state.peerauthStatus = true
-        // get starting experiments
-        const refContractp = {}
-        refContractp.type = 'library'
-        refContractp.reftype = 'publiclibrary'
-        refContractp.action = 'GET'
-        refContractp.jwt = this.state.jwttoken
-        const refCJSONp = JSON.stringify(refContractp)
-        Vue.prototype.$socket.send(refCJSONp)
-        // network library updates?
-        const refContract = {}
-        refContract.type = 'library'
-        refContract.reftype = 'privatelibrary'
-        refContract.action = 'GET'
-        refContract.jwt = this.state.jwttoken
-        const refCJSON = JSON.stringify(refContract)
-        Vue.prototype.$socket.send(refCJSON)
-        // ask for datastore public keys
-        //  need call, added manualy for now  SET_ASK_KEYMANAGEMENT(state)
-        this.state.publickeys = []
-        const pubkeyGet = {}
-        pubkeyGet.type = 'library'
-        pubkeyGet.reftype = 'keymanagement'
-        pubkeyGet.jwt = this.state.jwttoken
-        Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
-        // get datastore
-        const getWarmPeers = {}
-        getWarmPeers.type = 'library'
-        getWarmPeers.reftype = 'warm-peers'
-        getWarmPeers.jwt = this.state.jwttoken
-        Vue.prototype.$socket.send(JSON.stringify(getWarmPeers))
+        if (backJSON.type === 'auth') {
+          if (backJSON.auth !== false) {
+            // set remove welcome message
+            this.state.peerauthStatus = true
+            // set the JWT for this session
+            this.state.jwttoken = backJSON.jwt
+            // get starting experiments
+            const refContractp = {}
+            refContractp.type = 'library'
+            refContractp.reftype = 'publiclibrary'
+            refContractp.action = 'GET'
+            refContractp.jwt = this.state.jwttoken
+            const refCJSONp = JSON.stringify(refContractp)
+            Vue.prototype.$socket.send(refCJSONp)
+            // network library updates?
+            const refContract = {}
+            refContract.type = 'library'
+            refContract.reftype = 'privatelibrary'
+            refContract.action = 'GET'
+            refContract.jwt = this.state.jwttoken
+            const refCJSON = JSON.stringify(refContract)
+            Vue.prototype.$socket.send(refCJSON)
+            // ask for datastore public keys
+            //  need call, added manualy for now  SET_ASK_KEYMANAGEMENT(state)
+            this.state.publickeys = []
+            const pubkeyGet = {}
+            pubkeyGet.type = 'library'
+            pubkeyGet.reftype = 'keymanagement'
+            pubkeyGet.jwt = this.state.jwttoken
+            Vue.prototype.$socket.send(JSON.stringify(pubkeyGet))
+            // get datastore
+            const getWarmPeers = {}
+            getWarmPeers.type = 'library'
+            getWarmPeers.reftype = 'warm-peers'
+            getWarmPeers.jwt = this.state.jwttoken
+            Vue.prototype.$socket.send(JSON.stringify(getWarmPeers))
+            // get the peer start lifeboard
+            const getLifeboard = {}
+            getLifeboard.type = 'library'
+            getLifeboard.reftype = 'peerLifeboard'
+            getLifeboard.jwt = this.state.jwttoken
+            Vue.prototype.$socket.send(JSON.stringify(getLifeboard))
+          }
+        } else {
+          console.log('failed login')
+        }
+      } else if (backJSON.type === 'peerprivate') {
+        // peer private library contracts
+        this.state.livePeerRefContIndex = backJSON.referenceContracts
+        this.state.networkPeerExpModules = backJSON.networkPeerExpModules
+        for (const exl of backJSON.networkPeerExpModules) {
+          const experBundle = {}
+          experBundle.cnrl = exl.exp.key
+          experBundle.status = false
+          experBundle.active = false
+          experBundle.contract = exl.exp
+          // experBundle.modules = VisualUtility.orderModules(exl.modules, 'private')
+          const objectPropC = exl.exp.key
+          Vue.set(this.state.experimentStatus, objectPropC, experBundle)
+        }
+        // prepare PEER JOINED LIST
+        // let gridPeer = ToolUtility.prepareJoinedNXPlist(backJSON.networkPeerExpModules)
+        // this.state.joinedNXPlist = gridPeer
       } else if (backJSON.type === 'publickey') {
-        this.state.publickey = backJSON.pubkey
-      } else if (backJSON.data === 'contracts') {
-        // query back from peer data store
-        this.state.referenceContract = backJSON.referenceContracts
-        this.state.packagingDatatypes = backJSON.referenceContracts.datatype
-        this.state.dataTypesLive = backJSON.referenceContracts.datatype
-      } else if (backJSON.type === 'file-save') {
-        // Vue.set(this.state.fileSaveStatus, backJSON.data)
-        this.state.fileSaveStatus = backJSON.data.success
-        this.state.fileFeedback = backJSON.data
+        this.state.publickeys.push(backJSON.pubkey)
+      } else if (backJSON.type === 'warm-peers') {
+        this.state.warmNetwork = []
+        for (const wp of backJSON.data) {
+          this.state.warmNetwork.push(wp.value)
+        }
+      } else if (backJSON.type === 'publiclibrary') {
+        // save copy of ref contract indexes
+        this.state.liveRefContIndex = backJSON.referenceContracts
+        // prepare NPXs in NETWORK
+        this.state.networkExpModules = backJSON.networkExpModules
+        /* let gridAnnon = ToolUtility.prepareAnnonNXPlist(backJSON.networkExpModules)
+        this.state.NXPexperimentList = gridAnnon
+        // set the dashboard toolbar status settings
+        for (const exl of backJSON.networkExpModules) {
+          let experBundle = {}
+          experBundle.cnrl = exl.exp.key
+          experBundle.status = false
+          experBundle.active = false
+          experBundle.contract = exl.exp
+          experBundle.modules = VisualUtility.orderModules(exl.modules, 'public') // exl.modules
+          const objectPropC = exl.exp.key
+          Vue.set(this.state.experimentStatus, objectPropC, experBundle)
+        } */
       }
     },
     CLEAR_FILE_FEEDBACK (state, update) {
@@ -113,7 +154,6 @@ export default {
       } else if (message.reftype === 'new-visualise') {
         prepareRefContract = LibLib.liveComposer.visualiseComposer(this.state.newVisualiseForm)
       }
-      // console.log(prepareRefContract)
       prepareRefContract.jwt = context.rootState.jwttoken
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
@@ -167,17 +207,13 @@ export default {
     actionGetRefContract (context, message) {
       const updateMessage = JSON.parse(message)
       updateMessage.jwt = context.rootState.jwttoken
-      let newString = JSON.stringify(updateMessage)
+      const newString = JSON.stringify(updateMessage)
       Vue.prototype.$socket.send(newString)
     },
     actionMakeVisualiseRefContract (context, message) {
-      console.log('setup Visualise ref contract')
-      console.log(message)
       // Vue.prototype.$socket.send(message)
     },
     actionMakeKBIDtemplate (context, message) {
-      console.log('make KBID template entry')
-      console.log(message)
       // const prepareKBIDtemplate = LibLib.liveKBID.kbidTemplateNew(message)
       // console.log(prepareKBIDtemplate)
       // const kbidTemplateReady = JSON.stringify(prepareKBIDtemplate)
@@ -185,8 +221,6 @@ export default {
       // Vue.prototype.$socket.send(kbidTemplateReady)
     },
     actionMakeKBIDentry (context, message) {
-      console.log('make KBID entry')
-      console.log(message)
       // const prepareKBIDentry = LibLib.liveKBID.kbidEntry(message)
       // console.log(prepareKBIDentry)
       // const kbidEntryReady = JSON.stringify(prepareKBIDentry)
@@ -323,6 +357,17 @@ export default {
     },
     actionClearFileFeeback (context, update) {
       context.commit('CLEAR_FILE_FEEDBACK', update)
+    },
+    actionCloudSignin (context, update) {
+      const cloudInfo = {}
+      cloudInfo.type = 'safeflow'
+      cloudInfo.reftype = 'ignore'
+      cloudInfo.action = 'cloudauth'
+      cloudInfo.network = null // update.network
+      cloudInfo.settings = null // update.settings
+      cloudInfo.data = update
+      const cloudAuth = JSON.stringify(cloudInfo)
+      Vue.prototype.$socket.send(cloudAuth)
     }
   }
 }

@@ -14,23 +14,37 @@
             Network Connection
           </slot>
         </header>
-        <form>
-          <div id="form-title">
-            <slot name="title-form">
-              <!-- no default title for form -->
-            </slot>
-          </div>
-          <div id="form-input">
-            <slot name="input-form">
-              <!-- No default input -->
-            </slot>
-          </div>
+        <div id="connect-peerlink">
           <div id="form-submit">
-            <slot name="submit-form">
+            <slot name="submit-cloud">
               <!-- no default button -->
             </slot>
           </div>
-        </form>
+          <form>
+            <div id="form-title">
+              <slot name="title-form">
+                <!-- no default title for form -->
+              </slot>
+            </div>
+            <div id="network-status-space">
+              <slot name="connect-network">
+                Connection status unknown
+              </slot>
+            </div>
+            <div id="form-input">
+              <slot name="input-form">
+                <!-- No default input -->
+              </slot>
+            </div>
+          </form>
+        </div>
+        <div id="peers-networks">
+          <div id="warm-peers">
+            <slot name="peers-warm">
+              Peers or Groups Connected
+            </slot>
+          </div>
+        </div>
         <footer class="modal-footer">
           <slot name="footer">
             <button
@@ -67,7 +81,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .modal-backdrop {
     position: fixed;
     top: 0;
@@ -78,16 +92,19 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1
+    z-index: 12;
+    overflow: scroll;
   }
 
   .modal {
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 80%;
+    margin-top: 200px;
   }
 
   .modal-header,
@@ -128,4 +145,47 @@ export default {
     border: 1px solid #4AAE9B;
     border-radius: 2px;
   }
+
+#network-status-space {
+}
+
+#form-input {
+  display: block;
+  margin: 1em;
+}
+
+#form-submit {
+  display: block;
+  margin-bottom: 1em;
+}
+
+#connect-peerlink {
+  display: block;
+  min-height: 200px;
+}
+
+#peers-networks {
+  display: block;
+  /* min-height: 200px;
+  margin-top: 2em;
+  padding-bottom: 2em; */
+}
+
+#warm-peers {
+  display: block;
+  min-height: 20px;
+}
+
+#cold-peers {
+  display: block;
+  min-height: 20px;
+}
+
+#key-management {
+  display: block;
+}
+
+#replicate-library {
+  display: block;
+}
 </style>
