@@ -16,16 +16,21 @@
     <div id="file-space">
       <source-file v-if="fileType === 'csv'" :sourceType="'csv'" :sourceActive="sourceState" @closeSModal="closeSModal"></source-file>
     </div>
+    <div id="file-space">
+      <json-file v-if="fileType === 'json'" :sourceType="'json'" :sourceActive="sourceState" @closeSModal="closeSModal"></json-file>
+    </div>
   </div>
 </template>
 
 <script>
 import SourceFile from '@/components/source/fileReader.vue'
+import JsonFile from '@/components/source/jsonReader.vue'
 
 export default {
   name: 'source-builder',
   components: {
-    SourceFile
+    SourceFile,
+    JsonFile
   },
   props: {
     sourceType: String,
@@ -48,6 +53,8 @@ export default {
     sourceSelect () {
       this.fileType = this.source
       if (this.source === 'csv') {
+        this.sourceState = !this.sourceState
+      } else if (this.source === 'json') {
         this.sourceState = !this.sourceState
       }
     },
