@@ -95,7 +95,7 @@ export default {
         // peer private library contracts
         this.state.livePeerRefContIndex = backJSON.referenceContracts
         this.state.networkPeerExpModules = backJSON.networkPeerExpModules
-        for (const exl of backJSON.networkPeerExpModules) {
+        /* for (const exl of backJSON.networkPeerExpModules) {
           const experBundle = {}
           experBundle.cnrl = exl.exp.key
           experBundle.status = false
@@ -103,8 +103,8 @@ export default {
           experBundle.contract = exl.exp
           // experBundle.modules = VisualUtility.orderModules(exl.modules, 'private')
           const objectPropC = exl.exp.key
-          Vue.set(this.state.experimentStatus, objectPropC, experBundle)
-        }
+          Vue.set(this.state.experimentStatus, objectPropC, experBundle) */
+        // }
         // prepare PEER JOINED LIST
         // let gridPeer = ToolUtility.prepareJoinedNXPlist(backJSON.networkPeerExpModules)
         // this.state.joinedNXPlist = gridPeer
@@ -350,6 +350,15 @@ export default {
       var fileInfo = {}
       fileInfo.type = 'library'
       fileInfo.reftype = 'convert-csv-json'
+      fileInfo.data = update
+      fileInfo.jwt = context.rootState.jwttoken
+      const fileJSON = JSON.stringify(fileInfo)
+      Vue.prototype.$socket.send(fileJSON)
+    },
+    actionJSONFileconvert (context, update) {
+      var fileInfo = {}
+      fileInfo.type = 'library'
+      fileInfo.reftype = 'save-json-json'
       fileInfo.data = update
       fileInfo.jwt = context.rootState.jwttoken
       const fileJSON = JSON.stringify(fileInfo)

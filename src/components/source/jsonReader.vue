@@ -51,7 +51,7 @@
                 <input type="text" value="" v-model="lineBundle.datetype">
               </div>
             </form> -->
-            <button class="convert-button" @click='convertJSON'>SAVE TO LIBRARY</button>
+            <button class="convert-button" @click='saveJSON'>SAVE TO LIBRARY</button>
             <div id="feedback-save">
                 <div id="file-save-feedback" v-if="fileStatus === true">
                   <div class="file-feedback">
@@ -154,7 +154,7 @@ export default {
         localthis.filepath = e.target.result
       }
     },
-    convertJSON () {
+    saveJSON () {
       // need to do this via peer peerLink
       const fileBund = {}
       fileBund.name = this.fileName
@@ -164,7 +164,7 @@ export default {
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
-      this.$store.dispatch('actionFileconvert', fileBund)
+      this.$store.dispatch('actionJSONFileconvert', fileBund)
     },
     getRemotefile () {
       this.sourceLocation = 'web'
