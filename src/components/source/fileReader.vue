@@ -53,19 +53,29 @@
             </form>
             <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
             <div id="feedback-save">
-                <div id="file-save-feedback" v-if="fileStatus === true">
-                  <div class="file-feedback-info">
-                    Conversion and save successful fgf
-                  </div>
-                  <div>
-                    File save info:
-                    <div class="file-feedback-info">
-                      PATH: {{ fileFeedback.path }}
+              <div id="file-save-feedback" v-if="fileStatus === true">
+                <div class="file-feedback-info">
+                  Conversion and save successful
+                </div>
+                <div>
+                  File save info:
+                  <div class="file-feedback-summary">
+                    <div class="file-detail-info">
+                      PATH:
                     </div>
-                    <div class="file-feedback-info">
-                      COLUMNS: {{ fileFeedback.columns }}
+                    <div class="file-detail-data">
+                      {{ fileFeedback.path }}
                     </div>
                   </div>
+                  <div class="file-feedback-summary">
+                    <div class="file-detail-info">
+                      COLUMNS:
+                    </div>
+                    <div class="file-detail-data">
+                      {{ fileFeedback.columns }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -276,18 +286,23 @@ form.file-info {
 #feedback-save {
   display: grid;
   grid-template-columns: 1fr;
-  border: 1px dashed orange;
+  border: 4px dashed orange;
 
 }
 
-#file-save-feedback {
+.file-feedback-summary {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 1em;
 }
 
-.file-feedback-info {
-  border: 2px solid red;
-  padding-bottom: 2em;
+.file-detail-info {
+  justify-self: end;
+  margin-right: 1em;
 }
 
+.file-detail-data {
+  justify-self: start;
+  font-weight: bold;
+}
 </style>
