@@ -95,7 +95,7 @@ export default {
   computed: {
     publicKeysList: function () {
       const displayKeys = []
-      for (let keyi of this.$store.state.publickeys) {
+      for (const keyi of this.$store.state.publickeys) {
         const keyInfo = {}
         const keyName = Object.keys(keyi)
         keyInfo.keyname = keyName[0]
@@ -138,7 +138,7 @@ export default {
       this.addWarm = !this.addWarm
     },
     addWarmNetwork () {
-      let peerHolder = {}
+      const peerHolder = {}
       peerHolder.name = this.newPeername
       peerHolder.publickey = this.newPeer
       peerHolder.datastore = this.peerDStore

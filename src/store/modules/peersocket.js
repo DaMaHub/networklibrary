@@ -40,7 +40,7 @@ export default {
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
-      // console.log(backJSON)
+      console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
         // safeFLOW inflow
@@ -133,6 +133,10 @@ export default {
           const objectPropC = exl.exp.key
           Vue.set(this.state.experimentStatus, objectPropC, experBundle)
         } */
+      } else if (backJSON.type === 'file-save') {
+      // Vue.set(this.state.fileSaveStatus, backJSON.data)
+        this.state.fileSaveStatus = backJSON.data.success
+        this.state.fileFeedback = backJSON.data
       }
     },
     CLEAR_FILE_FEEDBACK (state, update) {

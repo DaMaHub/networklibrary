@@ -54,15 +54,15 @@
             <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
             <div id="feedback-save">
                 <div id="file-save-feedback" v-if="fileStatus === true">
-                  <div class="file-feedback">
-                    Conversion and save successful
+                  <div class="file-feedback-info">
+                    Conversion and save successful fgf
                   </div>
                   <div>
                     File save info:
-                    <div class="feedback-info-package">
+                    <div class="file-feedback-info">
                       PATH: {{ fileFeedback.path }}
                     </div>
-                    <div class="feedback-info-package">
+                    <div class="file-feedback-info">
                       COLUMNS: {{ fileFeedback.columns }}
                     </div>
                   </div>
@@ -277,6 +277,17 @@ form.file-info {
   display: grid;
   grid-template-columns: 1fr;
   border: 1px dashed orange;
+
+}
+
+#file-save-feedback {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.file-feedback-info {
+  border: 2px solid red;
+  padding-bottom: 2em;
 }
 
 </style>
