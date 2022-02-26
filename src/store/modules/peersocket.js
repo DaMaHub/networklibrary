@@ -120,6 +120,8 @@ export default {
         this.state.liveRefContIndex = backJSON.referenceContracts
         // prepare NPXs in NETWORK
         this.state.networkExpModules = backJSON.networkExpModules
+        // another copy of ref contracts
+        this.state.dataTypesLive = backJSON.referenceContracts.datatype
         /* let gridAnnon = ToolUtility.prepareAnnonNXPlist(backJSON.networkExpModules)
         this.state.NXPexperimentList = gridAnnon
         // set the dashboard toolbar status settings

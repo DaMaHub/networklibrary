@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     list1: function () {
-      return this.$store.state.packagingDatatypes
+      return this.$store.state.dataTypesLive
     },
     dtcolumns: function () {
       return this.$store.state.newPackingForm.apicolumns
