@@ -13,7 +13,7 @@ export default {
   getters: {
   },
   mutations: {
-    SOCKET_ONOPEN (state, event) {
+    /* SOCKET_ONOPEN (state, event) {
       this.$socket = event.currentTarget
       state.socket.isConnected = true
       this.state.connectStatus = true
@@ -36,7 +36,7 @@ export default {
     SOCKET_RECONNECT_ERROR (state) {
       state.socket.reconnectError = true
       this.state.peerauthStatus = false
-    },
+    }, */
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)

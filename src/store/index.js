@@ -5,8 +5,8 @@ import modules from './modules'
 Vue.use(Vuex)
 
 // const urlLive = window.location.href
-// const query = location.search
-// const token = query.substring(1)
+const query = location.search
+const token = query.substring(1)
 
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source-builder' }
@@ -19,7 +19,7 @@ export default new Vuex.Store({
     authorised: false,
     connectStatus: false,
     peerauthStatus: false,
-    jwttoken: '', // token for integrated other apps
+    jwttoken: token, // token for integrated other apps
     connectContext: {},
     networkConnection: {
       active: false,
