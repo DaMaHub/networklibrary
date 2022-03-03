@@ -47,6 +47,10 @@
                 <input type="text" value="" placeholder="comma tab other" v-model="lineBundle.delimiter">
               </div>
               <div class="file-info-label">
+                <label for="datename">Date column</label>
+                <input type="text" value="" v-model="lineBundle.datename">
+              </div>
+              <div class="file-info-label">
                 <label for="datetype">Type of date</label>
                 <input type="text" value="" v-model="lineBundle.datetype">
               </div>
@@ -123,6 +127,7 @@ export default {
       cnumber: '',
       dataline: '',
       delimiter: '',
+      datename: '',
       datetype: ''
     },
     fileinputSeen: true,

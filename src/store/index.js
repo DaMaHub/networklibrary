@@ -252,7 +252,6 @@ export default new Vuex.Store({
     async startconnectNSnetwork (context, update) {
       // send a auth requrst to peerlink if not already authorsed
       if (this.state.connectStatus === true && this.state.peerauthStatus !== true) {
-        console.log('connect to HOP')
         const message = {}
         message.type = 'safeflow'
         message.reftype = 'ignore'
@@ -262,16 +261,12 @@ export default new Vuex.Store({
         const safeFlowMessage = JSON.stringify(message)
         Vue.prototype.$socket.send(safeFlowMessage)
       } else {
-        // console.log('socket and authored already so nothing')
       }
     },
     async annonconnectNSnetwork (context, update) {
-      console.log('annon connect')
       // const annonlive = await refFlow.connectNSnetwork(update.network, update.settings)
-      // console.log(annonlive)
     },
     actionLocalGrid (context, update) {
-      console.log('action test watch called')
     },
     buildRefcontractPrimary (context, update) {
       context.commit('ADD_REFCONTRACT_PRIMARY', update)
