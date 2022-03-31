@@ -1,6 +1,10 @@
 <template>
   <div id="describe-device">
     <div class="device-info">
+      <label for="tidy">Device query</label>
+      <input type="text" v-model="deviceForm.query">
+    </div>
+    <div class="device-info">
       <label for="tidy">Device name</label>
       <input type="text" v-model="deviceForm.name">
     </div>
@@ -31,6 +35,7 @@ export default {
   data: () => ({
     deviceForm:
     {
+      query: '',
       name: '',
       mac_address: '',
       location_lat: '',
@@ -51,6 +56,7 @@ export default {
 #describe-device {
   display: grid;
   grid-template-columns: 1fr;
+  width: 800px;
   border-top: 2px solid lightgrey;
   padding-top: 2em;
   border-bottom: 2px solid lightgrey;
@@ -59,7 +65,7 @@ export default {
 
 .device-info {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   margin-bottom: .4em;
 }
 

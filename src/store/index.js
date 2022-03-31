@@ -100,6 +100,9 @@ export default new Vuex.Store({
     ADD_REFCONTPACK_AUTHREQUIRED  (state, inVerified) {
       Vue.set(state.newPackingForm, 'authrequired', inVerified)
     },
+    ADD_REFCONTPACK_DEVICE  (state, inVerified) {
+      Vue.set(state.newPackingForm, 'device', inVerified)
+    },
     ADD_REFCONTPACK_APICOL (state, inVerified) {
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
@@ -309,6 +312,9 @@ export default new Vuex.Store({
     },
     buildRefPackageAuthrequired (context, update) {
       context.commit('ADD_REFCONTPACK_AUTHREQUIRED', update)
+    },
+    actionSaveDevice (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICE', update)
     },
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)

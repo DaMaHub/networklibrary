@@ -66,8 +66,10 @@ export default {
     display: flex;
     /*align-items: flex-start;*/
     align-items: center;
-    width: 51%;
+    width: 80%;
     z-index: 15;
+    overflow: hidden;
+    resize: both;
   }
 
   .modal {
