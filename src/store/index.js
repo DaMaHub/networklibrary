@@ -50,7 +50,21 @@ export default new Vuex.Store({
       catCount: 0,
       tidyCount: 0,
       category: {},
-      tidy: {}
+      tidy: {},
+      device:
+      {
+        id: '',
+        device_name: '',
+        device_manufacturer: '',
+        device_mac: '',
+        device_type: '',
+        device_model: '',
+        query: '',
+        location_lat: '',
+        location_long: '',
+        firmware: '',
+        mobileapp: ''
+      }
     },
     newVisualiseForm: {
       structureName: '',
@@ -139,6 +153,22 @@ export default new Vuex.Store({
       catBundle.column = {}
       catBundle.rule = {}
       Vue.set(state.newPackingForm.category, state.newPackingForm.catCount, catBundle)
+    },
+    ADD_REFCONTPACK_DEVICEQUERY (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'query', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICENAME (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'device_name', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICEMAC (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'id', inVerified)
+      Vue.set(state.newPackingForm.device, 'device_mac', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICELAT (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'location_lat', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICELONG (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'location_long', inVerified)
     },
     ADD_REFCONTPACK_CATEGORY (state, inVerified) {
       Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'category', inVerified)
@@ -381,6 +411,21 @@ export default new Vuex.Store({
     },
     buildRefPackageTidyBundle (context, update) {
       context.commit('BUNDLE_TIDY', update)
+    },
+    buildRefPackageDeviceQuery (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICEQUERY', update)
+    },
+    buildRefPackageDeviceName (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICENAME', update)
+    },
+    buildRefPackageDeviceMAC (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICEMAC', update)
+    },
+    buildRefPackageDeviceLONG (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICELONG', update)
+    },
+    buildRefPackageDeviceLAT (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICELAT', update)
     },
     actionCheckConnect (context, update) {
       context.commit('SET_CONNECTION_STATUS', update)

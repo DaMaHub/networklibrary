@@ -2,23 +2,23 @@
   <div id="describe-device">
     <div class="device-info">
       <label for="tidy">Device query</label>
-      <input type="text" v-model="deviceForm.query">
+      <input type="text" @change="saveDeviceQuery" @input="saveDeviceQuery" @paste="saveDeviceQuery" v-model="deviceForm.query">
     </div>
     <div class="device-info">
       <label for="tidy">Device name</label>
-      <input type="text" v-model="deviceForm.name">
+      <input type="text" @change="saveDeviceName" @input="saveDeviceName" @paste="saveDeviceName"  v-model="deviceForm.name">
     </div>
     <div class="device-info">
       <label for="tidy">MAC address</label>
-      <input type="text" v-model="deviceForm.mac_address">
+      <input type="text" @change="saveDeviceMac" @input="saveDeviceMac" @paste="saveDeviceMac"  v-model="deviceForm.mac_address">
     </div>
     <div class="device-info">
-      <label for="tidy">Location Lat Long</label>
-      <input type="text" v-model="deviceForm.location_lat">
+      <label for="tidy">Location Lat</label>
+      <input type="text" @change="saveDeviceLat" @input="saveDeviceLat" @paste="saveDeviceLat"  v-model="deviceForm.location_lat">
     </div>
     <div class="device-info">
       <label for="tidy">Location Long</label>
-      <input type="text" v-model="deviceForm.location_long">
+      <input type="text" @change="saveDeviceLong" @input="saveDeviceLong" @paste="saveDeviceLong"  v-model="deviceForm.location_long">
     </div>
   </div>
 </template>
@@ -45,8 +45,20 @@ export default {
     }
   }),
   methods: {
-    saveDeviceInfo () {
-      this.$store.dispatch('actionSaveDevice', this.deviceForm)
+    saveDeviceQuery () {
+      this.$store.dispatch('buildRefPackageDeviceQuery', this.deviceForm.query)
+    },
+    saveDeviceName () {
+      this.$store.dispatch('buildRefPackageDeviceName', this.deviceForm.name)
+    },
+    saveDeviceMac () {
+      this.$store.dispatch('buildRefPackageDeviceMAC', this.deviceForm.mac_address)
+    },
+    saveDeviceLat () {
+      this.$store.dispatch('buildRefPackageDeviceLAT', this.deviceForm.location_lat)
+    },
+    saveDeviceLong () {
+      this.$store.dispatch('buildRefPackageDeviceLONG', this.deviceForm.location_long)
     }
   }
 }
