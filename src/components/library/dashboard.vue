@@ -81,9 +81,9 @@ export default {
     }
   },
   beforeMount () {
-    this.$options.sockets.onmessage = (msg) => {
+    /* this.$options.sockets.onmessage = (msg) => {
       // this.$store.dispatch('actionSocketMessage', msg.data)
-    }
+    } */
   },
   created () {
     // this.sendMessage('peer Netwokr LIbrary')

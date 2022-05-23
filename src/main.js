@@ -6,7 +6,7 @@ import i18n from './i18n'
 import VueNativeSock from 'vue-native-websocket'
 
 Vue.config.productionTip = false
-// 127.0.0.1:9888
+//  wapird.healthscience.network
 Vue.use(VueNativeSock, 'wss://127.0.0.1:9888', {
   store: store,
   // format: 'json',

@@ -15,40 +15,54 @@
         <button type="button" class="btn" @click="showModal">
           {{ $t('help') }}
         </button>
-        <help-modal v-show="isModalVisible" @close="closeModal">
-          <template v-slot:header>
-            {{ $t('help') }} for -- {{ helpContext }}
-          </template>
-          <template v-slot:body>
-            {{ helpContext }} sections are:
-            <div class="help-section">
-              Custom content for page help button clicked
-            </div>
-            <div class="help-section">
-              Preservation index calculated?
-            </div>
-            <div class="help-section">
-              Where is the data stored?
-            </div>
-          </template>
-        </help-modal>
       </div>
+      <div class="toolkit-settings">
+        <button type="button" v-bind:class="{ networklive: connectBut.active === true && authConnectStatus === true}" class="connect-network" @click="connectNetwork(connectBut)">{{ connectBut.text }}</button>
+      </div>
+      <network-status class="toolbar-top" msg="not connected"></network-status>
+      <help-modal v-show="isModalVisible" @close="closeModal">
+        <template v-slot:header>
+          {{ $t('help') }} for -- {{ helpContext }}
+        </template>
+        <template v-slot:body>
+          {{ helpContext }} sections are:
+          <div class="help-section">
+            Custom content for page help button clicked
+          </div>
+          <div class="help-section">
+            Preservation index calculated?
+          </div>
+          <div class="help-section">
+            Where is the data stored?
+          </div>
+        </template>
+      </help-modal>
     </div>
     <router-view/>
   </div>
 </template>
 
 <script>
+import NetworkStatus from '@/components/home/NetworkStatus.vue'
 import HelpModal from '@/components/help/HelpModal.vue'
 
 export default {
   name: 'vue-home',
   components: {
+    NetworkStatus,
     HelpModal
+  },
+  computed: {
+    connectBut: function () {
+      return this.$store.state.networkConnection
+    },
+    authConnectStatus: function () {
+      return this.$store.state.peerauthStatus
+    }
   },
   data () {
     return {
-      pluginNL: false,
+      pluginNL: true,
       isModalVisible: false,
       helpContext: 'home',
       languages: [
@@ -73,6 +87,9 @@ export default {
     },
     changeLocale (locale) {
       this.$i18n.locale = locale
+    },
+    connectNetwork (typeConnect) {
+      this.$store.dispatch('actionCheckConnect')
     },
     caleAIStatus () {
       if (this.statusCALE.active === false) {

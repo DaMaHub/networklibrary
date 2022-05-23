@@ -5,34 +5,61 @@
         <component v-bind:is="viewMapper()" :mData="refTypeLive">
           <template v-slot:header>
             <!-- The code below goes into the header slot -->
-            <div class="name-placer">name:</div>
-            <div v-if="cd.value.concept.name" class="concept-or-comp">
-              {{ cd.value.concept.name }}
+            <div id="refcontract-summary">
+              <div class="refname">
+                <div class="refinfo-col1">Ref. contract name:</div>
+                <div v-if="cd.value.concept.name" class="refinfo-col2">
+                  {{ cd.value.concept.name }}
+                </div>
+                <div v-else class="refinfo-col2">
+                  {{ cd.value.computational.name }}
+                </div>
+              </div>
+              <div class="refname">
+                <div class="refinfo-col1">Version & Date:</div>
+                <div class="refinfo-col2">1.0 **/**/****</div>
+              </div>
             </div>
-            <div v-else>
-              {{ cd.value.computational.name }}
+            <div class="refcontract-summary">
+              <div> {{ cd.key }} </div>
             </div>
-            <p id="date-format">version 1 Date 10/01/2020</p>
-            <p> {{ cd.key }} </p>
           </template>
           <template v-slot:body>
             <!-- The code below goes into the header slot -->
             <div id="datatype-slot" v-if="viewerType === 'datatype-view'">
               <header>Details</header>
-              <ul>
-                <li>
-                  summary description: {{ cd.value.concept.description }}
-                </li>
-                <li>
-                  Wikipedia: <a :href="cd.value.concept.wikipedia">{{ cd.value.concept.name }}</a>
-                </li>
-                <li>
-                  RDF: <a :href="cd.value.concept.rdf">rdf file</a>
-                </li>
-                <li>
-                  Type: {{ cd.value.concept.measurement }}
-                </li>
-              </ul>
+              <div class="ref-description">
+                <div class="refinfo-col1">
+                  summary description:
+                </div>
+                <div class="refinfo-col2">
+                  {{ cd.value.concept.description }}
+                </div>
+              </div>
+              <div class="ref-description">
+                <div class="refinfo-col1">
+                  Wikipedia:
+                </div>
+                <div class="refinfo-col2">
+                  <a :href="cd.value.concept.wikipedia"> {{ cd.value.concept.name }}</a>
+                </div>
+              </div>
+              <div class="ref-description">
+                <div class="refinfo-col1">
+                  RDF:
+                </div>
+                <div class="refinfo-col2">
+                  <a :href="cd.value.concept.rdf">rdf file</a>
+                </div>
+              </div>
+              <div class="ref-description">
+                <div class="refinfo-col1">
+                  Type:
+                </div>
+                <div class="refinfo-col2">
+                  {{ cd.value.concept.measurement }}
+                </div>
+              </div>
             </div>
             <!-- computational reference contract formatting -->
             <div id="compute-slot" v-if="viewerType === 'compute-view'">
@@ -174,7 +201,7 @@ export default {
   },
   computed: {
     referenceData: function () {
-      return this.$store.state.referenceContract[this.refTypeLive]
+      return this.$store.state.liveRefContIndex[this.refTypeLive]
     }
   },
   methods: {
@@ -199,14 +226,38 @@ export default {
 </script>
 
 <style>
+#refcontract-summary {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 .ref-wrapper {
   border: 1px solid grey;
   margin: 1em;
   list-style-type: none;
 }
 
-.name-placer {
+.refname {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  margin-bottom: .5em;
+}
+
+.refinfo-col1 {
+  justify-self: end;
   color: grey;
+}
+
+.refinfo-col2 {
+  justify-self: start;
+  margin-left: 1em;
+}
+
+.ref-description {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: .2em;
 }
 
 .cnrl-element {
@@ -219,11 +270,7 @@ export default {
 }
 
 #datatype-slot {
-  margin: 4em;
-}
-
-#datatype-slot ul li {
-  list-style-type: none;
+  margin: 1em;
 }
 
 #compute-slot header {
@@ -295,7 +342,8 @@ export default {
   display: inline;
 }
 #goverannce-slot {
-  text-align: left;
-  margin: 2em;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 1em;
 }
 </style>

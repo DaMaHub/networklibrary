@@ -53,19 +53,29 @@
             </form> -->
             <button class="convert-button" @click='saveJSON'>SAVE TO LIBRARY</button>
             <div id="feedback-save">
-                <div id="file-save-feedback" v-if="fileStatus === true">
-                  <div class="file-feedback">
-                    Conversion and save successful
-                  </div>
-                  <div>
-                    File save info:
-                    <div class="feedback-info-package">
-                      PATH: {{ fileFeedback.path }}
+              <div id="file-save-feedback" v-if="fileStatus === true">
+                <div class="file-feedback-info">
+                  Conversion and save successful
+                </div>
+                <div>
+                  File save info:
+                  <div class="file-feedback-summary">
+                    <div class="file-detail-info">
+                      PATH:
                     </div>
-                    <div class="feedback-info-package">
-                      COLUMNS: {{ fileFeedback.columns }}
+                    <div class="file-detail-data">
+                      {{ fileFeedback.path }}
                     </div>
                   </div>
+                  <div class="file-feedback-summary">
+                    <div class="file-detail-info">
+                      COLUMNS:
+                    </div>
+                    <div class="file-detail-data">
+                      {{ fileFeedback.columns }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -277,6 +287,36 @@ form.file-info {
   display: grid;
   grid-template-columns: 1fr;
   border: 1px dashed orange;
+<<<<<<< HEAD
 }
 
+=======
+  margin-bottom: 2em;
+}
+
+#file-save-feedback {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.file-feedback-info {
+  padding-bottom: 1em;
+}
+
+.file-feedback-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-bottom: 1em;
+}
+
+.file-detail-info {
+  justify-self: end;
+  margin-right: 1em;
+}
+
+.file-detail-data {
+  justify-self: start;
+  font-weight: bold;
+}
+>>>>>>> cloud
 </style>

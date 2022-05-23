@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import NetworkConnect from '@/refflow/cryptoUtility.js'
 import modules from './modules'
 
-// const refFlow = new NetworkConnect()
 Vue.use(Vuex)
+
+// const urlLive = window.location.href
+const query = location.search
+const token = query.substring(1)
 
 const dataTitle = {}
 dataTitle[0] = { title: 'Data', type: 'source-builder' }
@@ -14,15 +16,20 @@ export default new Vuex.Store({
   modules,
   state: {
     publickey: '',
+    authorised: false,
+    connectStatus: false,
+    peerauthStatus: false,
+    jwttoken: token, // token for integrated other apps
+    connectContext: {},
     networkConnection: {
       active: false,
       type: 'self-verify',
       text: 'Connect'
     },
-    authorised: false,
-    connectStatus: false,
-    peerauthStatus: false,
-    connectContext: {},
+    publickeys: [],
+    warmNetwork: [],
+    liveRefContIndex: {},
+    livePeerRefContIndex: {},
     fileSaveStatus: false,
     fileFeedback: {},
     dashboardGrid: [
@@ -43,7 +50,21 @@ export default new Vuex.Store({
       catCount: 0,
       tidyCount: 0,
       category: {},
-      tidy: {}
+      tidy: {},
+      device:
+      {
+        id: '',
+        device_name: '',
+        device_manufacturer: '',
+        device_mac: '',
+        device_type: '',
+        device_model: '',
+        query: '',
+        location_lat: '',
+        location_long: '',
+        firmware: '',
+        mobileapp: ''
+      }
     },
     newVisualiseForm: {
       structureName: '',
@@ -93,9 +114,10 @@ export default new Vuex.Store({
     ADD_REFCONTPACK_AUTHREQUIRED  (state, inVerified) {
       Vue.set(state.newPackingForm, 'authrequired', inVerified)
     },
+    ADD_REFCONTPACK_DEVICE  (state, inVerified) {
+      Vue.set(state.newPackingForm, 'device', inVerified)
+    },
     ADD_REFCONTPACK_APICOL (state, inVerified) {
-      console.log('api COLUM')
-      console.log(inVerified)
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
         colCount = 1
@@ -109,8 +131,6 @@ export default new Vuex.Store({
       state.newPackingForm.apicolHolder.push([])
     },
     AUTOADD_REFCONTPACK_APICOL (state, inVerified) {
-      console.log('AUTO api COLUM')
-      console.log(inVerified)
       let colCount
       if (state.newPackingForm.apicolumns.length === 0) {
         colCount = 1
@@ -133,6 +153,22 @@ export default new Vuex.Store({
       catBundle.column = {}
       catBundle.rule = {}
       Vue.set(state.newPackingForm.category, state.newPackingForm.catCount, catBundle)
+    },
+    ADD_REFCONTPACK_DEVICEQUERY (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'query', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICENAME (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'device_name', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICEMAC (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'id', inVerified)
+      Vue.set(state.newPackingForm.device, 'device_mac', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICELAT (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'location_lat', inVerified)
+    },
+    ADD_REFCONTPACK_DEVICELONG (state, inVerified) {
+      Vue.set(state.newPackingForm.device, 'location_long', inVerified)
     },
     ADD_REFCONTPACK_CATEGORY (state, inVerified) {
       Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'category', inVerified)
@@ -198,7 +234,6 @@ export default new Vuex.Store({
     },
     ADD_REFVISUALISE_ELEMENTPAIR (state, inVerified) {
       state.newVisualiseForm.structure.push(inVerified)
-      console.log(state.newVisualiseForm.structure)
     },
     SET_CONNECTION_STATUS: (state, inVerified) => {
       Vue.set(state.networkConnection, 'active', true)
@@ -210,13 +245,46 @@ export default new Vuex.Store({
         Vue.set(state.networkConnection, 'text', 'edit-connection')
         Vue.set(state.networkConnection, 'type', 'check-connection')
       }
+    },
+    SET_CONECTIONSOCK_STATUS: (state, inVerified) => {
+      let updateState = false
+      if (inVerified === false) {
+        updateState = true
+      } else {
+        updateState = false
+      }
+      Vue.set(state.networkConnection, 'active', updateState)
+    },
+    SET_DISCONNECT_NETWORK: (state, inVerifed) => {
+      let safeFlowMessage = {}
+      // set auth to not auth
+      state.peerauthStatus = false
+      const message = {}
+      message.type = 'safeflow'
+      message.reftype = 'ignore'
+      message.action = 'disconnect'
+      message.jwt = state.jwttoken
+      safeFlowMessage = JSON.stringify(message)
+      // clear peer data
+      state.joinedNXPlist = []
+      // clear peeers and data list
+      state.publickeys = []
+      state.warmNetwork = []
+      state.moduleGrid = {}
+      state.NXPexperimentData = {}
+      state.networkConnection.active = false
+      state.networkConnection.text = 'connect'
+      state.networkConnection.type = 'self-verify'
+      Vue.prototype.$socket.send(safeFlowMessage)
     }
   },
   actions: {
+    actionCloseNetworkModal (context, update) {
+      context.commit('SET_CONECTIONSOCK_STATUS', update)
+    },
     async startconnectNSnetwork (context, update) {
       // send a auth requrst to peerlink if not already authorsed
       if (this.state.connectStatus === true && this.state.peerauthStatus !== true) {
-        console.log('connect to HOP')
         const message = {}
         message.type = 'safeflow'
         message.reftype = 'ignore'
@@ -226,16 +294,12 @@ export default new Vuex.Store({
         const safeFlowMessage = JSON.stringify(message)
         Vue.prototype.$socket.send(safeFlowMessage)
       } else {
-        // console.log('socket and authored already so nothing')
       }
     },
     async annonconnectNSnetwork (context, update) {
-      console.log('annon connect')
       // const annonlive = await refFlow.connectNSnetwork(update.network, update.settings)
-      // console.log(annonlive)
     },
     actionLocalGrid (context, update) {
-      console.log('action test watch called')
     },
     buildRefcontractPrimary (context, update) {
       context.commit('ADD_REFCONTRACT_PRIMARY', update)
@@ -278,6 +342,9 @@ export default new Vuex.Store({
     },
     buildRefPackageAuthrequired (context, update) {
       context.commit('ADD_REFCONTPACK_AUTHREQUIRED', update)
+    },
+    actionSaveDevice (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICE', update)
     },
     buildRefPackageColumns (context, update) {
       context.commit('ADD_REFCONTPACK_APICOL', update)
@@ -345,8 +412,26 @@ export default new Vuex.Store({
     buildRefPackageTidyBundle (context, update) {
       context.commit('BUNDLE_TIDY', update)
     },
+    buildRefPackageDeviceQuery (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICEQUERY', update)
+    },
+    buildRefPackageDeviceName (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICENAME', update)
+    },
+    buildRefPackageDeviceMAC (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICEMAC', update)
+    },
+    buildRefPackageDeviceLONG (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICELONG', update)
+    },
+    buildRefPackageDeviceLAT (context, update) {
+      context.commit('ADD_REFCONTPACK_DEVICELAT', update)
+    },
     actionCheckConnect (context, update) {
       context.commit('SET_CONNECTION_STATUS', update)
+    },
+    actionDisconnect (context, update) {
+      context.commit('SET_DISCONNECT_NETWORK', update)
     }
   },
   strict: false // process.env.NODE_ENV !== 'production'

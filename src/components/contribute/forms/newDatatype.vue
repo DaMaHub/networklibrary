@@ -1,53 +1,51 @@
 <template>
   <div id="newapi-view">
-    <ul>
-      <li class="api-form-item">
-        <span class="required_notification">All fields required</span>
-      </li>
-      <li class="api-form-item">
-        <label for="api-datatype-source">Datatype Primary?</label>
-        <select class="select-datatype-source" id="source-value" v-model="formData.primary" @input="primarySelect" @paste="primarySelect" @change="primarySelect">Please select
-          <option value="yes">YES</option>
-          <option value="no">NO</option>
-        </select>
-      </li>
-      <div v-if="formData.primary==='yes'" id="new-primary-datatype">
-        <li class="api-form-item">
-          <label for="api-add-name">Name:</label>
-          <input id="ref-datatype-name" @input="nameSave" @paste="nameSave" @keyup="nameSave" v-model="formData.name" placeholder="datatype name" required="" type="text">
-        </li>
-        <li class="api-form-item">
-          <label for="datatype-add-description">Description:</label>
-          <textarea name="message" cols="40" rows="6" @input="descriptionSave" @paste="descriptionSave" @keyup="descriptionSave" v-model="formData.description" required="" id="api-datatype-description"></textarea>
-        </li>
-        <li class="wikipedia-form-item">
-          <label for="rdf-add-description">Wikipedia entry:</label>
-          <input id="wikipedia-datatype-name" @input="wikiSave" @paste="wikiSave" @keyup="wikiSave" v-model="formData.wiki" placeholder="wikipedia link" required="" type="text">
-        </li>
-        <li class="rdf-form-item">
-          <label for="rdf-add-description">RDF linked data:</label>
-          <input id="rdf-datatype-name" @input="rdfSave" @paste="rdfSave" @keyup="rdfSave" v-model="formData.rdf" placeholder="rdf link" required="" type="text">
-        </li>
+    <div class="api-form-item">
+      <span class="required_notification">All fields required</span>
+    </div>
+    <div class="api-form-item">
+      <label for="api-datatype-source">Datatype Primary?</label>
+      <select class="select-datatype-source" id="source-value" v-model="formData.primary" @input="primarySelect" @paste="primarySelect" @change="primarySelect">Please select
+        <option value="yes">YES</option>
+        <option value="no">NO</option>
+      </select>
+    </div>
+    <div v-if="formData.primary==='yes'" id="new-primary-datatype">
+      <div class="api-form-item">
+        <label for="api-add-name">Name:</label>
+        <input id="ref-datatype-name" @input="nameSave" @paste="nameSave" @keyup="nameSave" v-model="formData.name" placeholder="datatype name" required="" type="text">
       </div>
-      <div v-if="formData.primary==='no'" id="build-existing-datatypes">
-        List or drag and drop from existing DT's  e.g. average BPM  is average DT +  BMP DT
+      <div class="api-form-item">
+        <label for="datatype-add-description">Description:</label>
+        <textarea name="message" cols="40" rows="6" @input="descriptionSave" @paste="descriptionSave" @keyup="descriptionSave" v-model="formData.description" required="" id="api-datatype-description"></textarea>
       </div>
-      <li class="measurement-form-item">
-        <label for="measurement-add-description">Measurement:</label>
-        <input id="measurement-datatype-name" @input="measurementSave" @paste="measurementSave" @keyup="measurementSave" v-model="formData.measurement" placeholder="measurement units" required="" type="text">
-      </li>
-      <li class="type-form-item">
-        <label for="type-structure">Type</label>
-        <select class="select-type-structure" id="type-value" v-model="formData.datatypeType" @paste="typeSelect" @change="typeSelect">Please select
-          <option value="integer">Integer</option>
-          <option value="float">float</option>
-          <option value="boolean">True/False</option>
-          <option value="string">String</option>
-          <option value="array">Array</option>
-          <option value="object">Object</option>
-        </select>
-      </li>
-    </ul>
+      <div class="api-form-item">
+        <label for="rdf-add-description">Wikipedia entry:</label>
+        <input id="wikipedia-datatype-name" @input="wikiSave" @paste="wikiSave" @keyup="wikiSave" v-model="formData.wiki" placeholder="wikipedia link" required="" type="text">
+      </div>
+      <div class="api-form-item">
+        <label for="rdf-add-description">RDF linked data:</label>
+        <input id="rdf-datatype-name" @input="rdfSave" @paste="rdfSave" @keyup="rdfSave" v-model="formData.rdf" placeholder="rdf link" required="" type="text">
+      </div>
+    </div>
+    <div v-if="formData.primary==='no'" id="build-existing-datatypes">
+      List or drag and drop from existing DT's  e.g. average BPM  is average DT +  BMP DT
+    </div>
+    <div class="api-form-item">
+      <label for="measurement-add-description">Measurement:</label>
+      <input id="measurement-datatype-name" @input="measurementSave" @paste="measurementSave" @keyup="measurementSave" v-model="formData.measurement" placeholder="measurement units" required="" type="text">
+    </div>
+    <div class="api-form-item">
+      <label for="type-structure">Type</label>
+      <select class="select-type-structure" id="type-value" v-model="formData.datatypeType" @paste="typeSelect" @change="typeSelect">Please select
+        <option value="integer">Integer</option>
+        <option value="float">float</option>
+        <option value="boolean">True/False</option>
+        <option value="string">String</option>
+        <option value="array">Array</option>
+        <option value="object">Object</option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -103,8 +101,30 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #wikipedia-datatype-name {
   width: 300px;
+}
+
+#newapi-view {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.api-form-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding-top: .5em;
+}
+
+.api-form-item label {
+  border: 0px solid red;
+  margin-right: 1em;
+  justify-self: end;
+}
+
+#new-primary-datatype {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 </style>

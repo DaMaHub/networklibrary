@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     datatypesLive: function () {
-      return this.$store.state.referenceContract.datatype
+      return this.$store.state.dataTypesLive
     },
     categoryLive: function () {
       return this.$store.state.newPackingForm.category

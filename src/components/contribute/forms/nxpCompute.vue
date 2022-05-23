@@ -97,7 +97,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #compute-nxp {
   margin: 1em;
   border: 1px solid grey;
