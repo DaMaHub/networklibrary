@@ -62,7 +62,7 @@ export default {
   },
   data () {
     return {
-      pluginNL: true,
+      pluginNL: false,
       isModalVisible: false,
       helpContext: 'home',
       languages: [

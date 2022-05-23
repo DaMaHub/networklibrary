@@ -155,7 +155,7 @@ export default {
       reader.onloadend = function () {
         // const fileData = reader.result
         const lines = reader.result.split(/\r\n|\n/)
-        localthis.linesLimit = lines.slice(0, 30)
+        localthis.linesLimit = lines.slice(0, 40)
         /* function limit (string = '', limit = 0) {
           return string.substring(0, limit)
         }
@@ -191,7 +191,7 @@ export default {
           // console.log(response.data)
           const dataSource = response.data
           const lines = dataSource.split(/\r\n|\n/)
-          localthis.linesLimit = lines.slice(0, 30)
+          localthis.linesLimit = lines.slice(0, 40)
         })
         .catch(function (error) {
           // handle error

@@ -9,8 +9,8 @@ module.exports = {
     hotOnly: false
   },
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/networklibrary/'
-    : '/networklibrary/',
+    ? '/'
+    : '/',
   pluginOptions: {
     i18n: {
       locale: 'en',
