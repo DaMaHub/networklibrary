@@ -1,8 +1,7 @@
 <template>
   <div id="source-tools">
-    <li class="source-form-item">
-      <label for="source-data">Please select source type</label>
-      <select class="select-source-id" id="source-mapping-build" @change="sourceSelect" v-model="source">
+    <div class="source-form-item">
+      <select class="select-source-id" @change="sourceSelect" v-model="source">
         <option value="none" selected="">Please select</option>
         <option value="safeNetwork">SAFEnetwork</option>
         <option value="dat">HYERCORE</option>
@@ -12,11 +11,11 @@
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
       </select>
-    </li>
-    <div id="file-space">
+    </div>
+    <div class="source-form-item" id="file-space">
       <source-file v-if="fileType === 'csv'" :sourceType="'csv'" :sourceActive="sourceState" @closeSModal="closeSModal"></source-file>
     </div>
-    <div id="file-space">
+    <div class="source-form-item" id="file-space">
       <json-file v-if="fileType === 'json'" :sourceType="'json'" :sourceActive="sourceState" @closeSModal="closeSModal"></json-file>
     </div>
   </div>
@@ -65,5 +64,19 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
+#source-tools {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.source-form-item {
+  width: 100%;
+}
+
+.select-source-id {
+  display: grid;
+  justify-content: start;
+  width: 300px;
+}
 </style>

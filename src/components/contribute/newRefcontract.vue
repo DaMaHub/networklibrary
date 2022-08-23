@@ -1,31 +1,31 @@
 <template>
   <div id="newapi-view">
-    <header>New Reference Contract</header>
-    <form id="newapi_form" name="newapi_form">
-    <ul>
-      <li class="api-form-item">
-        <label for="api-add-type">Select type of Reference Contract</label>
-        <select v-model="formType" @change="importForm" class="select-api-id" id="api-mapping-type" >DT Packaging
-          <option value="new-datatype">Datatype</option>
-          <option value="new-units">Units</option>
-          <option value="new-compute">Compute</option>
-          <option value="new-packaging">Packaging</option>
-          <option value="new-visualise">Visualise</option>
-          <!-- <option value="new-experiment">Experiment</option> -->
-        </select>
-      </li>
-      <component v-bind:is="formType" :formData="inputData" ></component>
-      <li class="api-form-item">
-        <button class="submit" type="submit"  id="save-new-refcontract" @click.prevent="saveRefContract()">Save</button>
+    <!-- <div id="new-rfheader">New Reference Contract</div> -->
+    <div id="newapi_form" name="newapi_form">
+      <div class="api-form-item">
+        <div id="form-api-section">
+          <label class="select-api-id" for="api-add-type">Select type of Reference Contract</label>
+          <select v-model="formType" @change="importForm" class="select-api-id">DT Packaging
+            <option value="new-datatype">Datatype</option>
+            <!-- <option value="new-units">Units</option> -->
+            <option value="new-compute">Compute</option>
+            <option value="new-packaging">Data Packaging</option>
+            <option value="new-visualise">Visualise</option>
+            <!-- <option value="new-experiment">Experiment</option> -->
+          </select>
+        </div>
+      </div>
+      <component class="api-form-item" v-bind:is="formType" :formData="inputData" ></component>
+      <div class="api-form-item">
+        <button class="submit-save" type="submit"  id="save-new-refcontract" @click.prevent="saveRefContract()">Save</button>
         <!-- <button class="submit" type="submit" id="check-new-refcontract" @click.prevent="checkRefContract()">Check Contract</button>
         <button class="submit" type="submit" id="network-library-submit" @click.prevent="networkLibraryRefContract()" >Submit to network library</button> -->
-      </li>
-      <li class="api-form-item">
+      </div>
+      <div class="api-form-item">
         <section id="api-feedback">
         </section>
-      </li>
-    </ul>
-    </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -90,23 +90,48 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #newapi-view {
+  display: grid;
+  justify-content: center;
   background-color: #EBE7E0;
   border: 4px solid lightgrey;
   padding: 10px;
-  height: 100%;
-  overflow: visible;
+}
+
+#newapi_form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 90%;
+  justify-content: center;
+  align-content: center;
+  border: 5px solid green;
+  min-width: 360px;
 }
 
 .api-form-item {
-  display: block;
-  margin-bottom: 2em;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 2px solid blue;
+  padding-bottom: 2em;
 }
 
-.api-form-item label {
-  display: inline-block;
-  border: 0px solid black;
-  width: 160px;
+#form-api-section {
+  font-size: 1.2em;
+}
+
+.select-api-id {
+  width: 50%;
+  font-size: 1.2em;
+}
+
+label {
+  margin-bottom: .5em;
+}
+
+#save-new-refcontract {
+  display: grid;
+  text-align: center;
+  font-size: 2em;
 }
 </style>

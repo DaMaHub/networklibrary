@@ -41,6 +41,7 @@ export default new Vuex.Store({
     packagingDatatypes: [],
     newRefcontractForm: {},
     newComputeForm: {},
+    sourceDataSelected: false,
     newPackingForm:
     {
       authrequired: false,

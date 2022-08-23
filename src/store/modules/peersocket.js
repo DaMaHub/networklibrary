@@ -353,6 +353,8 @@ export default {
       }
     },
     actionFileconvert (context, update) {
+      // set that source data needs desribed tools
+      context.rootState.sourceDataSelected = true
       var fileInfo = {}
       fileInfo.type = 'library'
       fileInfo.reftype = 'convert-csv-json'
@@ -362,6 +364,7 @@ export default {
       Vue.prototype.$socket.send(fileJSON)
     },
     actionJSONFileconvert (context, update) {
+      context.rootState.sourceDataSelected = true
       var fileInfo = {}
       fileInfo.type = 'library'
       fileInfo.reftype = 'save-json-json'
@@ -369,6 +372,9 @@ export default {
       fileInfo.jwt = context.rootState.jwttoken
       const fileJSON = JSON.stringify(fileInfo)
       Vue.prototype.$socket.send(fileJSON)
+    },
+    actionDatadescribe (context, update) {
+      context.rootState.sourceDataSelected = false
     },
     actionClearFileFeeback (context, update) {
       context.commit('CLEAR_FILE_FEEDBACK', update)

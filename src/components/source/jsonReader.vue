@@ -287,10 +287,6 @@ form.file-info {
   display: grid;
   grid-template-columns: 1fr;
   border: 1px dashed orange;
-<<<<<<< HEAD
-}
-
-=======
   margin-bottom: 2em;
 }
 
@@ -318,5 +314,5 @@ form.file-info {
   justify-self: start;
   font-weight: bold;
 }
->>>>>>> cloud
+
 </style>

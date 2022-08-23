@@ -1,54 +1,19 @@
 <template>
   <div id="dashboard-holder">
     <div id="module-toolbar">
-      <header>Dashboard</header>
-      <!-- <button @click='decreaseWidth'>Decrease Width</button>
-      <button @click='increaseWidth'>Increase Width</button> -->
-      <button @click='addItem'>Add an item</button>
-      <input type='checkbox' v-model='draggable'/> Draggable
-      <input type='checkbox' v-model='resizable'/> Resizable
-      <br/> <!-- @changes="updateLayout"  -->
+      <header>Library Dashboard</header>
     </div>
-    <div class="grid-section">
-        <grid-layout v-if="localGrid"
-                     :layout='localGrid'
-                     :col-num='12'
-                     :row-height='30'
-                     :is-draggable='draggable'
-                     :is-resizable='resizable'
-                     :vertical-compact='false'
-                     :use-css-transforms='false'
-        >
-          <grid-item v-for='item in localGrid' :key='item.id'
-                     :static='item.static'
-                     :x='item.x'
-                     :y='item.y'
-                     :w='item.w'
-                     :h='item.h'
-                     :i='item.i'
-                  >
-              <!-- <span class='text'>box{{itemTitle(item)}}</span> -->
-              {{ item.i }} -- {{ moduleData[item.i].type }}
-              <component v-bind:is="moduleData[item.i].type" :mData="item.i"></component>
-          </grid-item>
-        </grid-layout>
-    </div>
+    <reference-builder></reference-builder>
   </div>
 </template>
 
 <script>
-import _ from 'lodash'
-import { mapState, mapActions } from 'vuex'
-import VueGridLayout from 'vue-grid-layout'
-import SourceBuilder from '@/components/source/sourceBuilder.vue'
+// import { mapState, mapActions } from 'vuex'
 import ReferenceBuilder from '@/components/references/referenceBuilder.vue'
 
 export default {
   name: 'visual-dashview',
   components: {
-    GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem,
-    SourceBuilder,
     ReferenceBuilder
   },
   props: {
@@ -56,10 +21,6 @@ export default {
   computed: {
     moduleData: function () {
       return this.$store.state.referenceData
-    },
-    ...mapState(['dashboardGrid']),
-    storeGrid () {
-      return _.cloneDeep(this.$store.state.dashboardGrid)
     },
     socketLive: function () {
       return this.$store.state.peersocket.socket.message
@@ -73,9 +34,6 @@ export default {
   data () {
     return {
       moduleType: 'library-dashboard',
-      localGrid: _.cloneDeep(this.$store.state.dashboardGrid),
-      draggable: false,
-      resizable: false,
       index: 0,
       peerLinklive: ''
     }
@@ -93,37 +51,6 @@ export default {
   methods: {
     closeModule () {
       console.log('close module')
-    },
-    ...mapActions(['actionLocalGrid']),
-    itemTitle (item) {
-      var result = item.i
-      if (item.static) {
-        result += ' - Static'
-      }
-      return result
-    },
-    /*
-    increaseWidth: function (item) {
-        var width = document.getElementById('content').offsetWidth;
-        width += 20;
-        document.getElementById('content').style.width = width+'px';
-    },
-    decreaseWidth: function (item) {
-
-        var width = document.getElementById('content').offsetWidth;
-        width -= 20;
-        document.getElementById('content').style.width = width+'px';
-    },
-    removeItem: function(item) {
-        //console.log('### REMOVE ' + item.i);
-        this.layout.splice(this.layout.indexOf(item), 1);
-    }, */
-    addItem () {
-      // console.log('### LENGTH: ' + this.layout.length);
-      var item = { x: 0, y: 0, w: 2, h: 2, i: this.index + '', whatever: 'bbb' }
-      this.index++
-      this.moduleContent.push(item)
-      // this.$store.dispatch('actionGrideupdateItem', item)
     }
   }
 }

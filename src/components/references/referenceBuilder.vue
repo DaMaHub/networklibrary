@@ -1,43 +1,45 @@
 <template>
   <div id="reference-tools">
     <div id="add-new-network">
-      <li class="view-cnrl">
+      <div class="view-refconts">
+      </div>
+      <div class="view-refconts">
         <button id="get-referencecontract" @click.prevent="getRefContracts()">Get Ref. Contract</button>
-      </li>
-      <li class="view-cnrl">
+      </div>
+      <!-- <div class="view-refconts">
         <button id="build-modulecontracts" @click.prevent="makeModulecontracts()">Make modules</button>
-      </li>
-      <li class="view-cnrl">
+      </div> -->
+      <div class="view-refconts">
         <button id="build-new-referencecontract" @click.prevent="newSetRefContract(startRefContract)">{{ startRefContract.text }}</button>
-      </li>
+      </div>
     </div>
-    <div v-if="startRefContract.active !== true" id="view-network-library">
+    <div id="ref-contracts-view">
       <header>References by type</header>
-      <ul>
+      <div v-if="startRefContract.active !== true" id="view-network-library">
         <!-- <li class="view-cnrl">
           <button  id="experimentCNRL" @click.prevent="viewRefcontracts(CNRLexperimentseen.text)">{{ CNRLexperimentseen.text }}</button>
         </li> -->
-        <li class="view-cnrl">
+        <div class="view-cnrl">
           <button id="datatypesCNRL" @click.prevent="viewRefContracts(CNRLdatatypesseen.text)">{{ CNRLdatatypesseen.text }}</button>
-        </li>
-        <li class="view-cnrl">
+        </div>
+        <div class="view-cnrl">
           <button id="computeCNRL" @click.prevent="viewRefContracts(CNRLcomputeseen.text)"> {{ CNRLcomputeseen.text }}</button>
-        </li>
-        <li class="view-cnrl">
+        </div>
+        <!-- <div class="view-cnrl">
           <button id="unitsCNRL" @click.prevent="viewRefContracts(CNRLunitseen.text)"> {{ CNRLunitseen.text }}</button>
-        </li>
-        <li class="view-cnrl">
+        </div> -->
+        <div class="view-cnrl">
           <button id="packaingCNRL" @click.prevent="viewRefContracts(CNRLpackagingseen.text)"> {{ CNRLpackagingseen.text }}</button>
-        </li>
-        <li class="view-cnrl">
+        </div>
+        <!-- <li class="view-cnrl">
           <button id="moduleRefs" @click.prevent="viewRefContracts(CNRLmoduleseen.text)"> {{ CNRLmoduleseen.text }}</button>
-        </li>
-        <li class="view-cnrl">
+        </li> -->
+        <div class="view-cnrl">
           <button id="visualiseRefs" @click.prevent="viewRefContracts(CNRLvisualiseseen.text)"> {{ CNRLvisualiseseen.text }}</button>
-        </li>
-      </ul>
-      <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
+        </div>
+      </div>
     </div>
+    <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
     <new-refcontract v-if="startRefContract.active"></new-refcontract>
   </div>
 </template>
@@ -116,6 +118,8 @@ export default {
   },
   methods: {
     newSetRefContract (ap) {
+      // set describe data tools hidden
+      this.$store.dispatch('actionDatadescribe', false)
       if (this.startRefContract.active === false) {
         this.startRefContract.active = true
         this.startRefContract.text = 'close'
@@ -159,21 +163,39 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
 #add-new-network {
-  text-align: right;
+  display: grid;
+  grid-template-columns: 8fr 1fr 1fr;
+  justify-content: end;
+}
+
+.view-refconts {
+  display: grid;
+  justify-content: end;
+  font-size: 1.2em;
+  border-bottom: 1px dashed lightgrey;
 }
 
 #reference-tools {
   border: 1px solid white;
 }
 
-#add-new-network {
+#ref-contracts-view {
+  display: grid;
+  justify-content: center;
+  margin-bottom: 1em;
+}
+
+#view-network-library {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 300px;
+  justify-content: center;
 }
 
 .view-cnrl {
-  display: inline-block;
-  border: 1px solid red;
+  display: grid;
 }
 
 #build-new-referencecontract {
