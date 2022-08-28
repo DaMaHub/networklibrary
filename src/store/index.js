@@ -266,6 +266,8 @@ export default new Vuex.Store({
       message.action = 'disconnect'
       message.jwt = state.jwttoken
       safeFlowMessage = JSON.stringify(message)
+      // clear ref contracts
+      state.liveRefContIndex = {}
       // clear peer data
       state.joinedNXPlist = []
       // clear peeers and data list

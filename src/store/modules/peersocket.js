@@ -40,10 +40,11 @@ export default {
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
-      // console.log(backJSON)
+      console.log('librarylisten')
+      console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
-        // safeFLOW inflow
+        console.log('save success to library')
       } else if (backJSON.type === 'auth') {
         if (backJSON.type === 'auth') {
           if (backJSON.auth !== false) {
@@ -161,6 +162,8 @@ export default {
         prepareRefContract = LibLib.liveComposer.visualiseComposer(this.state.newVisualiseForm)
       }
       prepareRefContract.jwt = context.rootState.jwttoken
+      // send message to library
+      console.log(prepareRefContract)
       const referenceContractReady = JSON.stringify(prepareRefContract)
       Vue.prototype.$socket.send(referenceContractReady)
       // reset the form
@@ -184,6 +187,7 @@ export default {
         Vue.set(this.state.newPackingForm, 'apicolHolder', [])
         this.state.newPackingForm.apicolumns = []
         let colCount = 0
+        console.log(colCount)
         if (this.state.newPackingForm.apicolumns.length === 0) {
           colCount = 1
         } else {

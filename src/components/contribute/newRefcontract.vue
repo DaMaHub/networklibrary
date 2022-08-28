@@ -105,14 +105,12 @@ export default {
   width: 90%;
   justify-content: center;
   align-content: center;
-  border: 5px solid green;
   min-width: 360px;
 }
 
 .api-form-item {
   display: grid;
   grid-template-columns: 1fr;
-  border: 2px solid blue;
   padding-bottom: 2em;
 }
 

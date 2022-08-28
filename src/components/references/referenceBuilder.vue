@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <view-CNRL v-if="statusCNRL.active" :refTypeLive="referenceLive"></view-CNRL>
+    <view-CNRL v-if="startRefContract.active !== true" :refTypeLive="referenceLive"></view-CNRL>
     <new-refcontract v-if="startRefContract.active"></new-refcontract>
   </div>
 </template>
@@ -125,7 +125,7 @@ export default {
         this.startRefContract.text = 'close'
       } else {
         this.startRefContract.active = false
-        this.startRefContract.text = 'Add new ref contract'
+        this.startRefContract.text = 'New ref. contract'
       }
     },
     getRefContracts () {
