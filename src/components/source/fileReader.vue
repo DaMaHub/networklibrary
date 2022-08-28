@@ -14,22 +14,24 @@
       </template>
       <template v-slot:source-file>
         <div id="file-container">
-          <header>FILE CONTENT</header>
-          <div class="file-section">
-            <label class="file-select">Read file</label>
-            <input type="file" @change="loadTextFromFile">
-          </div>
-          <div class="file-section">
-            <label class="file-select">or enter url location:</label>
-          </div>
-          <div class="file-section" id="web-file-path">
-            <input type="text" v-model="readRemotefile">
-            <button @click="getRemotefile">read url file</button>
-          </div>
-          <div class="file-section" id="summary-content">
-            <ul v-for="(value, index) in linesLimit" :key="value.id">
-              <li><b>{{index }}</b> {{ value }}</li>
-            </ul>
+          <div id="file-utility">
+            <header>FILE CONTENT</header>
+            <div class="file-section">
+              <label class="file-select">Read file</label>
+              <input type="file" @change="loadTextFromFile">
+            </div>
+            <div class="file-section">
+              <label class="file-select">or enter url location:</label>
+            </div>
+            <div class="file-section" id="web-file-path">
+              <input type="text" v-model="readRemotefile">
+              <button @click="getRemotefile">read url file</button>
+            </div>
+            <div class="file-section" id="summary-content">
+              <ul v-for="(value, index) in linesLimit" :key="value.id">
+                <li><b>{{index }}</b> {{ value }}</li>
+              </ul>
+            </div>
           </div>
           <div class="convert-section" id="convert-data" v-if="linesLimit.length > 0">
             <form class="file-info">
@@ -55,7 +57,7 @@
                 <input type="text" value="" v-model="lineBundle.datetype">
               </div>
             </form>
-            <button class="convert-button" @click='convertJSON'>Convert to JSON & SAVE</button>
+            <button class="convert-button" @click='convertJSON'>SAVE</button>
             <div id="feedback-save">
               <div id="file-save-feedback" v-if="fileStatus === true">
                 <div class="file-feedback-info">
@@ -203,7 +205,7 @@ export default {
     },
     closeSourceModal () {
       // clear the feedback on close
-      this.$store.dispatch('actionClearFileFeeback', 'clear')
+      // this.$store.dispatch('actionClearFileFeeback', 'clear')
       this.$emit('closeSModal')
     }
   }
@@ -218,7 +220,7 @@ export default {
 
 #file-container {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
 }
 
 .file-section {
@@ -264,7 +266,7 @@ form.file-info {
 .file-info-label {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  line-height: 1.4em;
+  line-height: 1.2em;
   margin-bottom: .5em;
 }
 
@@ -309,5 +311,10 @@ form.file-info {
 .file-detail-data {
   justify-self: start;
   font-weight: bold;
+}
+
+#convert-data {
+  border: 1px solid red;
+  margin-top: 15em;
 }
 </style>

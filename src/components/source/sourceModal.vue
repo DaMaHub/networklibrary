@@ -66,7 +66,7 @@ export default {
     display: flex;
     /*align-items: flex-start;*/
     align-items: center;
-    width: 80%;
+    width: 96%;
     z-index: 15;
     overflow: hidden;
     resize: both;

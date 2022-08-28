@@ -3,11 +3,11 @@
     <div class="source-form-item">
       <select class="select-source-id" @change="sourceSelect" v-model="source">
         <option value="none" selected="">Please select</option>
-        <option value="safeNetwork">SAFEnetwork</option>
-        <option value="dat">HYERCORE</option>
-        <option value="ipfs">IPFS</option>
-        <option value="rest">REST</option>
-        <option value="grpc">gRPC</option>
+        <!-- <option value="safeNetwork">SAFEnetwork</option> -->
+        <!-- <option value="dat">HYERCORE</option> -->
+        <!-- <option value="ipfs">IPFS</option> -->
+        <!-- <option value="rest">REST</option> -->
+        <!-- <option value="grpc">gRPC</option> -->
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
       </select>

@@ -67,7 +67,7 @@
               </ul>
             </div>
             <div id="replicate-librarydatastore">
-              <header>Network Library</header>
+              <header>Network Library STORAGE:  HYPERCORE LOCAL</header> <!-- need drop down list -->
               Replicate library:
               <input v-model="peerSynckey" placeholder="public key">
               <button type="button" class="btn" @click="peerSyncLibrary()">Sync Library</button>

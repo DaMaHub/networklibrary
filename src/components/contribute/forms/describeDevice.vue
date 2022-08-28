@@ -1,24 +1,34 @@
 <template>
   <div id="describe-device">
-    <div class="device-info">
+    <div id="type-device-entry">
+      <div id="manual-device-info">
+        <button @click="setDevicemanual">Manual</button>
+      </div>
+      <div id="manual-device-info">
+        <button @click="setDevicequery">Query path</button>
+      </div>
+    </div>
+    <div class="device-info" v-if="deviceQuery === true">
       <label for="tidy">Device query</label>
       <input type="text" @change="saveDeviceQuery" @input="saveDeviceQuery" @paste="saveDeviceQuery" v-model="deviceForm.query">
     </div>
-    <div class="device-info">
-      <label for="tidy">Device name</label>
-      <input type="text" @change="saveDeviceName" @input="saveDeviceName" @paste="saveDeviceName"  v-model="deviceForm.name">
-    </div>
-    <div class="device-info">
-      <label for="tidy">MAC address</label>
-      <input type="text" @change="saveDeviceMac" @input="saveDeviceMac" @paste="saveDeviceMac"  v-model="deviceForm.mac_address">
-    </div>
-    <div class="device-info">
-      <label for="tidy">Location Lat</label>
-      <input type="text" @change="saveDeviceLat" @input="saveDeviceLat" @paste="saveDeviceLat"  v-model="deviceForm.location_lat">
-    </div>
-    <div class="device-info">
-      <label for="tidy">Location Long</label>
-      <input type="text" @change="saveDeviceLong" @input="saveDeviceLong" @paste="saveDeviceLong"  v-model="deviceForm.location_long">
+    <div id="device-manual"  v-if="deviceManual === true">
+      <div class="device-info">
+        <label for="tidy">Device name</label>
+        <input type="text" @change="saveDeviceName" @input="saveDeviceName" @paste="saveDeviceName"  v-model="deviceForm.name">
+      </div>
+      <div class="device-info">
+        <label for="tidy">MAC address</label>
+        <input type="text" @change="saveDeviceMac" @input="saveDeviceMac" @paste="saveDeviceMac"  v-model="deviceForm.mac_address">
+      </div>
+      <div class="device-info">
+        <label for="tidy">Location Lat</label>
+        <input type="text" @change="saveDeviceLat" @input="saveDeviceLat" @paste="saveDeviceLat"  v-model="deviceForm.location_lat">
+      </div>
+      <div class="device-info">
+        <label for="tidy">Location Long</label>
+        <input type="text" @change="saveDeviceLong" @input="saveDeviceLong" @paste="saveDeviceLong"  v-model="deviceForm.location_long">
+      </div>
     </div>
   </div>
 </template>
@@ -42,9 +52,17 @@ export default {
       location_long: '',
       firmware: '',
       mobileapp: ''
-    }
+    },
+    deviceQuery: false,
+    deviceManual: false
   }),
   methods: {
+    setDevicemanual () {
+      this.deviceManual = !this.deviceManual
+    },
+    setDevicequery () {
+      this.deviceQuery = !this.deviceQuery
+    },
     saveDeviceQuery () {
       this.$store.dispatch('buildRefPackageDeviceQuery', this.deviceForm.query)
     },
@@ -64,7 +82,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #describe-device {
   display: grid;
   grid-template-columns: 1fr;
@@ -73,6 +91,12 @@ export default {
   padding-top: 2em;
   border-bottom: 2px solid lightgrey;
   padding-bottom: 2em;
+}
+
+#type-device-entry {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 1em;
 }
 
 .device-info {

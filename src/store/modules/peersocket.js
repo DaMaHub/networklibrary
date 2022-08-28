@@ -142,7 +142,7 @@ export default {
       }
     },
     CLEAR_FILE_FEEDBACK (state, update) {
-      this.state.fileFeedback = {}
+      // this.state.fileFeedback = {}
     }
   },
   actions: {
@@ -189,7 +189,6 @@ export default {
         } else {
           colCount = this.state.newPackingForm.apicolumns.length + 1
         }
-        console.log(colCount)
         this.state.newPackingForm.apicolHolder.push([])
       } else if (message.reftype === 'new-compute') {
         const formKeys = Object.keys(this.state.newComputeForm)
