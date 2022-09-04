@@ -22,28 +22,8 @@
       <label for="package-source-data">Data source:</label>
       <div id="source-location">
         <source-builder></source-builder>
-      <!-- <label for="package-add-scripting">Type of data store:</label>
-      <select class="select-package-id" id="package-mapping-build" @change="apiSelect" v-model="formData.api">
-        <option value="none" selected="">Please select</option>
-        <option value="safeNetwork">SAFEnetwork</option>
-        <option value="ipfs">IPFS</option>
-        <option value="dat">DAT</option>
-        <option value="rest">REST</option>
-        <option value="sqlite">SQLite</option>
-        <option value="json">JSON</option>
-        <option value="grpc">gRPC</option>
-        <option value="csv">CVS</option>
-      </select> -->
       </div>
     </div>
-    <!-- <div class="package-form-item">
-      <label for="add-code-name">API base address</label>
-      <input type="text"  id="mapping-base-address" placeholder="https://" required @change="apibaseSave" @input="apibaseSave" @paste="apibaseSave" @keyup="apibaseSave" v-model="formData.baseaddress" />
-    </div>
-    <div class="package-form-item">
-      <label for="add-table-name">Query datatype path:</label>
-      <input type="text"  id="mapping-endpoint-address" placeholder="" required @change="apipathSave" @input="apipathSave" @paste="apipathSave" @keyup="apipathSave" v-model="formData.apipath"/>
-    </div> -->
     <div class="package-form-item">
       <label for="tidy">Authorisation required?</label>
       <input type="checkbox" id="auth-access" @change="authrequiredSelect" v-model="formData.authrequired">
@@ -52,6 +32,10 @@
       <describe-auth v-if="livePackForm.authrequired === true" :formData="formData"></describe-auth>
     </div>
     <div id="desribe-data" v-if="datasourceLive === true">
+      <div id="sqlite-table-name" v-if="filetypeLive === 'sqlite'">
+        <label for="add-code-name">SQLite table name: </label>
+        <input type="text"  id="table-name-sqlite" placeholder="" required @input="sqlitetableSave" @paste="sqlitetableSave" @keyup="sqlitetableSave"  v-model="formData.sqlitetable" />
+      </div>
       <div class="package-column-item">
         <label for="add-code-name">Column builder</label>
         <input type="text"  id="package-base-address" placeholder="column" required  v-model="formData.columns" />
@@ -116,6 +100,9 @@ export default {
     },
     datasourceLive: function () {
       return this.$store.state.sourceDataSelected
+    },
+    filetypeLive: function () {
+      return this.$store.state.sourceFiletype
     }
   },
   props: {
@@ -154,6 +141,9 @@ export default {
     },
     authrequiredSelect (ak) {
       this.$store.dispatch('buildRefPackageAuthrequired', this.formData.authrequired)
+    },
+    sqlitetableSave (ak) {
+      this.$store.dispatch('buildRefPackageSQLitetable', this.formData.sqlitetable)
     },
     columnsSave (ak) {
       this.$store.dispatch('buildRefPackageColumns', this.formData.columns)
@@ -213,6 +203,14 @@ export default {
 .package-column-item {
   padding-bottom: 1em;
   list-style: none;
+}
+
+#sqlite-table-name {
+  margin-bottom: 1em;
+}
+
+#table-name-sqlite {
+  width: 300px;
 }
 
 </style>

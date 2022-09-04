@@ -42,9 +42,12 @@ export default new Vuex.Store({
     newRefcontractForm: {},
     newComputeForm: {},
     sourceDataSelected: false,
+    sourceFiletype: '',
     newPackingForm:
     {
       authrequired: false,
+      filename: '',
+      sqlitetablename: '',
       authtoken: '',
       apicolumns: [],
       apicolHolder: [[]],
@@ -115,6 +118,9 @@ export default new Vuex.Store({
     ADD_REFCONTPACK_AUTHREQUIRED  (state, inVerified) {
       Vue.set(state.newPackingForm, 'authrequired', inVerified)
     },
+    ADD_REFCONTPACK_SQLITETABLENAME (state, inVerified) {
+      Vue.set(state.newPackingForm, 'sqlitetablename', inVerified)
+    },
     ADD_REFCONTPACK_DEVICE  (state, inVerified) {
       Vue.set(state.newPackingForm, 'device', inVerified)
     },
@@ -179,6 +185,13 @@ export default new Vuex.Store({
     },
     ADD_REFCONTPACK_CATRULE (state, inVerified) {
       Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'rule', inVerified)
+    },
+    ADD_REFCONTPACK_FILENAME (state, inVerified) {
+      console.log('filename')
+      console.log(inVerified)
+      Vue.set(state.newPackingForm, 'filename', inVerified)
+      console.log('file name saed')
+      console.log(state.newPackingForm)
     },
     BUNDLE_TIDY (state, inVerified) {
       state.newPackingForm.tidyCount++
@@ -346,6 +359,9 @@ export default new Vuex.Store({
     buildRefPackageAuthrequired (context, update) {
       context.commit('ADD_REFCONTPACK_AUTHREQUIRED', update)
     },
+    buildRefPackageSQLitetable (context, update) {
+      context.commit('ADD_REFCONTPACK_SQLITETABLENAME', update)
+    },
     actionSaveDevice (context, update) {
       context.commit('ADD_REFCONTPACK_DEVICE', update)
     },
@@ -429,6 +445,9 @@ export default new Vuex.Store({
     },
     buildRefPackageDeviceLAT (context, update) {
       context.commit('ADD_REFCONTPACK_DEVICELAT', update)
+    },
+    actionSetfilename (context, update) {
+      context.commit('ADD_REFCONTPACK_FILENAME', update)
     },
     actionCheckConnect (context, update) {
       context.commit('SET_CONNECTION_STATUS', update)

@@ -26,32 +26,13 @@
             <input type="text" v-model="readRemotefile">
             <button @click="getRemotefile">read url file</button>
           </div>
-          <div class="file-section" id="summary-content">
+          <div class="file-section" id="sf">
             <ul v-for="(value, index) in linesLimit" :key="value.id">
               <li><b>{{index }}</b> {{ value }}</li>
             </ul>
           </div>
-          <div class="convert-section" id="convert-data" v-if="linesLimit.length > 0">
-            <!--<form class="file-info">
-              Please enter:
-              <div class="file-info-label">
-                <label for="linenumber">column names line number</label>
-                <input type="text" value="" v-model="lineBundle.cnumber">
-              </div>
-              <div class="file-info-label">
-                <label for="dataline">Data start line number</label>
-                <input type="text" value="" v-model="lineBundle.dataline">
-              </div>
-              <div class="file-info-label">
-                <label for="seperator">Seperator type</label>
-                <input type="text" value="" placeholder="comma tab other" v-model="lineBundle.delimiter">
-              </div>
-              <div class="file-info-label">
-                <label for="datetype">Type of date</label>
-                <input type="text" value="" v-model="lineBundle.datetype">
-              </div>
-            </form> -->
-            <button class="convert-button" @click='saveJSON'>SAVE TO LIBRARY</button>
+          <div class="convert-section" id="convert-data">
+            <button class="convert-button" @click='saveSQLite'>SAVE TO LIBRARY</button>
             <div id="feedback-save">
               <div id="file-save-feedback" v-if="fileStatus === true">
                 <div class="file-feedback-info">
@@ -145,26 +126,21 @@ export default {
       this.fileData = ev.target.files[0]
       this.fileName = this.fileData.name
       this.filepath = this.fileData.path
-      this.fileType = this.fileData.type
+      this.fileType = 'sqlite'
       const reader = new FileReader()
       reader.onloadend = function () {
         // const fileData = reader.result
-        const lines = JSON.parse(reader.result) // .split(/\r\n|\n/)
-        localthis.linesLimit = lines // .slice(0, 30)
-        /* function limit (string = '', limit = 0) {
-          return string.substring(0, limit)
-        }
-        const shortText = limit(fileData, 3000)
-        localthis.fileSummary = shortText */
       }
       reader.readAsText(this.fileData)
       const reader2 = new FileReader()
       reader2.readAsDataURL(this.fileData)
       reader2.onload = function (e) {
+        console.log('path')
+        console.log(e.target)
         localthis.filepath = e.target.result
       }
     },
-    saveJSON () {
+    saveSQLite () {
       // need to do this via peer peerLink
       const fileBund = {}
       fileBund.name = this.fileName
@@ -174,19 +150,15 @@ export default {
       fileBund.path = this.filepath
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
-      this.$store.dispatch('actionJSONFileconvert', fileBund)
+      console.log(fileBund)
+      this.$store.dispatch('actionSQLiteSave', fileBund)
+      this.$store.dispatch('actionSetfilename', this.fileName)
     },
     getRemotefile () {
       this.sourceLocation = 'web'
-      const localthis = this
       axios.get(this.readRemotefile)
         .then(function (response) {
           // handle success
-          // console.log(Object.keys(response))
-          // console.log(response.data)
-          const dataSource = response.data
-          const lines = dataSource.split(/\r\n|\n/)
-          localthis.linesLimit = lines.slice(0, 30)
         })
         .catch(function (error) {
           // handle error
@@ -278,7 +250,7 @@ form.file-info {
 }
 
 #summary-content {
-  height: 600px;
+  height: 100px;
   overflow: scroll;
   background-color: lightgrey;
 }

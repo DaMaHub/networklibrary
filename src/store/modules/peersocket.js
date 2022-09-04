@@ -137,7 +137,6 @@ export default {
           Vue.set(this.state.experimentStatus, objectPropC, experBundle)
         } */
       } else if (backJSON.type === 'file-save') {
-      // Vue.set(this.state.fileSaveStatus, backJSON.data)
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
       }
@@ -371,6 +370,17 @@ export default {
       var fileInfo = {}
       fileInfo.type = 'library'
       fileInfo.reftype = 'save-json-json'
+      fileInfo.data = update
+      fileInfo.jwt = context.rootState.jwttoken
+      const fileJSON = JSON.stringify(fileInfo)
+      Vue.prototype.$socket.send(fileJSON)
+    },
+    actionSQLiteSave (context, update) {
+      context.rootState.sourceDataSelected = true
+      context.rootState.sourceFiletype = 'sqlite'
+      var fileInfo = {}
+      fileInfo.type = 'library'
+      fileInfo.reftype = 'save-sqlite-file'
       fileInfo.data = update
       fileInfo.jwt = context.rootState.jwttoken
       const fileJSON = JSON.stringify(fileInfo)

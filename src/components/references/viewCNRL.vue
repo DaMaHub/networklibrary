@@ -83,6 +83,12 @@
                   <div class="packaging-basics" v-if="index === 'api'" >
                     {{ index }} -- {{ pi }}
                   </div>
+                  <div class="packaging-basics" v-if="index === 'filename'" >
+                    {{ index }} -- {{ pi }}
+                  </div>
+                  <div class="packaging-basics" v-if="index === 'sqlitetablename'" >
+                    {{ index }} -- {{ pi }}
+                  </div>
                   <div class="packaging-basics" v-if="index === 'apibase'" >
                     {{ index }} -- {{ pi }}
                   </div>
@@ -132,6 +138,9 @@
                   </div>
                 </li>
               </ul>
+              <div id="device-info">
+                Device {{ cd.value.concept.device }}
+              </div>
               <div id="packaging-network">
                 <header>Active use on network</header>
                 <p>Networks: 3 Experiments 2 Archives</p>

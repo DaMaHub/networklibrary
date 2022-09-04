@@ -10,6 +10,7 @@
         <!-- <option value="grpc">gRPC</option> -->
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
+        <option value="sqlite">SQLite</option>
       </select>
     </div>
     <div class="source-form-item" id="file-space">
@@ -18,18 +19,23 @@
     <div class="source-form-item" id="file-space">
       <json-file v-if="fileType === 'json'" :sourceType="'json'" :sourceActive="sourceState" @closeSModal="closeSModal"></json-file>
     </div>
+    <div class="source-form-item" id="file-space">
+      <sqlite-file v-if="fileType === 'sqlite'" :sourceType="'sqlite'" :sourceActive="sourceState" @closeSModal="closeSModal"></sqlite-file>
+    </div>
   </div>
 </template>
 
 <script>
 import SourceFile from '@/components/source/fileReader.vue'
 import JsonFile from '@/components/source/jsonReader.vue'
+import SqliteFile from '@/components/source/sqliteReader.vue'
 
 export default {
   name: 'source-builder',
   components: {
     SourceFile,
-    JsonFile
+    JsonFile,
+    SqliteFile
   },
   props: {
     sourceType: String,
@@ -55,7 +61,10 @@ export default {
         this.sourceState = !this.sourceState
       } else if (this.source === 'json') {
         this.sourceState = !this.sourceState
+      } else if (this.source === 'sqlite') {
+        this.sourceState = !this.sourceState
       }
+      this.$store.dispatch('buildRefPackageAPI', this.source)
     },
     closeSModal () {
       this.sourceState = !this.sourceState
