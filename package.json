@@ -21,7 +21,7 @@
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.6.4",
     "csv-parser": "^3.0.0",
-    "librarycomposer": "^0.2.2",
+    "librarycomposer": "^0.2.3",
     "regenerator-runtime": "^0.13.5",
     "vue": "^2.6.11",
     "vue-grid-layout": "^2.3.7",
