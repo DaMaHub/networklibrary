@@ -139,6 +139,8 @@ export default {
       } else if (backJSON.type === 'file-save') {
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
+        Vue.set(this.state.newPackingForm, 'jsonpath', backJSON.data.path)
+        console.log(this.state.newPackingForm)
       }
     },
     CLEAR_FILE_FEEDBACK (state, update) {

@@ -48,6 +48,7 @@ export default new Vuex.Store({
       authrequired: false,
       filename: '',
       sqlitetablename: '',
+      jsonpath: '',
       authtoken: '',
       apicolumns: [],
       apicolHolder: [[]],
@@ -187,11 +188,7 @@ export default new Vuex.Store({
       Vue.set(state.newPackingForm.category[state.newPackingForm.catCount], 'rule', inVerified)
     },
     ADD_REFCONTPACK_FILENAME (state, inVerified) {
-      console.log('filename')
-      console.log(inVerified)
       Vue.set(state.newPackingForm, 'filename', inVerified)
-      console.log('file name saed')
-      console.log(state.newPackingForm)
     },
     BUNDLE_TIDY (state, inVerified) {
       state.newPackingForm.tidyCount++

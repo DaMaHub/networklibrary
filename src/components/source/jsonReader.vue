@@ -175,6 +175,7 @@ export default {
       fileBund.type = this.fileType
       fileBund.info = this.lineBundle
       this.$store.dispatch('actionJSONFileconvert', fileBund)
+      this.$store.dispatch('actionSetfilename', this.fileName)
     },
     getRemotefile () {
       this.sourceLocation = 'web'
