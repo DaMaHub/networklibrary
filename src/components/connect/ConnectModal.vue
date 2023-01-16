@@ -81,7 +81,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .modal-backdrop {
     position: fixed;
     top: 0;

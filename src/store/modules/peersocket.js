@@ -40,11 +40,11 @@ export default {
     // default handler called for all methods
     SOCKET_ONMESSAGE (state, message) {
       const backJSON = JSON.parse(message.data)
-      console.log('librarylisten')
-      console.log(backJSON)
+      // console.log('librarylisten')
+      // console.log(backJSON)
       if (backJSON.stored === true) {
         // success in saving reference contract
-        console.log('save success to library')
+        // console.log('save success to library')
       } else if (backJSON.type === 'auth') {
         if (backJSON.type === 'auth') {
           if (backJSON.auth !== false) {
@@ -139,6 +139,8 @@ export default {
       } else if (backJSON.type === 'file-save') {
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
+        console.log('new file save')
+        console.log(backJSON)
         Vue.set(this.state.newPackingForm, 'jsonpath', backJSON.data.path)
         console.log(this.state.newPackingForm)
       }
@@ -155,6 +157,8 @@ export default {
         prepareRefContract = LibLib.liveComposer.datatypeComposer(localData)
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
+        console.log('packaging contract to save')
+        console.log(this.state.newPackingForm)
         prepareRefContract = LibLib.liveComposer.packagingComposer(this.state.newPackingForm)
         // reset the form
       } else if (message.reftype === 'new-compute') {
