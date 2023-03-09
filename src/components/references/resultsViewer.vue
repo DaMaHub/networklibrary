@@ -5,7 +5,7 @@
       id="modalTitle"
     >
       <slot name="header">
-        This a module
+        This is a peer results
       </slot>
     </header>
     <section
@@ -13,12 +13,12 @@
       id="refcdescription"
     >
       <slot name="body">
-        module Reference Contract Info
+        Peer results index and data
       </slot>
     </section>
     <footer class="board-footer">
       <slot name="footer">
-        Close
+        -
       </slot>
     </footer>
   </div>
@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'module-refcontract',
+  name: 'results-peer',
   components: {
   },
   computed: {
@@ -42,20 +42,6 @@ export default {
 }
 </script>
 
-<style>
-#module-referencecontract {
-  text-align: center;
-  background-color: #e6e6ff;
-}
-
-.viewer-header {
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-}
-
-.board-body {
-  font-size: 1.4em;
-}
+<style scoped>
 
 </style>

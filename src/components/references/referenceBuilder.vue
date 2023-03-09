@@ -16,9 +16,6 @@
     <div id="ref-contracts-view">
       <header>References by type</header>
       <div v-if="startRefContract.active !== true" id="view-network-library">
-        <!-- <li class="view-cnrl">
-          <button  id="experimentCNRL" @click.prevent="viewRefcontracts(CNRLexperimentseen.text)">{{ CNRLexperimentseen.text }}</button>
-        </li> -->
         <div class="view-cnrl">
           <button id="datatypesCNRL" @click.prevent="viewRefContracts(CNRLdatatypesseen.text)">{{ CNRLdatatypesseen.text }}</button>
         </div>
@@ -31,27 +28,48 @@
         <div class="view-cnrl">
           <button id="packaingCNRL" @click.prevent="viewRefContracts(CNRLpackagingseen.text)"> {{ CNRLpackagingseen.text }}</button>
         </div>
-        <!-- <li class="view-cnrl">
-          <button id="moduleRefs" @click.prevent="viewRefContracts(CNRLmoduleseen.text)"> {{ CNRLmoduleseen.text }}</button>
-        </li> -->
         <div class="view-cnrl">
           <button id="visualiseRefs" @click.prevent="viewRefContracts(CNRLvisualiseseen.text)"> {{ CNRLvisualiseseen.text }}</button>
         </div>
+        <li class="view-cnrl">
+          <button  id="experimentCNRL" @click.prevent="viewRefContracts('experiment')">{{ CNRLexperimentseen.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="moduleRefs" @click.prevent="viewRefContracts(CNRLmoduleseen.text)"> {{ CNRLmoduleseen.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button  id="experimentCNRL" @click.prevent="viewRefContracts('peer-board')">{{ CNRNpeerLibraryBoardseen.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="moduleRefs" @click.prevent="viewRefContracts(CNRLpeerLibraryModules.text)"> {{ CNRLpeerLibraryModules.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="peer-results" @click.prevent="viewRefContracts(peerResults.text)"> {{ peerResults.text }}</button>
+        </li>
+        <li class="view-cnrl">
+          <button id="peer-kbl" @click.prevent="viewRefContracts(peerKBL.text)"> {{ peerKBL.text }}</button>
+        </li>
       </div>
     </div>
     <view-CNRL v-if="startRefContract.active !== true" :refTypeLive="referenceLive"></view-CNRL>
+    <view-results v-if="startRefContract.active !== true && referenceLive === 'peer-results'" :refTypeLive="referenceLive"></view-results>
+    <view-ledger v-if="startRefContract.active !== true && referenceLive === 'peer-KBL'" :refTypeLive="referenceLive"></view-ledger>
     <new-refcontract v-if="startRefContract.active"></new-refcontract>
   </div>
 </template>
 
 <script>
 import ViewCNRL from './viewCNRL.vue'
+import ViewResults from './viewResults.vue'
+import ViewLedger from './viewLedger.vue'
 import NewRefcontract from '@/components/contribute/newRefcontract.vue'
 
 export default {
   name: 'reference-builder',
   components: {
     ViewCNRL,
+    ViewResults,
+    ViewLedger,
     NewRefcontract
   },
   props: {
@@ -77,7 +95,7 @@ export default {
     CNRLexperimentseen:
     {
       active: false,
-      text: 'experiments'
+      text: 'board'
     },
     CNRLdatatypesseen:
     {
@@ -108,6 +126,26 @@ export default {
     {
       active: false,
       text: 'visualise'
+    },
+    CNRNpeerLibraryBoardseen:
+    {
+      active: false,
+      text: 'peer-board'
+    },
+    CNRLpeerLibraryModules:
+    {
+      active: false,
+      text: 'peer-modules'
+    },
+    peerResults:
+    {
+      active: false,
+      text: 'peer-results'
+    },
+    peerKBL:
+    {
+      active: false,
+      text: 'peer-KBL'
     }
   }),
   created () {

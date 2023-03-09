@@ -2,7 +2,7 @@
   <div id="cnrl-view"> REFERENCE VIEWER
     <ul v-for="cd in referenceData" :key="cd.value.title">
       <li class="ref-wrapper">
-        <component v-bind:is="viewMapper()" :mData="refTypeLive">
+        <component  v-if="cd.value.refcontract !== 'module'" v-bind:is="viewMapper()" :mData="refTypeLive">
           <template v-slot:header>
             <!-- The code below goes into the header slot -->
             <div id="refcontract-summary">
@@ -146,13 +146,6 @@
                 <p>Networks: 3 Experiments 2 Archives</p>
               </div>
             </div>
-            <div id="module-slot" v-if="viewerType === 'module-view'">
-              <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
-                <li>
-                  {{ index }} --- {{ pi }}
-                </li>
-              </ul>
-            </div>
             <div id="visualise-slot" v-if="viewerType === 'visualise-view'">
               <header>Details</header>
               <ul v-for="(pi, index) in cd.value.computational" :key="pi.refcontract">
@@ -172,7 +165,106 @@
                 Coming soon
               </div>
             </div>
+            <div id="board-slot" v-if="viewerType === 'experiment'">BOARD
+              <ul v-for="(pi, index) in cd.value.concept" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
+            <div id="module-slot" v-if="viewerType === 'module-view'">
+              module lib:
+              <ul v-for="(pi, index) in cd.value" :key="pi.refcontract">
+                <li>
+                  {{ index }} --- {{ pi }}
+                </li>
+              </ul>
+            </div>
           </template>
+        </component>
+        <component v-else v-bind:is="viewMapper()">
+        <template v-slot:header>
+        <div v-if="cd.value.info.moduleinfo">
+          Module info:
+          <div class="key-hash"> {{ cd.key }} </div>
+          <div class="value-info"> {{ cd.value.info.moduleinfo.name }} </div>
+          <div class="value-info">{{ cd.value.info }}</div>
+        </div>
+        <div v-else>
+          Module compute:
+          <div class="key-hash"> {{ cd.key }} </div>
+          <div class="key-hash">type: {{ cd.value.type }} link-- {{ cd.value.link }}</div>
+          <div class="value-info"> {{ cd.value.info }} </div>
+        </div>
+        </template>
+        <template v-slot:body>
+          <div id="module-slot" v-if="viewerType === 'module-view' && refTypeLive !== 'module'">
+            <ul v-for="(pi, index) in cd.value.info.option" :key="pi.id">
+              <li>
+                {{ index }} --- {{ pi }}
+              </li>
+            </ul>
+          </div>
+        </template>
+      </component>
+      </li>
+    </ul>
+    <ul v-for="pb in boardPeerData" :key="pb.id"><!-- peer library contract display -->
+      <li class="ref-wrapper">
+        <component v-bind:is="viewMapper()">
+          Peer Boards
+          <template v-slot:header>
+            <div  v-if="viewerType === 'board-view'">
+              <div v-if="pb.key">
+                <div>Board: {{ pb.key }}</div>
+                <div>Contract: {{ pb.value.refcontract }}</div>
+                <div>Modules: {{ pb.value.modules }}</div>
+                <div>Modules: {{ pb.value.concept }}</div>
+              </div>
+            </div>
+            <div v-else>
+              ----
+            </div>
+          </template>
+          <template v-slot:body>
+            <div id="module-slot" v-if="viewerType === 'board-view'">
+              <ul v-for="(pi, index) in pb.modules" :key="pi.id">
+                <li>
+                <div> {{ index }} --- {{ pi.key }} </div>
+                <div> {{ index }} --- {{ pi.value }} </div>
+                <div> ----------------------------- </div>
+                </li>
+              </ul>
+            </div>
+          </template>
+        </component>
+      </li>
+    </ul>
+    <ul v-for="pcd in referencePeerData" :key="pcd.is">
+      <li class="ref-wrapper"  v-if="viewerType === 'module-view' && refTypeLive === 'peer-modules'">
+        Peer Module Library
+        <component v-bind:is="viewMapper()">
+          <template v-slot:header>
+          <div v-if="pcd.value">
+              <div class="key-hash"> {{ pcd.key }} </div>
+              <div class="key-hash">type: {{ pcd.value.type }} link-- {{ pcd.value.link }}</div>
+              <div>  {{ pcd.value.type }} </div>
+              <div>  {{ pcd.value.info }} </div>
+              <div> ----------------------------- </div>
+          </div>
+          <div v-else>
+            Module compute: {{ pcd.value.key }}
+          </div>
+          </template>
+          <!--<template v-slot:body>ff {{ viewerType }} {{ refTypeLive  }}
+            <div id="module-slot" v-if="viewerType === 'module-view' && refTypeLive === 'peer-modules'">
+              <ul v-for="(pi, index) in pcd.value.info" :key="pi.id">
+                <li>
+                  <div> {{ index }} --- {{ pcd }} </div>
+                </li>
+              </ul>
+            </div>
+          </template>-->
         </component>
       </li>
     </ul>
@@ -183,8 +275,9 @@
 import DatatypeView from './datatypeViewer.vue'
 import ComputeView from './computeViewer.vue'
 import PackagingView from './packagingViewer.vue'
-import ModuleView from './moduleViewer.vue'
 import VisualiseView from './visualiseViewer.vue'
+import ModuleView from './moduleViewer.vue'
+import BoardView from './boardViewer.vue'
 
 export default {
   name: 'cnrlview-page',
@@ -192,6 +285,7 @@ export default {
     DatatypeView,
     ComputeView,
     PackagingView,
+    BoardView,
     ModuleView,
     VisualiseView
   },
@@ -211,6 +305,12 @@ export default {
   computed: {
     referenceData: function () {
       return this.$store.state.liveRefContIndex[this.refTypeLive]
+    },
+    boardPeerData: function () {
+      return this.$store.state.livePeerBoardContract
+    },
+    referencePeerData: function () {
+      return this.$store.state.livePeerRefContAll
     }
   },
   methods: {
@@ -223,10 +323,16 @@ export default {
         this.viewerType = 'compute-view'
       } else if (this.refTypeLive === 'packaging') {
         this.viewerType = 'packaging-view'
-      } else if (this.refTypeLive === 'module') {
-        this.viewerType = 'module-view'
       } else if (this.refTypeLive === 'visualise') {
         this.viewerType = 'visualise-view'
+      } else if (this.refTypeLive === 'experiment') {
+        this.viewerType = 'module-view'
+      } else if (this.refTypeLive === 'module') {
+        this.viewerType = 'module-view'
+      } else if (this.refTypeLive === 'peer-board') {
+        this.viewerType = 'board-view'
+      } else if (this.refTypeLive === 'peer-modules') {
+        this.viewerType = 'module-view'
       }
       return this.viewerType
     }
@@ -354,5 +460,9 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 1em;
+}
+
+.key-hash {
+  margin-bottom: 1em;
 }
 </style>

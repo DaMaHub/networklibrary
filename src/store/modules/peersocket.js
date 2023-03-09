@@ -60,10 +60,10 @@ export default {
             refContractp.jwt = this.state.jwttoken
             const refCJSONp = JSON.stringify(refContractp)
             Vue.prototype.$socket.send(refCJSONp)
-            // network library updates?
+            // peer library start contracts
             const refContract = {}
             refContract.type = 'library'
-            refContract.reftype = 'privatelibrary'
+            refContract.reftype = 'privatelibrary' // 'privatelibrary'
             refContract.action = 'GET'
             refContract.jwt = this.state.jwttoken
             const refCJSON = JSON.stringify(refContract)
@@ -92,10 +92,15 @@ export default {
         } else {
           console.log('failed login')
         }
-      } else if (backJSON.type === 'peerprivate') {
+      } else if (backJSON.type === 'peerprivate-returnall') {
         // peer private library contracts
-        this.state.livePeerRefContIndex = backJSON.referenceContracts
-        this.state.networkPeerExpModules = backJSON.networkPeerExpModules
+        this.state.livePeerRefContAll = backJSON.data
+        // this.state.networkPeerExpModules = backJSON.networkPeerExpModules
+      } else if (backJSON.type === 'peerprivate-start') {
+        // peer private library contracts
+        this.state.livePeerBoardContract = backJSON.data
+        // this.state.livePeerRefContIndex = backJSON.data
+        // this.state.networkPeerExpModules = backJSON.networkPeerExpModules
         /* for (const exl of backJSON.networkPeerExpModules) {
           const experBundle = {}
           experBundle.cnrl = exl.exp.key
@@ -109,6 +114,10 @@ export default {
         // prepare PEER JOINED LIST
         // let gridPeer = ToolUtility.prepareJoinedNXPlist(backJSON.networkPeerExpModules)
         // this.state.joinedNXPlist = gridPeer
+      } else if (backJSON.type === 'results-all') {
+        this.state.resultsPeerindex = backJSON.data
+      } else if (backJSON.type === 'ledger') {
+        this.state.peerKBLindex = backJSON.data
       } else if (backJSON.type === 'publickey') {
         this.state.publickeys.push(backJSON.pubkey)
       } else if (backJSON.type === 'warm-peers') {
@@ -139,8 +148,6 @@ export default {
       } else if (backJSON.type === 'file-save') {
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
-        console.log('new file save')
-        console.log(backJSON)
         Vue.set(this.state.newPackingForm, 'jsonpath', backJSON.data.path)
         console.log(this.state.newPackingForm)
       }
@@ -157,8 +164,6 @@ export default {
         prepareRefContract = LibLib.liveComposer.datatypeComposer(localData)
       } else if (message.reftype === 'new-packaging') {
         // check if category or packaging need bundled
-        console.log('packaging contract to save')
-        console.log(this.state.newPackingForm)
         prepareRefContract = LibLib.liveComposer.packagingComposer(this.state.newPackingForm)
         // reset the form
       } else if (message.reftype === 'new-compute') {
@@ -223,6 +228,36 @@ export default {
       updateMessage.jwt = context.rootState.jwttoken
       const newString = JSON.stringify(updateMessage)
       Vue.prototype.$socket.send(newString)
+      // peer library start contracts
+      const refContract = {}
+      refContract.type = 'library'
+      refContract.reftype = 'privatelibrary-start' // 'privatelibrary'
+      refContract.action = 'GET'
+      refContract.jwt = this.state.jwttoken
+      const refCJSON = JSON.stringify(refContract)
+      Vue.prototype.$socket.send(refCJSON)
+
+      const refContract2 = {}
+      refContract2.type = 'library'
+      refContract2.reftype = 'privatelibrary-all' // 'privatelibrary'
+      refContract2.action = 'GET'
+      refContract2.jwt = this.state.jwttoken
+      const refCJSON2 = JSON.stringify(refContract2)
+      Vue.prototype.$socket.send(refCJSON2)
+      const resultsPeer = {}
+      resultsPeer.type = 'library'
+      resultsPeer.reftype = 'results-all' // peer results index
+      resultsPeer.action = 'GET'
+      resultsPeer.jwt = this.state.jwttoken
+      const refCJSON3 = JSON.stringify(resultsPeer)
+      Vue.prototype.$socket.send(refCJSON3)
+      const ledgerPeer = {}
+      ledgerPeer.type = 'library'
+      ledgerPeer.reftype = 'ledger' // peer results index
+      ledgerPeer.action = 'GET'
+      ledgerPeer.jwt = this.state.jwttoken
+      const refCJSON4 = JSON.stringify(ledgerPeer)
+      Vue.prototype.$socket.send(refCJSON4)
     },
     actionMakeVisualiseRefContract (context, message) {
       // Vue.prototype.$socket.send(message)

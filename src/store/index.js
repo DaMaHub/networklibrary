@@ -27,9 +27,13 @@ export default new Vuex.Store({
       text: 'Connect'
     },
     publickeys: [],
+    resultsPeerindex: [],
+    peerKBLindex: [],
     warmNetwork: [],
     liveRefContIndex: {},
     livePeerRefContIndex: {},
+    livePeerRefContAll: [],
+    livePeerBoardContract: [],
     fileSaveStatus: false,
     fileFeedback: {},
     dashboardGrid: [

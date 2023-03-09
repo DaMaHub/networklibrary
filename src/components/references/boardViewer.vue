@@ -5,7 +5,7 @@
       id="modalTitle"
     >
       <slot name="header">
-        This a module
+        This is a board
       </slot>
     </header>
     <section
@@ -13,7 +13,7 @@
       id="refcdescription"
     >
       <slot name="body">
-        module Reference Contract Info
+        board Reference Contract Info
       </slot>
     </section>
     <footer class="board-footer">
