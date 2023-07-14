@@ -1,5 +1,5 @@
 <template>
-  <div id="cnrl-view"> RESULTS VIEWER
+  <div id="cnrl-view"> RESULTS VIEWER {{ resultsData }}
     <ul v-for="rd in resultsData" :key="rd.id">
       <li class="ref-wrapper">
         <results-view>

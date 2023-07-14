@@ -146,6 +146,8 @@ export default {
           Vue.set(this.state.experimentStatus, objectPropC, experBundle)
         } */
       } else if (backJSON.type === 'file-save') {
+        console.log('file save feedback')
+        console.log(backJSON)
         this.state.fileSaveStatus = backJSON.data.success
         this.state.fileFeedback = backJSON.data
         Vue.set(this.state.newPackingForm, 'jsonpath', backJSON.data.path)
@@ -426,6 +428,19 @@ export default {
       fileInfo.jwt = context.rootState.jwttoken
       const fileJSON = JSON.stringify(fileInfo)
       Vue.prototype.$socket.send(fileJSON)
+    },
+    actionRestSave (context, update) {
+      context.rootState.sourceDataSelected = true
+      context.rootState.sourceFiletype = 'rest'
+      var fileInfo = {}
+      fileInfo.type = 'library'
+      fileInfo.reftype = 'save-rest-api'
+      fileInfo.data = update
+      fileInfo.jwt = context.rootState.jwttoken
+      console.log('rest base')
+      console.log(update)
+      // const fileJSON = JSON.stringify(fileInfo)
+      // Vue.prototype.$socket.send(fileJSON)
     },
     actionDatadescribe (context, update) {
       context.rootState.sourceDataSelected = false

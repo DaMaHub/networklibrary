@@ -6,7 +6,7 @@
         <!-- <option value="safeNetwork">SAFEnetwork</option> -->
         <!-- <option value="dat">HYERCORE</option> -->
         <!-- <option value="ipfs">IPFS</option> -->
-        <!-- <option value="rest">REST</option> -->
+        <option value="rest">REST</option>
         <!-- <option value="grpc">gRPC</option> -->
         <option value="csv">CSV</option>
         <option value="json">JSON</option>
@@ -22,6 +22,9 @@
     <div class="source-form-item" id="file-space">
       <sqlite-file v-if="fileType === 'sqlite'" :sourceType="'sqlite'" :sourceActive="sourceState" @closeSModal="closeSModal"></sqlite-file>
     </div>
+    <div class="source-form-item" id="file-space">
+      <rest-api v-if="fileType === 'rest'" :sourceType="'rest'" :sourceActive="sourceState" @closeSModal="closeSModal"></rest-api>
+    </div>
   </div>
 </template>
 
@@ -29,13 +32,15 @@
 import SourceFile from '@/components/source/fileReader.vue'
 import JsonFile from '@/components/source/jsonReader.vue'
 import SqliteFile from '@/components/source/sqliteReader.vue'
+import RestApi from '@/components/source/restReader.vue'
 
 export default {
   name: 'source-builder',
   components: {
     SourceFile,
     JsonFile,
-    SqliteFile
+    SqliteFile,
+    RestApi
   },
   props: {
     sourceType: String,
@@ -62,6 +67,8 @@ export default {
       } else if (this.source === 'json') {
         this.sourceState = !this.sourceState
       } else if (this.source === 'sqlite') {
+        this.sourceState = !this.sourceState
+      } else if (this.source === 'rest') {
         this.sourceState = !this.sourceState
       }
       this.$store.dispatch('buildRefPackageAPI', this.source)
